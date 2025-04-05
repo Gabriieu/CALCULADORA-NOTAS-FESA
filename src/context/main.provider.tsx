@@ -1,4 +1,4 @@
-import React, { createContext, useEffect } from "react";
+import React, { createContext } from "react";
 import { iSemestre } from "./interfaces/interfaces";
 
 interface iMainProviderProps {
@@ -7,6 +7,7 @@ interface iMainProviderProps {
 
 interface iMainContext {
   semestres: iSemestre[];
+  setSemestres: React.Dispatch<React.SetStateAction<iSemestre[]>>;
 }
 
 export const MainContext = createContext({} as iMainContext);
@@ -135,7 +136,7 @@ export const MainProvider = ({ children }: iMainProviderProps) => {
   ]);
 
   return (
-    <MainContext.Provider value={{ semestres }}>
+    <MainContext.Provider value={{ semestres, setSemestres }}>
       {children}
     </MainContext.Provider>
   );
