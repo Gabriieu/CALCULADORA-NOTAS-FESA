@@ -1,7 +1,23 @@
 /* Estilo base: Mobile First */
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
 
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+section {
+  flex: 1;
+}
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
   background-color: #f9f9f9;
@@ -71,6 +87,39 @@ input[type="number"] {
   max-width: 80px;
 }
 
+footer {
+  margin-top: 2rem;
+  padding: 1.5rem 1rem;
+  background-color: #f0f0f0;
+  text-align: center;
+  color: #333;
+  font-size: 0.95rem;
+  border-top: 1px solid #ccc;
+}
+
+footer a {
+  color: #0077cc;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+footer a:hover {
+  color: #004d99;
+  text-decoration: underline;
+}
+
+.footer-help {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #777;
+}
+
+.footer-help a {
+  color: #444;
+  text-decoration: underline;
+}
+
 /* Responsividade para telas maiores */
 @media (min-width: 768px) {
   section {
@@ -92,5 +141,9 @@ input[type="number"] {
   label {
     margin: 0;
     white-space: nowrap;
+  }
+
+  footer {
+    font-size: 1rem;
   }
 }

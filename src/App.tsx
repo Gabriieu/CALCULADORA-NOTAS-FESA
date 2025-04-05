@@ -108,7 +108,7 @@ function App() {
     <>
       <section>
         <fieldset>
-          <legend>Selecionar Semestre</legend>
+          <legend>Selecione o Semestre</legend>
           <label htmlFor="semestreSelect">Semestre:</label>
           <select
             id="semestreSelect"
@@ -138,110 +138,126 @@ function App() {
         </fieldset>
 
         <div id="table-container">
-        <table>
-          <thead>
-            <tr>
-              <th rowSpan={2}>Disciplina</th>
-              <th colSpan={3}>1º Bimestre</th>
-              <th colSpan={3}>2º Bimestre</th>
-              <th rowSpan={2}>Média Final</th>
-            </tr>
-            <tr>
-              <th>N1</th>
-              <th>N2</th>
-              <th>Média B1</th>
-              <th>N1</th>
-              <th>N2</th>
-              <th>Média B2</th>
-            </tr>
-          </thead>
-          <tbody>
-            {semestres
-              .filter((semestre) => semestre.semestre === semestreSelecionado)
-              .flatMap((semestre) =>
-                semestre.disciplinas.map((disciplina, index) => (
-                  <tr key={index}>
-                    <td>{disciplina.nome}</td>
-                    <td>
-                      <input
-                        type="number"
-                        step="0.1"
-                        min="0"
-                        max="10"
-                        value={notas[disciplina.nome]?.n1_b1 || ""}
-                        onChange={(e) =>
-                          handleNotaChange(
-                            disciplina.nome,
-                            "n1_b1",
-                            Number(e.target.value)
-                          )
-                        }
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="number"
-                        step="0.1"
-                        min="0"
-                        max="10"
-                        value={notas[disciplina.nome]?.n2_b1 || ""}
-                        onChange={(e) =>
-                          handleNotaChange(
-                            disciplina.nome,
-                            "n2_b1",
-                            Number(e.target.value)
-                          )
-                        }
-                      />
-                    </td>
-                    <td>
-                      {notas[disciplina.nome]?.mediaB1?.toFixed(1) || "-"}
-                    </td>
-                    <td>
-                      <input
-                        type="number"
-                        step="0.1"
-                        min="0"
-                        max="10"
-                        value={notas[disciplina.nome]?.n1_b2 || ""}
-                        onChange={(e) =>
-                          handleNotaChange(
-                            disciplina.nome,
-                            "n1_b2",
-                            Number(e.target.value)
-                          )
-                        }
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="number"
-                        step="0.1"
-                        min="0"
-                        max="10"
-                        value={notas[disciplina.nome]?.n2_b2 || ""}
-                        onChange={(e) =>
-                          handleNotaChange(
-                            disciplina.nome,
-                            "n2_b2",
-                            Number(e.target.value)
-                          )
-                        }
-                      />
-                    </td>
-                    <td>
-                      {notas[disciplina.nome]?.mediaB2?.toFixed(1) || "-"}
-                    </td>
-                    <td>
-                      {notas[disciplina.nome]?.mediaFinal?.toFixed(1) || "-"}
-                    </td>
-                  </tr>
-                ))
-              )}
-          </tbody>
-        </table>
+          <table>
+            <thead>
+              <tr>
+                <th rowSpan={2}>Disciplina</th>
+                <th colSpan={3}>1º Bimestre</th>
+                <th colSpan={3}>2º Bimestre</th>
+                <th rowSpan={2}>Média Final</th>
+              </tr>
+              <tr>
+                <th>N1</th>
+                <th>N2</th>
+                <th>Média B1</th>
+                <th>N1</th>
+                <th>N2</th>
+                <th>Média B2</th>
+              </tr>
+            </thead>
+            <tbody>
+              {semestres
+                .filter((semestre) => semestre.semestre === semestreSelecionado)
+                .flatMap((semestre) =>
+                  semestre.disciplinas.map((disciplina, index) => (
+                    <tr key={index}>
+                      <td>{disciplina.nome}</td>
+                      <td>
+                        <input
+                          type="number"
+                          step="0.1"
+                          min="0"
+                          max="10"
+                          value={notas[disciplina.nome]?.n1_b1 || ""}
+                          onChange={(e) =>
+                            handleNotaChange(
+                              disciplina.nome,
+                              "n1_b1",
+                              Number(e.target.value)
+                            )
+                          }
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="number"
+                          step="0.1"
+                          min="0"
+                          max="10"
+                          value={notas[disciplina.nome]?.n2_b1 || ""}
+                          onChange={(e) =>
+                            handleNotaChange(
+                              disciplina.nome,
+                              "n2_b1",
+                              Number(e.target.value)
+                            )
+                          }
+                        />
+                      </td>
+                      <td>
+                        {notas[disciplina.nome]?.mediaB1?.toFixed(1) || "-"}
+                      </td>
+                      <td>
+                        <input
+                          type="number"
+                          step="0.1"
+                          min="0"
+                          max="10"
+                          value={notas[disciplina.nome]?.n1_b2 || ""}
+                          onChange={(e) =>
+                            handleNotaChange(
+                              disciplina.nome,
+                              "n1_b2",
+                              Number(e.target.value)
+                            )
+                          }
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="number"
+                          step="0.1"
+                          min="0"
+                          max="10"
+                          value={notas[disciplina.nome]?.n2_b2 || ""}
+                          onChange={(e) =>
+                            handleNotaChange(
+                              disciplina.nome,
+                              "n2_b2",
+                              Number(e.target.value)
+                            )
+                          }
+                        />
+                      </td>
+                      <td>
+                        {notas[disciplina.nome]?.mediaB2?.toFixed(1) || "-"}
+                      </td>
+                      <td>
+                        {notas[disciplina.nome]?.mediaFinal?.toFixed(1) || "-"}
+                      </td>
+                    </tr>
+                  ))
+                )}
+            </tbody>
+          </table>
         </div>
       </section>
+      <footer>
+        <p>© {new Date().getFullYear()} Calculadora de notas FESA</p>
+        <p>
+          Desenvolvido por{" "}
+          <a
+            target="_blank"
+            href="https://www.linkedin.com/in/jos%C3%A9gabrielsouza/"
+          >
+            José Gabriel
+          </a>
+        </p>
+        <p className="footer-help">
+          Grade desatualizada? Avise-me{" "}
+          <a href="mailto:082230001@faculdade.cefsa.edu.br">aqui</a>
+        </p>
+      </footer>
     </>
   );
 }
