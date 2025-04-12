@@ -8,10 +8,10 @@ interface IInputProp {
 
 export const InputFormativaComponent = ({ curso, semestre }: IInputProp) => {
   const storageKey = `${curso}_formativa_${semestre}`;
-  const [nota, setNota] = useState<number>(0);
+  const [nota, setNota] = useState<number | "">("");
 
   useEffect(() => {
-    const notaSalva = Number(localStorage.getItem(storageKey)) || 0;
+    const notaSalva = Number(localStorage.getItem(storageKey)) || '';
 
     setNota(notaSalva);
   }, [storageKey]);
@@ -20,7 +20,7 @@ export const InputFormativaComponent = ({ curso, semestre }: IInputProp) => {
     const valor = e.target.value;
 
     if (valor === "") {
-      setNota(0);
+      setNota("");
       localStorage.removeItem(storageKey);
     } else {
       const numero = Number(valor);

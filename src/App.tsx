@@ -4,6 +4,7 @@ import { InputFormativaComponent } from "./components/input-formativa/input-form
 import { TableRowComponent } from "./components/table-row/table-row.component";
 import { MainContext } from "./context/main.context";
 import { HeaderComponent } from "./components/header/header.component";
+import { FooterComponent } from "./components/footer/footer.components";
 
 function App() {
   const {
@@ -86,11 +87,11 @@ function App() {
         <section>
           <fieldset>
             <legend>Formativa</legend>
-              <label>Nota: </label>
-              <InputFormativaComponent
-                curso={cursoSelecionado!}
-                semestre={semestreSelecionado!}
-              />
+            <label>Nota: </label>
+            <InputFormativaComponent
+              curso={cursoSelecionado!}
+              semestre={semestreSelecionado!}
+            />
           </fieldset>
         </section>
       ) : null}
@@ -129,19 +130,7 @@ function App() {
           ) : null}
         </div>
       </section>
-
-      <footer>
-        <p>[Beta]</p>
-        <span id="developed-by">
-          Desenvolvido por{" "}
-          <a
-            href="https://www.linkedin.com/in/jos%C3%A9gabrielsouza/"
-            target="_blank"
-          >
-            José Gabriel
-          </a>
-        </span>
-      </footer>
+      <FooterComponent />
     </>
   );
 }

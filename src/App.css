@@ -91,44 +91,6 @@ td {
   text-align: center;
 }
 
-footer {
-  margin-top: auto;
-  padding: 1.5rem 1rem;
-  background-color: #f0f0f0;
-  text-align: center;
-  color: #333;
-  font-size: 0.95rem;
-  border-top: 1px solid #ccc;
-}
-
-footer a {
-  color: #0077cc;
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.3s ease;
-}
-
-footer a:hover {
-  color: #004d99;
-  text-decoration: underline;
-}
-
-#developed-by {
-  font-size: 0.75rem;
-  color: #666;
-}
-
-.footer-help {
-  margin-top: 0.5rem;
-  font-size: 0.85rem;
-  color: #777;
-}
-
-.footer-help a {
-  color: #444;
-  text-decoration: underline;
-}
-
 /* Estiliza a barra de rolagem para WebKit */
 ::-webkit-scrollbar {
   width: 12px; /* mais grosso que o padrão */

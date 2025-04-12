@@ -7,6 +7,7 @@ export const HeaderStyle = styled.header`
   border-bottom-left-radius: 9px;
   border-bottom-right-radius: 9px;
   margin-bottom: 20px;
+  background-color: rgb(233, 232, 232);
 
   div {
     display: flex;
