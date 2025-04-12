@@ -1,32 +1,57 @@
 import styled from "styled-components";
 
 export const FooterStyle = styled.footer`
-  margin-top: auto;
+  margin-top: 100px;
   padding: 1.5rem 1rem;
-  background-color: white;
-  text-align: center;
+  background-color: #f8f9fa;
   color: #333;
+  text-align: center;
   font-size: 0.95rem;
-  border-top: 1px solid #ccc;
-  box-shadow: 0 0 12px  black;
-  margin-top: 32px;
-  border-top-right-radius: 9px;
-  border-top-left-radius: 9px;
+  border-top: 1px solid #ddd;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
 
-  a {
-    color: #0077cc;
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.3s ease;
-  }
-
-  a:hover {
-    color: #004d99;
-    text-decoration: underline;
+  #footer-header {
+    margin-bottom: 0.5rem;
   }
 
   #developed-by {
-    font-size: 0.75rem;
-    color: #666;
+    font-size: 0.85rem;
+    color: #555;
+    font-weight: 500;
+  }
+
+  #footer-socials {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.2rem;
+    margin-top: 0.5rem;
+    font-size: 1.6rem;
+  }
+
+  #footer-socials a {
+    transition: transform 0.2s ease, color 0.3s ease;
+  }
+
+  #footer-socials a:hover {
+    transform: scale(1.2);
+  }
+
+  #github {
+    color: #181717;
+  }
+
+  #linkedin {
+    color: #0e76a8;
+  }
+
+  #portfolio {
+    color: #3a3f44;
+  }
+
+  a:hover {
+    transform: scale(1.2);
   }
 `;
