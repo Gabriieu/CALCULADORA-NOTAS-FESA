@@ -1,6 +1,8 @@
 # 📊 Controle de Notas FESA
 
-Este é um sistema web desenvolvido com **React + TypeScript** que permite o **registro, armazenamento local e visualização de notas acadêmicas** por curso, disciplina, tipo de prova e bimestre. Ideal para estudantes que desejam acompanhar seu desempenho de forma prática e organizada.
+Este é um sistema web desenvolvido com React + TypeScript que permite o registro, armazenamento local e visualização de notas acadêmicas por curso, disciplina, tipo de prova e bimestre.
+Ideal para estudantes que desejam acompanhar seu desempenho de forma prática e organizada.
+Possui um design responsivo e intuitivo, com foco especial em dispositivos móveis para facilitar o acesso em qualquer lugar.
 
 ---
 
