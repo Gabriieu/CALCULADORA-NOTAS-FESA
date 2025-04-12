@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const FooterStyle = styled.footer`
   margin-top: auto;
   padding: 1.5rem 1rem;
-  background-color: rgb(233, 232, 232);
+  background-color: white;
   text-align: center;
   color: #333;
   font-size: 0.95rem;
