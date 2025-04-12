@@ -6,7 +6,7 @@ Este é um sistema web desenvolvido com **React + TypeScript** que permite o **r
 
 ## ✨ Funcionalidades
 
-- ✅ Seleção de curso e disciplinas específicas
+- ✅ Seleção do curso e semestre
 - ✅ Entrada de notas (N1, N2 e Formativa)
 - ✅ Notas com **cores dinâmicas**:
   - 🔴 Vermelho: nota abaixo de 5
