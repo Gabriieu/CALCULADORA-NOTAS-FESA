@@ -260,13 +260,13 @@ export const MainProvider = ({ children }: iMainProviderProps) => {
             { nome: "CÁLCULO DIFERENCIAL E INTEGRAL III" },
             { nome: "CÁLCULO NUMÉRICO" },
             { nome: "ELETRICIDADE APLICADA" },
-            { nome: "ELETIVA I" },
             { nome: "ESTATÍSTICA BÁSICA" },
             { nome: "FUNDAMENTOS DE TECNOLOGIA DE ALIMENTOS" },
             { nome: "HIGIENE E LEGISLAÇÃO" },
             { nome: "MECÂNICA DOS SÓLIDOS" },
             { nome: "QUÍMICA ANALÍTICA" },
             { nome: "QUÍMICA DOS ALIMENTOS I" },
+            { nome: "ELETIVA I" },
           ],
         },
         {
@@ -381,14 +381,42 @@ export const MainProvider = ({ children }: iMainProviderProps) => {
           semester_id: 3,
           classes: [
             { nome: "CIÊNCIA DOS MATERIAIS" },
-            { nome: "ELETIVA I" },
             { nome: "ELETROTÉCNICA E INSTALAÇÕES ELÉTRICAS" },
             { nome: "ESTATÍSTICA BÁSICA" },
             { nome: "GESTÃO DE CUSTO" },
             { nome: "MECÂNICA GERA" },
             { nome: "OPERAÇÕES DE MANUFATURA" },
             { nome: "PROGRAMAÇÃO VISUAL E BANCO DE DADOS" },
+            { nome: "ELETIVA I" },
           ],
+        },
+        {
+          semester_id: 4,
+          classes: [],
+        },
+        {
+          semester_id: 5,
+          classes: [],
+        },
+        {
+          semester_id: 6,
+          classes: [],
+        },
+        {
+          semester_id: 7,
+          classes: [],
+        },
+        {
+          semester_id: 8,
+          classes: [],
+        },
+        {
+          semester_id: 9,
+          classes: [],
+        },
+        {
+          semester_id: 10,
+          classes: [],
         },
       ],
     },
@@ -422,11 +450,11 @@ export const MainProvider = ({ children }: iMainProviderProps) => {
           classes: [
             { nome: "Banco de Dados II" },
             { nome: "Cálculo Avançado" },
-            { nome: "Eletiva I" },
             { nome: "Eletrônica Analógica" },
             { nome: "Física Geral e Experimental II" },
             { nome: "Metodologia Científica" },
             { nome: "Programação Orientada a Objetos" },
+            { nome: "Eletiva I" },
           ],
         },
         {
@@ -458,6 +486,7 @@ export const MainProvider = ({ children }: iMainProviderProps) => {
             { nome: "Linguagens Formais e Autômatos" },
             { nome: "Modelagem de Software" },
             { nome: "Processamento de Sinais" },
+            { nome: "ELETIVA II" },
           ],
         },
         {
