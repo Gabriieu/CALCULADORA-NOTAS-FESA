@@ -2,6 +2,7 @@ import { InputComponent } from "../input/input.component";
 import { OutPutMediaPrimerioBimeste } from "../out-media-1b/output-media-1b.component";
 import { OutPutMediaSegundoBimeste } from "../out-media-2b/output-media-2b.component";
 import { OutPutMediaFinal } from "../out-media-final/output-media-final.component";
+import { TableRowStyle } from "./table-row.style";
 
 interface ITableRowProp {
   curso: string;
@@ -19,8 +20,8 @@ export const TableRowComponent = ({
   //function getFormativa() {}
 
   return (
-    <tr>
-      <td>{disciplina}</td>
+    <TableRowStyle>
+      <td className="class">{disciplina.toUpperCase()}</td>
       <td>
         <InputComponent
           curso={curso}
@@ -70,6 +71,6 @@ export const TableRowComponent = ({
           semestre={semestre}
         />
       </td>
-    </tr>
+    </TableRowStyle>
   );
 };
