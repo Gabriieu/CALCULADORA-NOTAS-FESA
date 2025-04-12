@@ -1,5 +1,6 @@
 import { HeaderStyle } from "./header.style";
 import logo from "../../../public/logo.png";
+import { AboutComponent } from "../about/about.component";
 
 export const HeaderComponent = () => {
   return (
@@ -7,6 +8,7 @@ export const HeaderComponent = () => {
       <div>
         <img src={logo} alt="" />
         <h1>Calculadora de Notas</h1>
+        <AboutComponent />
       </div>
     </HeaderStyle>
   );

@@ -15,6 +15,7 @@ export const HeaderStyle = styled.header`
     justify-content: space-between;
     align-items: center;
   }
+
   img {
     width: 50px;
   }
