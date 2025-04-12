@@ -54,6 +54,9 @@ export const InputComponent = ({
       step={0.1}
       value={nota}
       onChange={handleChange}
+      className={
+        typeof nota === "number" ? (nota < 5 ? "vermelho" : "azul") : ""
+      }
     />
   );
 };
