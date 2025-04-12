@@ -5,6 +5,5 @@ export const TableRowStyle = styled.tr`
     font-weight: bold;
     font-style: italic;
     font-size: 0.8rem;
-    text-align: left;
   }
 `;
