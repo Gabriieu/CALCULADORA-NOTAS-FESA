@@ -97,20 +97,6 @@ td {
   text-align: center;
 }
 
-#pdf-generate {
-  display: flex;
-  justify-content: flex-end;
-  padding: 1rem;
-
-  > div {
-    cursor: pointer;
-  }
-  span {
-    font-size: 0.9rem;
-    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
-  }
-}
-
 /* Estiliza a barra de rolagem para WebKit */
 ::-webkit-scrollbar {
   width: 12px; /* mais grosso que o padrão */
