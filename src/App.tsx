@@ -45,7 +45,7 @@ function App() {
 
     // Força layout "desktop"
     const canvas = await html2canvas(element, {
-      scale: 2,
+      scale: 1.25,
       useCORS: true,
       windowWidth: 1024,
       scrollX: 0,
