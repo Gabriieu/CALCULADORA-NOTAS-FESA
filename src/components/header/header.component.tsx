@@ -1,5 +1,5 @@
 import { HeaderStyle } from "./header.style";
-import logo from "../../../public/logo.png";
+import logo from "../../shared/images/logo.png";
 import { AboutComponent } from "../about/about.component";
 
 export const HeaderComponent = () => {
