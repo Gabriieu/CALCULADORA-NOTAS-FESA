@@ -39,8 +39,8 @@ export const AboutComponent = () => {
             </p>
             <br />
             <p>
-              Caso identifique que a grade está desatualizada ou incompleta,
-              entre em contato com o desenvolvedor para solicitar as devidas
+              Caso identifique que a grade está desatualizada ou incorreta,
+              você pode entrar em contato com o desenvolvedor para solicitar as devidas
               correções.
             </p>
             <br />

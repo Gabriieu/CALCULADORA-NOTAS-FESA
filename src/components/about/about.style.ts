@@ -35,7 +35,7 @@ export const AboutStyle = styled.div`
     bottom: 1rem;
     right: 1rem;
     z-index: 1100;
-    animation: slideUp 0.5s ease;
+    animation: slideUp 0.777s ease;
 
     .modal-header {
       display: flex;
@@ -76,7 +76,7 @@ export const AboutStyle = styled.div`
   }
 
   .icon.blink {
-    animation: blinkAnim 1.2s ease-in-out infinite;
+    animation: blinkAnim 2s ease-in-out infinite;
   }
 
   @keyframes blinkAnim {
@@ -84,7 +84,13 @@ export const AboutStyle = styled.div`
     100% {
       opacity: 1;
     }
+    75% {
+      opacity: 0;
+    }
     50% {
+      opacity: 1;
+    }
+    25% {
       opacity: 0;
     }
   }
@@ -105,11 +111,6 @@ export const AboutStyle = styled.div`
       max-width: 50vw;
       left: 50%;
       bottom: 1rem;
-    }
-  }
-
-  @media (min-width: 1440px) {
-    dialog {
     }
   }
 `;
