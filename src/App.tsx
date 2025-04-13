@@ -91,7 +91,7 @@ function App() {
         pdf.line(10, 23, pageWidth - 10, 23);
 
         // Detalhes adicionais abaixo do título
-        pdf.setFont("helvetica", "normal");
+        pdf.setFont("courier", "normal");
         pdf.setFontSize(12);
         pdf.text(
           `Curso: ${cursoSelecionado} - ${semestreSelecionado}º Semestre`,
