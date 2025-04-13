@@ -54,6 +54,7 @@ export const InputComponent = ({
       step={0.1}
       value={nota}
       onChange={handleChange}
+      onClick={(e) => e.stopPropagation()}
       className={
         typeof nota === "number" ? (nota < 5 ? "vermelho" : "azul") : ""
       }
