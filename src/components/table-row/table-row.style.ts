@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const TableRowStyle = styled.tr`
+  cursor: pointer;
   .class {
     font-weight: bold;
     font-style: italic;

@@ -5,6 +5,7 @@ import { TableRowComponent } from "./components/table-row/table-row.component";
 import { MainContext } from "./context/main.context";
 import { HeaderComponent } from "./components/header/header.component";
 import { FooterComponent } from "./components/footer/footer.components";
+import { FormativaModalComponent } from "./components/formativa-modal/formativa-modal.component";
 
 function App() {
   const {
@@ -85,13 +86,16 @@ function App() {
 
       {cursoSelecionado && semestreSelecionado ? (
         <section>
-          <fieldset>
+          <fieldset id="field-formativa">
             <legend>Formativa</legend>
-            <label>Nota: </label>
-            <InputFormativaComponent
-              curso={cursoSelecionado!}
-              semestre={semestreSelecionado!}
-            />
+            <div>
+              <label>Nota: </label>
+              <InputFormativaComponent
+                curso={cursoSelecionado!}
+                semestre={semestreSelecionado!}
+              />
+            </div>
+            <FormativaModalComponent />
           </fieldset>
         </section>
       ) : null}
