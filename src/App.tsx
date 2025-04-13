@@ -238,9 +238,12 @@ function App() {
           ) : null}
         </div>
         {cursoSelecionado ? (
-          <div id="pdf-generate" onClick={handleExportPDF}>
-            <span>Gerar PDF</span>
-            <FaFilePdf color="red" />
+          <div id="pdf-generate">
+            <div onClick={handleExportPDF}>
+              <span>Gerar PDF</span>
+              <span> </span>
+              <FaFilePdf color="red" />
+            </div>
           </div>
         ) : null}
       </section>
