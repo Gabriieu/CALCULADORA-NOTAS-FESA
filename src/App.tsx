@@ -45,7 +45,7 @@ function App() {
 
     // Força layout "desktop"
     const canvas = await html2canvas(element, {
-      scale: 2,
+      scale: 1.25,
       useCORS: true,
       windowWidth: 1024,
       scrollX: 0,
@@ -91,7 +91,7 @@ function App() {
         pdf.line(10, 23, pageWidth - 10, 23);
 
         // Detalhes adicionais abaixo do título
-        pdf.setFont("helvetica", "normal");
+        pdf.setFont("courier", "normal");
         pdf.setFontSize(12);
         pdf.text(
           `Curso: ${cursoSelecionado} - ${semestreSelecionado}º Semestre`,
@@ -238,9 +238,12 @@ function App() {
           ) : null}
         </div>
         {cursoSelecionado ? (
-          <div id="pdf-generate" onClick={handleExportPDF}>
-            <span>Gerar PDF</span>
-            <FaFilePdf color="red" />
+          <div id="pdf-generate">
+            <div onClick={handleExportPDF}>
+              <span>Gerar PDF</span>
+              <span> </span>
+              <FaFilePdf color="red" />
+            </div>
           </div>
         ) : null}
       </section>

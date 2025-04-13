@@ -98,13 +98,15 @@ td {
 }
 
 #pdf-generate {
-  cursor: pointer;
   display: flex;
   justify-content: flex-end;
   padding: 1rem;
 
+  > div {
+    cursor: pointer;
+  }
   span {
-    font-size: .9rem;
+    font-size: 0.9rem;
     font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   }
 }
