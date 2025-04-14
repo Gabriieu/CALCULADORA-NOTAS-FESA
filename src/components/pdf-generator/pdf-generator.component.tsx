@@ -110,9 +110,8 @@ export const PdfGenerator = ({ curso, semestre }: IPdfGeneratorProps) => {
   return (
     <PdfGeneratorStyle>
       <button type="button" onClick={handleExportPDF}>
+        <FaFilePdf />
         <span>Gerar PDF</span>
-        <span> </span>
-        <FaFilePdf color="#FF0000" />
       </button>
     </PdfGeneratorStyle>
   );
