@@ -14,6 +14,7 @@ Possui um design responsivo e intuitivo, com foco especial em dispositivos móve
   - 🔴 Vermelho: nota abaixo de 5
   - 🔵 Azul: nota igual ou superior a 5
 - ✅ Salvamento automático no `localStorage`
+- ✅ Geração de boletim de notas em PDF
 - ✅ Interface amigável e responsiva
 
 ---
@@ -23,4 +24,3 @@ Possui um design responsivo e intuitivo, com foco especial em dispositivos móve
 - [React](https://reactjs.org/)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Vite](https://vitejs.dev/)
-- [Styled-Components](https://styled-components.com/)
