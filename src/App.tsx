@@ -1,4 +1,6 @@
 import { useCallback, useContext, useEffect, useState } from "react";
+import { Bounce, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import { FooterComponent } from "./components/footer/footer.components";
 import { FormativaModalComponent } from "./components/formativa-modal/formativa-modal.component";
@@ -48,6 +50,18 @@ function App() {
   return (
     <>
       <HeaderComponent />
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
       <section>
         <fieldset>
           <legend>Selecione seu curso</legend>
@@ -84,7 +98,6 @@ function App() {
           </select>
         </fieldset>
       </section>
-
       {cursoSelecionado && semestreSelecionado ? (
         <section>
           <fieldset id="field-formativa">
@@ -100,7 +113,6 @@ function App() {
           </fieldset>
         </section>
       ) : null}
-
       <section>
         <div id="table-container">
           {cursoSelecionado && semestreSelecionado ? (
