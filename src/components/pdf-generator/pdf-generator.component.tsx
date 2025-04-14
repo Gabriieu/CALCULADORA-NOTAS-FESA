@@ -1,13 +1,17 @@
 import { FaFilePdf } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { PdfGeneratorStyle } from "./pdf-generator.style";
+import { useState } from "react";
 
 interface IPdfGeneratorProps {
   curso: string;
   semestre: number;
 }
 export const PdfGenerator = ({ curso, semestre }: IPdfGeneratorProps) => {
+  const [gerandoPdf, setGerandoPdf] = useState<boolean>(false);
+
   const gerarPdf = async () => {
+    setGerandoPdf(true);
     try {
       const [{ default: html2canvas }, { default: jsPDF }] = await Promise.all([
         import("html2canvas"),
@@ -22,7 +26,7 @@ export const PdfGenerator = ({ curso, semestre }: IPdfGeneratorProps) => {
 
       // Força layout "desktop"
       const canvas = await html2canvas(tabela, {
-        scale: 1.25,
+        scale: 2,
         useCORS: true,
         windowWidth: 1024,
         scrollX: 0,
@@ -103,7 +107,7 @@ export const PdfGenerator = ({ curso, semestre }: IPdfGeneratorProps) => {
       }
 
       const footerText =
-        "Documento gerado no site: https://calculadora-notas-fesa.vercel.app | Não possui validade oficial da instituição Faculdade Engenheiro Salvador Arena.";
+        "Documento gerado em https://calculadora-notas-fesa.vercel.app sem validade oficial da instituição Faculdade Engenheiro Salvador Arena.";
       pdf.setFont("helvetica", "normal");
       pdf.setFontSize(8);
       pdf.setTextColor(100, 100, 100);
@@ -111,7 +115,10 @@ export const PdfGenerator = ({ curso, semestre }: IPdfGeneratorProps) => {
 
       pdf.save(`${curso} ${semestre}º Semestre.pdf`);
     } catch (error) {
+      setGerandoPdf(false);
       throw error;
+    } finally {
+      setGerandoPdf(false);
     }
   };
 
@@ -125,10 +132,17 @@ export const PdfGenerator = ({ curso, semestre }: IPdfGeneratorProps) => {
 
   return (
     <PdfGeneratorStyle>
-      <button type="button" onClick={handleGeneration}>
-        <FaFilePdf />
-        <span>Gerar PDF</span>
-      </button>
+      {gerandoPdf ? (
+        <button disabled={true} type="button" onClick={handleGeneration}>
+          <FaFilePdf />
+          <span>Gerar PDF</span>
+        </button>
+      ) : (
+        <button type="button" onClick={handleGeneration}>
+          <FaFilePdf />
+          <span>Gerar PDF</span>
+        </button>
+      )}
     </PdfGeneratorStyle>
   );
 };
