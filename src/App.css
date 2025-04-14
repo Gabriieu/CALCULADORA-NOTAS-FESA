@@ -48,7 +48,8 @@ label {
   justify-content: space-between;
 }
 
-select,
+
+
 input[type="number"] {
   width: 100%;
   padding: 0.5rem 0.75rem;
@@ -59,11 +60,35 @@ input[type="number"] {
   transition: border 0.2s ease, box-shadow 0.2s ease;
 }
 
-select:focus,
 input[type="number"]:focus {
   border-color: #0077cc;
   box-shadow: 0 0 0 2px rgba(0, 119, 204, 0.2);
   outline: none;
+}
+
+select {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  background-color: #fdfdfd;
+  font-size: 1rem;
+  font-family: Arial, sans-serif;
+  color: #333;
+  margin: 0.5rem 0;
+  transition: border-color 0.3s, box-shadow 0.3s;
+
+  &:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+    outline: none;
+  }
+
+  &:disabled {
+    background-color: #eee;
+    color: #777;
+    cursor: not-allowed;
+  }
 }
 
 input[type="number"] {
