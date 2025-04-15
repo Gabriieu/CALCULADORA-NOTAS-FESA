@@ -48,7 +48,6 @@ label {
   justify-content: space-between;
 }
 
-select,
 input[type="number"] {
   width: 100%;
   padding: 0.5rem 0.75rem;
@@ -59,11 +58,35 @@ input[type="number"] {
   transition: border 0.2s ease, box-shadow 0.2s ease;
 }
 
-select:focus,
 input[type="number"]:focus {
   border-color: #0077cc;
   box-shadow: 0 0 0 2px rgba(0, 119, 204, 0.2);
   outline: none;
+}
+
+select {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  background-color: #fdfdfd;
+  font-size: 1rem;
+  font-family: Arial, sans-serif;
+  color: #333;
+  margin: 0.5rem 0;
+  transition: border-color 0.3s, box-shadow 0.3s;
+
+  &:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+    outline: none;
+  }
+
+  &:disabled {
+    background-color: #eee;
+    color: #777;
+    cursor: not-allowed;
+  }
 }
 
 input[type="number"] {
@@ -97,24 +120,19 @@ td {
   text-align: center;
 }
 
-/* Estiliza a barra de rolagem para WebKit */
 ::-webkit-scrollbar {
-  width: 12px; /* mais grosso que o padrão */
+  width: 12px;
   height: 12px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1; /* cor de fundo do trilho */
+  background: #dddddd;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #888; /* cor da barra em si */
+  background-color: #0077cc;
   border-radius: 6px;
-  border: 2px solid #f1f1f1; /* borda para parecer "encaixada" no trilho */
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #555; /* cor ao passar o mouse */
+  border: 2px solid #f1f1f1;
 }
 
 @media (min-width: 768px) {
