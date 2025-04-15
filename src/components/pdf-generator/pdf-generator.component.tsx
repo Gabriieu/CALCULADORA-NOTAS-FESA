@@ -20,11 +20,15 @@ export const PdfGenerator = ({ curso, semestre }: IPdfGeneratorProps) => {
 
       const tabela = document.getElementById("table-container");
 
+      const formativaInput: HTMLInputElement | null = document.querySelector(
+        "#field-formativa input"
+      );
+      const formativaTexto = formativaInput?.value.trim() || "Não informado";
+
       if (!tabela) {
-        throw new Error();
+        throw new Error("Tabela não encontrada");
       }
 
-      // Força layout "desktop"
       const canvas = await html2canvas(tabela, {
         scale: 2,
         useCORS: true,
@@ -34,7 +38,6 @@ export const PdfGenerator = ({ curso, semestre }: IPdfGeneratorProps) => {
       });
 
       const imgData = canvas.toDataURL("image/png");
-
       const pdf = new jsPDF("p", "mm", "a4");
 
       const pageWidth = 210;
@@ -43,13 +46,9 @@ export const PdfGenerator = ({ curso, semestre }: IPdfGeneratorProps) => {
       const pdfWidth = pageWidth - 10;
       const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
-      // Cabeçalho
-      const headerHeight = 40;
-
-      // Altura total da imagem + cabeçalho
+      const headerHeight = 50;
       let remainingHeight = imgHeight;
       let positionY = headerHeight;
-
       let pageNumber = 1;
 
       while (remainingHeight > 0) {
@@ -58,24 +57,22 @@ export const PdfGenerator = ({ curso, semestre }: IPdfGeneratorProps) => {
           positionY = 10;
         }
 
-        // Adiciona o cabeçalho somente na primeira página
         if (pageNumber === 1) {
           pdf.setFont("helvetica", "bold");
           pdf.setFontSize(18);
-          pdf.setTextColor(0, 0, 0); // Cor preta para o texto
+          pdf.setTextColor(0, 0, 0);
           pdf.text("Boletim Semestral de Notas", pageWidth / 2, 20, {
             align: "center",
           });
 
-          // Linha separadora para destacar o cabeçalho
           pdf.setLineWidth(0.5);
           pdf.line(10, 23, pageWidth - 10, 23);
 
-          // Detalhes adicionais abaixo do título
           pdf.setFont("courier", "normal");
-          pdf.setFontSize(12);
+          pdf.setFontSize(14);
           pdf.text(`Curso: ${curso} - ${semestre}º Semestre`, 10, 28);
           pdf.text(`Data de geração: ${new Date().toLocaleString()}`, 10, 35);
+          pdf.text(`Nota da Avaliação Formativa: ${formativaTexto}`, 10, 42);
         }
 
         const sliceHeight = Math.min(remainingHeight, pageHeight - positionY);
@@ -99,7 +96,6 @@ export const PdfGenerator = ({ curso, semestre }: IPdfGeneratorProps) => {
         );
 
         const sliceData = canvasSlice.toDataURL("image/png");
-
         pdf.addImage(sliceData, "PNG", 5, positionY, pdfWidth, sliceHeight);
 
         remainingHeight -= sliceHeight;
