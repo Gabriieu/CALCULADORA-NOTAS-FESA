@@ -59,7 +59,7 @@ function App() {
         rtl={false}
         pauseOnFocusLoss
         pauseOnHover
-        theme="light"
+        theme="colored"
         transition={Bounce}
       />
       <section>
