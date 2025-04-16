@@ -8,7 +8,7 @@ export const FooterStyle = styled.footer`
   text-align: center;
   font-size: 0.95rem;
   border-top: 1px solid #ddd;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
 

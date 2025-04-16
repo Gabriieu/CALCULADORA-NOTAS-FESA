@@ -26,14 +26,14 @@ export const FooterComponent = () => {
         >
           <FaLinkedin />
         </a>
-        <a
+        {/* <a
           id="portfolio"
           href="https://josegabriel.vercel.app/"
           target="_blank"
           rel="noopener noreferrer"
         >
           <FaLink />
-        </a>
+        </a> */}
       </div>
     </FooterStyle>
   );
