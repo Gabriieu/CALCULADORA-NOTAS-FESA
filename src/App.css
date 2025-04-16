@@ -158,6 +158,10 @@ td {
     width: auto;
   }
 
+  #semestre{
+    width: 200px;
+  }
+
   footer {
     font-size: 1rem;
   }
