@@ -1,8 +1,10 @@
 # 📊 Controle de Notas FESA
 
-Este é um sistema web desenvolvido com React + TypeScript que permite o registro, armazenamento local e visualização de notas acadêmicas por curso, disciplina, tipo de prova e bimestre.
-Ideal para estudantes que desejam acompanhar seu desempenho de forma prática e organizada.
-Possui um design responsivo e intuitivo, com foco especial em dispositivos móveis para facilitar o acesso em qualquer lugar.
+Este sistema web, desenvolvido com React e TypeScript, foi criado para facilitar o acompanhamento das notas acadêmicas por curso, semestre, disciplina e tipo de prova.
+
+Pensado especialmente para os alunos da Faculdade Engenheiro Salvador Arena, o sistema realiza o armazenamento dos dados localmente no navegador, eliminando a necessidade de login ou conexão com servidores externos.
+
+Com um design moderno, responsivo e intuitivo, o projeto prioriza a experiência em dispositivos móveis, oferecendo acesso rápido, prático e acessível de qualquer lugar.
 
 ---
 
