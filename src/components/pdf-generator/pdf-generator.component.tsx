@@ -103,7 +103,7 @@ export const PdfGenerator = ({ curso, semestre }: IPdfGeneratorProps) => {
       }
 
       const footerText =
-        "Documento gerado em https://calculadora-notas-fesa.vercel.app sem validade oficial da instituição Faculdade Engenheiro Salvador Arena.";
+        "Documento gerado em https://precisoestudar.com.br/ sem validade oficial da instituição Faculdade Engenheiro Salvador Arena.";
       pdf.setFont("helvetica", "normal");
       pdf.setFontSize(8);
       pdf.setTextColor(100, 100, 100);
