@@ -1,7 +1,6 @@
-import { FooterStyle } from "./footer.style";
-import { FaGithub } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa";
-import { FaLink } from "react-icons/fa";
+import { FaGithub } from "react-icons/fa6";
+import { FooterStyle } from "./footer.style";
 
 export const FooterComponent = () => {
   return (
