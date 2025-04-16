@@ -101,7 +101,7 @@ function App() {
       {cursoSelecionado && semestreSelecionado ? (
         <section>
           <fieldset id="field-formativa">
-            <legend>Formativa</legend>
+            <legend>Avaliação Formativa</legend>
             <div>
               <label>Nota: </label>
               <InputFormativaComponent
