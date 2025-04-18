@@ -54,4 +54,13 @@ export const FooterStyle = styled.footer`
   a:hover {
     transform: scale(1.2);
   }
+  #footer-note {
+    font-size: 12px;
+    color: #aaa;
+    margin-top: .5rem;
+
+    @media (max-width: 600px) {
+      font-size: 10px;
+    }
+  }
 `;
