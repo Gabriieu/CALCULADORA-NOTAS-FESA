@@ -13,18 +13,34 @@ export const ShareButton = () => {
     setOpen(false);
   };
 
+  const fraseAleatoria = (): string => {
+    const messages: string[] = [
+      "Simulador de DP grátis. Chore com responsabilidade: ",
+      "Quer sofrer antes da nota oficial sair? Toma aí: ",
+      "DP vem aí? Não sei, mas esse site pode te dar uma ideia: ",
+      "Mais precisa que previsão do tempo: previsão de DP: ",
+      "Simula aí e já separa os lenços: ",
+      "Ferramenta oficial de quem vive no limite da média: ",
+      "Se der azul, respira. Se der vermelho... já era: ",
+      "Mais fácil aceitar logo a DP do que esperar o resultado final: ",
+    ];
+
+    return messages[Math.floor(Math.random() * messages.length)];
+  };
+
   const handleWhatsAppClick = () => {
-    const message = `Achei esse site que ajuda a acompanhar as notas da FESA! Dá uma olhada: ${window.location.href}`;
+    const uri = window.location.href;
+    const message = fraseAleatoria() + uri;
     const encodedMessage = encodeURIComponent(message);
     const url = `https://wa.me/?text=${encodedMessage}`;
 
-    window.open(url, "_blank");
     setOpen(false);
+    window.open(url, "_blank");
   };
 
   return (
     <ShareButtonStyle>
-      <button onClick={() => setOpen(!open)} aria-label="Compartilhar">
+      <button onClick={() => setOpen(!open)}>
         <FaShareAlt />
       </button>
 
