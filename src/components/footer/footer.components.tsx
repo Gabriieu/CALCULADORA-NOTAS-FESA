@@ -28,6 +28,9 @@ export const FooterComponent = () => {
         </a>
         <ShareButton />
       </div>
+      <div id="footer-note">
+        <span>© 2025 - Feito com carinho, café e TypeScript.</span>
+      </div>
     </FooterStyle>
   );
 };
