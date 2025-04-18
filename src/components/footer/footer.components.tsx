@@ -1,6 +1,7 @@
 import { FaLinkedin } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa6";
 import { FooterStyle } from "./footer.style";
+import ShareButton from "../share-button/share-button.component";
 
 export const FooterComponent = () => {
   return (
@@ -25,14 +26,7 @@ export const FooterComponent = () => {
         >
           <FaLinkedin />
         </a>
-        {/* <a
-          id="portfolio"
-          href="https://josegabriel.vercel.app/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <FaLink />
-        </a> */}
+        <ShareButton />
       </div>
     </FooterStyle>
   );
