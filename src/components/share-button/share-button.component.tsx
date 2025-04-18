@@ -9,7 +9,7 @@ export const ShareButton = () => {
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(currentUrl);
-    toast.info("Link copiado");
+    toast.info("Link copiado! 📋");
     setOpen(false);
   };
 
