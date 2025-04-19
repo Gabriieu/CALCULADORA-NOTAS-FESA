@@ -21,7 +21,12 @@ export const FormativaModalComponent = () => {
 
       {showModal && (
         <>
-          <div id="modal-background" onClick={() => setShowModal(false)} />
+          <div
+            id="modal-background"
+            onClick={() => setShowModal(false)}
+            onWheel={() => setShowModal(false)}
+            onTouchMove={() => setShowModal(false)}
+          />
           <dialog open>
             <div className="modal-header">
               <button onClick={() => setShowModal(false)}>X</button>
