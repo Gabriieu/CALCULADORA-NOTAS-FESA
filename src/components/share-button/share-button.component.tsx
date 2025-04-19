@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { FaLink, FaShareAlt, FaWhatsapp } from "react-icons/fa";
 import { toast } from "react-toastify";
-import { ShareButtonStyle, ShareOptions } from "./share-button.style";
+import {
+  BackgroundStyle,
+  ShareButtonStyle,
+  ShareOptions,
+} from "./share-button.style";
 
 export const ShareButton = () => {
   const [open, setOpen] = useState(false);
@@ -39,25 +43,34 @@ export const ShareButton = () => {
   };
 
   return (
-    <ShareButtonStyle>
-      <button onClick={() => setOpen(!open)}>
-        <FaShareAlt />
-      </button>
+    <>
+      {open ? (
+        <BackgroundStyle
+          onClick={() => setOpen(false)}
+          onTouchMove={() => setOpen(false)}
+          onWheel={() => setOpen(false)}
+        ></BackgroundStyle>
+      ) : null}
+      <ShareButtonStyle>
+        <button onClick={() => setOpen(!open)}>
+          <FaShareAlt />
+        </button>
 
-      {open && (
-        <ShareOptions>
-          <button onClick={handleWhatsAppClick}>
-            <FaWhatsapp size={18} color="#25D366" />
-            WhatsApp
-          </button>
+        {open && (
+          <ShareOptions>
+            <button onClick={handleWhatsAppClick}>
+              <FaWhatsapp size={18} color="#25D366" />
+              WhatsApp
+            </button>
 
-          <button onClick={copyToClipboard}>
-            <FaLink size={18} />
-            Copiar link
-          </button>
-        </ShareOptions>
-      )}
-    </ShareButtonStyle>
+            <button onClick={copyToClipboard}>
+              <FaLink size={18} />
+              Copiar link
+            </button>
+          </ShareOptions>
+        )}
+      </ShareButtonStyle>
+    </>
   );
 };
 
