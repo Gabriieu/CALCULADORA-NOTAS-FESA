@@ -22,7 +22,12 @@ export const AboutComponent = () => {
 
       {showModal && (
         <>
-          <div id="modal-background" onClick={() => setShowModal(false)} />
+          <div
+            id="modal-background"
+            onClick={() => setShowModal(false)}
+            onTouchMove={() => setShowModal(false)}
+            onWheel={() => setShowModal(false)}
+          />
           <dialog open>
             <div className="modal-header">
               <button onClick={() => setShowModal(false)}>X</button>
@@ -39,9 +44,9 @@ export const AboutComponent = () => {
             </p>
             <br />
             <p>
-              Caso identifique que a grade está desatualizada ou incorreta,
-              você pode entrar em contato com o desenvolvedor para solicitar as devidas
-              correções.
+              Caso identifique que a grade está desatualizada ou incorreta, você
+              pode entrar em contato com o desenvolvedor para solicitar as
+              devidas correções.
             </p>
             <br />
             <span id="att">Última atualização: 1º Semestre - 2025</span>
