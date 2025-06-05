@@ -15,6 +15,11 @@ export const BackgroundStyle = styled.div`
 export const ShareButtonStyle = styled.div`
   position: relative;
   display: inline-block;
+
+  svg:hover {
+    cursor: pointer;
+    transform: scale(1.2);
+  }
 `;
 
 export const ShareOptions = styled.div`

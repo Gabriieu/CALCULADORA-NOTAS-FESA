@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const FooterStyle = styled.footer`
   margin-top: 50px;
-  padding: 1.5rem 1rem;
+  padding: .7rem .7rem;
   background-color: #f8f9fa;
   color: #333;
   text-align: center;
