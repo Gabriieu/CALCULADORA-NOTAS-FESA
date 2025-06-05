@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { InputComponent } from "../input/input.component";
 import { OutPutMediaPrimerioBimeste } from "../out-media-1b/output-media-1b.component";
 import { OutPutMediaSegundoBimeste } from "../out-media-2b/output-media-2b.component";
@@ -16,13 +15,8 @@ export const TableRowComponent = ({
   disciplina,
   semestre,
 }: ITableRowProp) => {
-  const [destaque, setDestaque] = useState<boolean>(false);
-
   return (
-    <TableRowStyle
-      onClick={() => setDestaque(!destaque)}
-      className={destaque ? "highlighted" : ""}
-    >
+    <TableRowStyle>
       <td className="class">{disciplina.toUpperCase()} </td>
       <td>
         <InputComponent

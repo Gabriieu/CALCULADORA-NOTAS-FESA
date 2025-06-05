@@ -1,5 +1,5 @@
 import { HeaderStyle } from "./header.style";
-import logo from "../../shared/images/logo.png";
+import logo from "../../shared/images/Gemini_Generated_Image_bb59e1bb59e1bb59.png";
 import { AboutComponent } from "../about/about.component";
 
 export const HeaderComponent = () => {

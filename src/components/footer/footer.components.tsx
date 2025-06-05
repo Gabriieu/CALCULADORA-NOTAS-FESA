@@ -29,7 +29,14 @@ export const FooterComponent = () => {
         <ShareButton />
       </div>
       <div id="footer-note">
-        <span>© 2025 - Feito com carinho, café e TypeScript.</span>
+        {new Date().getFullYear() === 2025 ? (
+          <span>© 2025. Todos os direitos reservados.</span>
+        ) : (
+          <span>
+            © 2025 - {new Date().getFullYear()}. Todos os direitos
+            reservados.
+          </span>
+        )}
       </div>
     </FooterStyle>
   );
