@@ -1,7 +1,8 @@
 import { FaFilePdf } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { PdfGeneratorStyle } from "./pdf-generator.style";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { MainContext } from "../../context/main.context";
 
 interface IPdfGeneratorProps {
   curso: string;
@@ -9,8 +10,10 @@ interface IPdfGeneratorProps {
 }
 export const PdfGenerator = ({ curso, semestre }: IPdfGeneratorProps) => {
   const [gerandoPdf, setGerandoPdf] = useState<boolean>(false);
+  const { setShowInputPlaceholder } = useContext(MainContext);
 
   const gerarPdf = async () => {
+    setShowInputPlaceholder(false);
     setGerandoPdf(true);
     try {
       const [{ default: html2canvas }, { default: jsPDF }] = await Promise.all([
@@ -115,6 +118,7 @@ export const PdfGenerator = ({ curso, semestre }: IPdfGeneratorProps) => {
       throw error;
     } finally {
       setGerandoPdf(false);
+      setShowInputPlaceholder(true);
     }
   };
 

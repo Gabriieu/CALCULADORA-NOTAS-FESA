@@ -12,6 +12,8 @@ interface iMainContext {
   semestres: number[] | undefined;
   disciplinas: [] | IDisciplina[];
   getDisciplinas(nomeCurso: string, semestre: number): void;
+  showInputPlaceholder: boolean;
+  setShowInputPlaceholder: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const MainContext = createContext({} as iMainContext);
@@ -589,6 +591,8 @@ export const MainProvider = ({ children }: iMainProviderProps) => {
   const [cursos, setCursos] = useState<string[] | []>([]);
   const [semestres, setSemestres] = useState<number[] | undefined>(undefined);
   const [disciplinas, setDisciplinas] = useState<IDisciplina[] | []>([]);
+  const [showInputPlaceholder, setShowInputPlaceholder] =
+    useState<boolean>(true);
 
   function getCursos(): void {
     setCursos(grade.map((curso) => curso.course_name));
@@ -620,6 +624,8 @@ export const MainProvider = ({ children }: iMainProviderProps) => {
         semestres,
         disciplinas,
         getDisciplinas,
+        showInputPlaceholder,
+        setShowInputPlaceholder,
       }}
     >
       {children}
