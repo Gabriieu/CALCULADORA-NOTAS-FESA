@@ -49,7 +49,7 @@ export const AboutComponent = () => {
               devidas correções.
             </p>
             <br />
-            <span id="att">Última atualização: 1º Semestre - 2025</span>
+            <span id="att">Última atualização: Outubro - 2025</span>
           </dialog>
         </>
       )}
