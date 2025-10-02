@@ -6,10 +6,10 @@ import { FooterComponent } from "./components/footer/footer.components";
 import { FormativaModalComponent } from "./components/formativa-modal/formativa-modal.component";
 import { HeaderComponent } from "./components/header/header.component";
 import { InputFormativaComponent } from "./components/input-formativa/input-formativa.component";
+import { AvisoModalComponent } from "./components/modal-aviso/modal-aviso.component";
 import { PdfGenerator } from "./components/pdf-generator/pdf-generator.component";
 import { TableRowComponent } from "./components/table-row/table-row.component";
 import { MainContext } from "./context/main.context";
-import { AvisoModalComponent } from "./components/modal-aviso/modal-aviso.component";
 
 function App() {
   const {
@@ -25,7 +25,7 @@ function App() {
   const [semestreSelecionado, setSemestreSelecionado] = useState<number | null>(
     null
   );
-  const [ciente, setCient] = useState<boolean>(false);
+  const [ciente, setCiente] = useState<boolean>(false);
 
   const handleCursoSelecao = useCallback((nomeCurso: string) => {
     setCursoSelecionado(nomeCurso);
@@ -41,11 +41,30 @@ function App() {
   }
 
   useEffect(() => {
-    if (localStorage.getItem("ciente") !== "true") {
-      setCient(false);
-    }else{
-      setCient(true)
+    const ciente = localStorage.getItem("ciente");
+    const cienteData = localStorage.getItem("cienteData");
+
+    if (ciente === "true" && cienteData) {
+      const dataAceite = new Date(cienteData);
+      const agora = new Date();
+
+      // diferença em meses
+      const diffMeses =
+        (agora.getFullYear() - dataAceite.getFullYear()) * 12 +
+        (agora.getMonth() - dataAceite.getMonth());
+
+      if (diffMeses >= 2) {
+        // expirou, mostrar modal novamente
+        localStorage.removeItem("ciente");
+        localStorage.removeItem("cienteData");
+        setCiente(false);
+      } else {
+        setCiente(true);
+      }
+    } else {
+      setCiente(false);
     }
+
     getCursos();
     if (cursoSelecionado) {
       getSemestres(cursoSelecionado);
@@ -56,7 +75,9 @@ function App() {
 
   return (
     <>
-      {!ciente ? <AvisoModalComponent onCiente={() => setCient(true)} /> : null}
+      {!ciente ? (
+        <AvisoModalComponent onCiente={() => setCiente(true)} />
+      ) : null}
       <HeaderComponent />
       <ToastContainer
         position="top-right"
