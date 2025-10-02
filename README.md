@@ -15,6 +15,7 @@ Com um design moderno, responsivo e intuitivo, o projeto prioriza a experiência
 - ✅ Notas com **cores dinâmicas**:
   - 🔴 Vermelho: nota abaixo de 5
   - 🔵 Azul: nota igual ou superior a 5
+- ✅ Nota mínima para que a média do bimestre seja ≥5
 - ✅ Salvamento automático no `localStorage`
 - ✅ Geração de boletim de notas em PDF
 - ✅ Interface amigável e responsiva

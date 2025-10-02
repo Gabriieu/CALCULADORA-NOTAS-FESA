@@ -9,6 +9,7 @@ import { InputFormativaComponent } from "./components/input-formativa/input-form
 import { PdfGenerator } from "./components/pdf-generator/pdf-generator.component";
 import { TableRowComponent } from "./components/table-row/table-row.component";
 import { MainContext } from "./context/main.context";
+import { AvisoModalComponent } from "./components/modal-aviso/modal-aviso.component";
 
 function App() {
   const {
@@ -24,6 +25,7 @@ function App() {
   const [semestreSelecionado, setSemestreSelecionado] = useState<number | null>(
     null
   );
+  const [ciente, setCient] = useState<boolean>(false);
 
   const handleCursoSelecao = useCallback((nomeCurso: string) => {
     setCursoSelecionado(nomeCurso);
@@ -39,6 +41,11 @@ function App() {
   }
 
   useEffect(() => {
+    if (localStorage.getItem("ciente") !== "true") {
+      setCient(false);
+    }else{
+      setCient(true)
+    }
     getCursos();
     if (cursoSelecionado) {
       getSemestres(cursoSelecionado);
@@ -49,6 +56,7 @@ function App() {
 
   return (
     <>
+      {!ciente ? <AvisoModalComponent onCiente={() => setCient(true)} /> : null}
       <HeaderComponent />
       <ToastContainer
         position="top-right"
