@@ -24,6 +24,7 @@ export const TableRowComponent = ({
           disciplina={disciplina}
           tipo="n1"
           bimestre={1}
+          semestre={semestre}
         />
       </td>
       <td>
@@ -32,6 +33,7 @@ export const TableRowComponent = ({
           disciplina={disciplina}
           tipo="n2"
           bimestre={1}
+          semestre={semestre}
         />
       </td>
       <td>
@@ -43,6 +45,7 @@ export const TableRowComponent = ({
           disciplina={disciplina}
           tipo="n1"
           bimestre={2}
+          semestre={semestre}
         />
       </td>
       <td>
@@ -51,6 +54,7 @@ export const TableRowComponent = ({
           disciplina={disciplina}
           tipo="n2"
           bimestre={2}
+          semestre={semestre}
         />
       </td>
       <td>
