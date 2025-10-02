@@ -11,7 +11,9 @@ export const AvisoModalComponent = ({ onCiente }: { onCiente: () => void }) => {
   ];
 
   function ciente() {
+    const now = new Date();
     localStorage.setItem("ciente", "true");
+    localStorage.setItem("cienteData", now.toISOString()); // salva a data de aceite
     onCiente();
   }
 
