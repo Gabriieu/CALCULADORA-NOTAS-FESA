@@ -61,8 +61,8 @@ export const AvisoModalComponent = ({ onCiente }: { onCiente: () => void }) => {
           </p>
           <br />
           <p>
-            Em caso de dúvidas ou divergências, o(a) aluno(a) deve sempre
-            procurar o(a) professor(a) responsável ou a própria instituição para
+            Em caso de dúvidas ou divergências, o aluno deve sempre
+            procurar o professor responsável ou a própria instituição para
             obter as informações oficiais.
           </p>
         </div>
@@ -83,9 +83,11 @@ export const AvisoModalComponent = ({ onCiente }: { onCiente: () => void }) => {
             <>
               <button id="agree" onClick={ciente}>
                 Sim
+                <IoCheckmarkSharp size={20} />
               </button>
               <button id="agree" onClick={ciente}>
                 Com certeza
+                <IoCheckmarkSharp size={20} />
               </button>
             </>
           )}
