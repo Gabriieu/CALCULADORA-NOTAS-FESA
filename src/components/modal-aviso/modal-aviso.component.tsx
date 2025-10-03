@@ -61,9 +61,9 @@ export const AvisoModalComponent = ({ onCiente }: { onCiente: () => void }) => {
           </p>
           <br />
           <p>
-            Em caso de dúvidas ou divergências, o aluno deve sempre procurar o
-            professor responsável ou a própria instituição para obter as
-            informações oficiais.
+            Em caso de dúvidas ou divergências, o(a) aluno(a) deve sempre
+            procurar o(a) professor(a) responsável ou a própria instituição para
+            obter as informações oficiais.
           </p>
         </div>
 
@@ -80,9 +80,14 @@ export const AvisoModalComponent = ({ onCiente }: { onCiente: () => void }) => {
               </button>
             </>
           ) : (
-            <button id="agree" onClick={ciente}>
-              COM CERTEZA, LI TUDINHO E ESTOU CIENTE. OBRIGADO!
-            </button>
+            <>
+              <button id="agree" onClick={ciente}>
+                Sim
+              </button>
+              <button id="agree" onClick={ciente}>
+                Com certeza
+              </button>
+            </>
           )}
         </div>
       </AvisoModalStyle>
