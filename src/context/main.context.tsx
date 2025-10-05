@@ -14,6 +14,12 @@ interface iMainContext {
   getDisciplinas(nomeCurso: string, semestre: number): void;
   showInputPlaceholder: boolean;
   setShowInputPlaceholder: React.Dispatch<React.SetStateAction<boolean>>;
+  getDisciplinasAnteriores(
+    nomeCurso: string,
+    semestre: number
+  ): {
+    nome: string;
+  }[][];
 }
 
 export const MainContext = createContext({} as iMainContext);
@@ -545,7 +551,7 @@ export const MainProvider = ({ children }: iMainProviderProps) => {
             { nome: "Comunicação de Dados" },
             { nome: "Economia" },
             { nome: "Gestão de Custos" },
-            { nome: "Programação Mobile" },
+            { nome: "Programação Mobile I" },
             { nome: "Sistemas Reconfiguráveis" },
           ],
         },
@@ -579,7 +585,7 @@ export const MainProvider = ({ children }: iMainProviderProps) => {
             },
             { nome: "Direito Digital" },
             { nome: "Gestão Estratégica da Informação" },
-            { nome: "Programação Mobile" },
+            { nome: "Programação Mobile II" },
             { nome: "TCC II" },
             { nome: "Tópicos Avançados de Redes" },
           ],
@@ -615,6 +621,17 @@ export const MainProvider = ({ children }: iMainProviderProps) => {
     setDisciplinas(disciplinas!.classes);
   }
 
+  // função para obter as disciplinas disponíveis para DP (todas as disciplinas anteriores ao semestre selecionado)
+  function getDisciplinasAnteriores(nomeCurso: string, semestre: number) {
+    const disciplinas = [];
+    const curso = grade.find((curso) => curso.course_name === nomeCurso);
+    for (let i = 0; i < semestre - 1; i++) {
+      disciplinas.push(curso!.course_semesters[i]?.classes);
+    }
+
+    return disciplinas;
+  }
+
   return (
     <MainContext.Provider
       value={{
@@ -626,6 +643,7 @@ export const MainProvider = ({ children }: iMainProviderProps) => {
         getDisciplinas,
         showInputPlaceholder,
         setShowInputPlaceholder,
+        getDisciplinasAnteriores,
       }}
     >
       {children}

@@ -8,6 +8,7 @@ interface IInputProp {
   tipo: string; // ex: 'n1', 'n2', 'formativa'
   bimestre: number;
   semestre: number;
+  DP?: boolean;
 }
 
 export const InputComponent = ({
@@ -16,35 +17,47 @@ export const InputComponent = ({
   tipo,
   bimestre,
   semestre,
+  DP,
 }: IInputProp) => {
-  const storageKey = `${curso}_${disciplina}_${tipo}_${bimestre}`;
-
+  const [storageKey, setStorageKey] = useState<string>("");
   const [nota, setNota] = useState<number | "">("");
   const [n1, setN1] = useState<number | null>(null);
   const [formativa, setFormativa] = useState<number | null>(null);
   const [placeholder, setPlaceholder] = useState<string | null>(null);
 
-  // quando gera o pdf, essa variavel torna-se false e esconde o placeholder no pdf
   const { showInputPlaceholder } = useContext(MainContext);
 
-  const n1Key = `${curso}_${disciplina}_n1_${bimestre}`;
+  // Geração das chaves seguindo o padrão unificado
+  const n1Key = DP
+    ? `DP_${curso}_${disciplina}_n1_${bimestre}_${semestre}`
+    : `${curso}_${disciplina}_n1_${bimestre}`;
+
   const formativaKey = `${curso}_formativa_${semestre}`;
 
-  // Carrega notas do localStorage e mantém atualizado
   useEffect(() => {
+    // Define a chave principal do input conforme o tipo (normal ou DP)
+    const key = DP
+      ? `DP_${curso}_${disciplina}_${tipo}_${bimestre}_${semestre}`
+      : `${curso}_${disciplina}_${tipo}_${bimestre}`;
+
+    setStorageKey(key);
+
     const atualizaValores = () => {
-      const notaSalva = localStorage.getItem(storageKey);
+      // Valor principal do input
+      const notaSalva = localStorage.getItem(key);
       if (notaSalva !== null && !isNaN(Number(notaSalva))) {
         setNota(Number(notaSalva));
       } else {
         setNota("");
       }
 
+      // N1
       const valorN1 = localStorage.getItem(n1Key);
       setN1(
         valorN1 !== null && !isNaN(Number(valorN1)) ? Number(valorN1) : null
       );
 
+      // Formativa
       const valorFormativa = localStorage.getItem(formativaKey);
       setFormativa(
         valorFormativa !== null && !isNaN(Number(valorFormativa))
@@ -55,42 +68,31 @@ export const InputComponent = ({
 
     atualizaValores();
     const interval = setInterval(atualizaValores, 500);
-
     return () => clearInterval(interval);
-  }, [storageKey, n1Key, formativaKey]);
+  }, [curso, disciplina, tipo, bimestre, semestre, DP, n1Key, formativaKey]);
 
-  // Atualiza o placeholder automaticamente
+  // Atualiza placeholder (nota mínima para aprovação)
   useEffect(() => {
     if (tipo === "n2") {
-      if (bimestre === 1) {
-        if (n1 !== null) {
-          // Primeiro bimestre: n1 (40%) + n2 (60%)
-          const n2Necessaria = (5 - n1 * 0.4) / 0.6;
-          const arredondada = Math.max(
-            0,
-            Math.min(10, Math.floor(n2Necessaria * 10) / 10)
-          ).toString();
-          setPlaceholder(arredondada);
-        } else {
-          setPlaceholder(null); // não mostra placeholder se não houver n1
-        }
-      }
-
-      if (bimestre === 2) {
-        if (n1 !== null && formativa !== null) {
-          // Segundo bimestre: formativa (20%) + n1 (20%) + n2 (60%)
-          const n2Necessaria = (5 - (formativa * 0.2 + n1 * 0.2)) / 0.6;
-          const arredondada = Math.max(
-            0,
-            Math.min(10, Math.floor(n2Necessaria * 10) / 10)
-          ).toString();
-          setPlaceholder(arredondada);
-        } else {
-          setPlaceholder(null); // não mostra se faltar n1 ou formativa
-        }
+      if (bimestre === 1 && n1 !== null) {
+        const n2Necessaria = (5 - n1 * 0.4) / 0.6;
+        const arredondada = Math.max(
+          0,
+          Math.min(10, Math.floor(n2Necessaria * 10) / 10)
+        ).toString();
+        setPlaceholder(arredondada);
+      } else if (bimestre === 2 && n1 !== null && formativa !== null) {
+        const n2Necessaria = (5 - (formativa * 0.2 + n1 * 0.2)) / 0.6;
+        const arredondada = Math.max(
+          0,
+          Math.min(10, Math.floor(n2Necessaria * 10) / 10)
+        ).toString();
+        setPlaceholder(arredondada);
+      } else {
+        setPlaceholder(null);
       }
     } else {
-      setPlaceholder(null); // apenas n2 sugere nota
+      setPlaceholder(null);
     }
   }, [tipo, bimestre, n1, formativa]);
 

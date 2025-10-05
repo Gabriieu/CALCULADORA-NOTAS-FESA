@@ -7,4 +7,7 @@ export const TableRowStyle = styled.tr`
     font-style: italic;
     font-size: 0.8rem;
   }
+  .DP::after{
+    content: ' (DP)'
+  }
 `;

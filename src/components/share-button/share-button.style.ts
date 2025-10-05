@@ -13,6 +13,11 @@ export const BackgroundStyle = styled.div`
 `;
 
 export const ShareButtonStyle = styled.div`
+  #share-header {
+    font-size: 14px;
+    font-weight: 700;
+  }
+
   position: relative;
   display: inline-block;
 

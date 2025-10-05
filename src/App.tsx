@@ -1,9 +1,10 @@
 import { useCallback, useContext, useEffect, useState } from "react";
-import { Bounce, ToastContainer } from "react-toastify";
+import { Bounce, toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
+import { AdicionarDPComponent } from "./components/adicionar-dp/adicionar-dp.component";
 import { FooterComponent } from "./components/footer/footer.components";
-import { FormativaModalComponent } from "./components/formativa-modal/formativa-modal.component";
+import { InfoModalComponent } from "./components/formativa-modal/info-modal.component";
 import { HeaderComponent } from "./components/header/header.component";
 import { InputFormativaComponent } from "./components/input-formativa/input-formativa.component";
 import { AvisoModalComponent } from "./components/modal-aviso/modal-aviso.component";
@@ -25,20 +26,12 @@ function App() {
   const [semestreSelecionado, setSemestreSelecionado] = useState<number | null>(
     null
   );
+  const [disciplinasDP, setDisciplinasDP] = useState<string[]>([]);
   const [ciente, setCiente] = useState<boolean>(false);
 
   const handleCursoSelecao = useCallback((nomeCurso: string) => {
     setCursoSelecionado(nomeCurso);
   }, []);
-
-  function handleSemestreSelecao(valor: string) {
-    const semestreNumero = Number(valor);
-    setSemestreSelecionado(semestreNumero);
-
-    if (cursoSelecionado && semestreNumero) {
-      getDisciplinas(cursoSelecionado, semestreNumero);
-    }
-  }
 
   useEffect(() => {
     const ciente = localStorage.getItem("ciente");
@@ -48,13 +41,11 @@ function App() {
       const dataAceite = new Date(cienteData);
       const agora = new Date();
 
-      // diferença em meses
       const diffMeses =
         (agora.getFullYear() - dataAceite.getFullYear()) * 12 +
         (agora.getMonth() - dataAceite.getMonth());
 
       if (diffMeses >= 2) {
-        // expirou, mostrar modal novamente
         localStorage.removeItem("ciente");
         localStorage.removeItem("cienteData");
         setCiente(false);
@@ -71,7 +62,82 @@ function App() {
       setSemestreSelecionado(1);
       getDisciplinas(cursoSelecionado, 1);
     }
+    getDPs();
   }, [cursoSelecionado]);
+
+  useEffect(() => {
+    getDPs();
+  }, [semestreSelecionado]);
+
+  function handleSemestreSelecao(valor: string) {
+    const semestreNumero = Number(valor);
+    setSemestreSelecionado(semestreNumero);
+
+    if (cursoSelecionado && semestreNumero) {
+      getDisciplinas(cursoSelecionado, semestreNumero);
+    }
+  }
+
+  function adicionarDP(disciplina: string, tipoNota: string, bimestre: number) {
+    if (!cursoSelecionado || !semestreSelecionado) return;
+
+    // Limite de 3 DPs
+    if (disciplinasDP.length >= 3) {
+      toast.error("Não é possível adicionar mais que 3 DP");
+      return;
+    }
+
+    // Verifica se a DP já existe
+    if (disciplinasDP.includes(disciplina)) {
+      toast.error("Essa DP já foi adicionada!");
+      return;
+    }
+
+    const key = `DP_${cursoSelecionado}_${disciplina}_${tipoNota}_${bimestre}_${semestreSelecionado}`;
+    localStorage.setItem(key, disciplina);
+
+    setDisciplinasDP((prev) => [...prev, disciplina]);
+    toast.success(`DP de ${disciplina} foi adicionada!`);
+  }
+
+  // Obtém DPs do localStorage
+  function getDPs() {
+    if (!cursoSelecionado || !semestreSelecionado) return;
+
+    const dpPrefix = `DP_${cursoSelecionado}_`;
+    const dpSet = new Set<string>();
+
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith(dpPrefix)) {
+        const parts = key.split("_");
+        const semestre = Number(parts[parts.length - 1]);
+
+        if (semestre === semestreSelecionado) {
+          const disciplinaNome = parts.slice(2, parts.length - 3).join("_");
+          dpSet.add(disciplinaNome);
+        }
+      }
+    }
+
+    const dpItems = Array.from(dpSet);
+    setDisciplinasDP(dpItems);
+  }
+
+  function excluirDP(disciplina: string) {
+    if (!cursoSelecionado || !semestreSelecionado) return;
+
+    // Remove do localStorage
+    const prefix = `DP_${cursoSelecionado}_${disciplina}_`;
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith(prefix)) {
+        localStorage.removeItem(key);
+      }
+    }
+
+    setDisciplinasDP((prev) => prev.filter((dp) => dp !== disciplina));
+  }
 
   return (
     <>
@@ -127,6 +193,7 @@ function App() {
           </select>
         </fieldset>
       </section>
+
       {cursoSelecionado && semestreSelecionado ? (
         <section>
           <fieldset id="field-formativa">
@@ -138,10 +205,16 @@ function App() {
                 semestre={semestreSelecionado!}
               />
             </div>
-            <FormativaModalComponent />
+            <InfoModalComponent
+              titulo="Formativa"
+              descricao="
+              A avaliação formativa é realizada no 2º bimestre e tem peso de 50%
+              na N1."
+            />
           </fieldset>
         </section>
       ) : null}
+
       <section>
         <div id="table-container">
           {cursoSelecionado && semestreSelecionado ? (
@@ -171,17 +244,49 @@ function App() {
                     semestre={semestreSelecionado!}
                   />
                 ))}
+                {/* disciplinas DP */}
+                {disciplinasDP.map((dp, index) => (
+                  <TableRowComponent
+                    key={`DP_${index}`}
+                    curso={cursoSelecionado ?? ""}
+                    disciplina={dp}
+                    semestre={semestreSelecionado!}
+                    DP={true}
+                    onExcluirDP={excluirDP}
+                  />
+                ))}
               </tbody>
             </table>
           ) : null}
         </div>
+
         {cursoSelecionado ? (
-          <PdfGenerator
-            curso={cursoSelecionado}
-            semestre={semestreSelecionado!}
-          />
+          <div id="table-bottom">
+            {semestreSelecionado! > 1 ? (
+              <div id="table-bottom-left">
+                <AdicionarDPComponent
+                  curso={cursoSelecionado}
+                  semestre={semestreSelecionado!}
+                  onAdicionarDP={(disciplina) =>
+                    adicionarDP(disciplina, "n1", 1)
+                  }
+                />
+                {disciplinasDP.length > 0 ? (
+                  <InfoModalComponent
+                    titulo="Exclusão de DP"
+                    descricao="Pressione e segure sobre uma DP para excluí-la."
+                  />
+                ) : null}
+              </div>
+            ) : null}
+            <PdfGenerator
+              curso={cursoSelecionado}
+              semestre={semestreSelecionado!}
+            />
+          </div>
         ) : null}
       </section>
+
       <FooterComponent />
     </>
   );

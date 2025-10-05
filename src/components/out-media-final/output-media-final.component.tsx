@@ -5,25 +5,41 @@ interface IOutPutProp {
   curso: string;
   disciplina: string;
   semestre: number;
+  DP?: boolean;
+  semestreDP?: number;
 }
 
 export const OutPutMediaFinal = ({
   curso,
   disciplina,
   semestre,
+  DP,
+  semestreDP,
 }: IOutPutProp) => {
   const [mediaFinal, setMediaFinal] = useState<number>(0);
 
   useEffect(() => {
     const calcularMedia = () => {
-      const n1_1: number =
-        Number(localStorage.getItem(`${curso}_${disciplina}_n1_1`)) || 0;
-      const n2_1: number =
-        Number(localStorage.getItem(`${curso}_${disciplina}_n2_1`)) || 0;
-      const n1_2: number =
-        Number(localStorage.getItem(`${curso}_${disciplina}_n1_2`)) || 0;
-      const n2_2: number =
-        Number(localStorage.getItem(`${curso}_${disciplina}_n2_2`)) || 0;
+      const n1_1: number = DP
+        ? Number(
+            localStorage.getItem(`DP_${curso}_${disciplina}_n1_1_${semestreDP}`)
+          ) || 0
+        : Number(localStorage.getItem(`${curso}_${disciplina}_n1_1`)) || 0;
+      const n2_1: number = DP
+        ? Number(
+            localStorage.getItem(`DP_${curso}_${disciplina}_n2_1_${semestreDP}`)
+          ) || 0
+        : Number(localStorage.getItem(`${curso}_${disciplina}_n2_1`)) || 0;
+      const n1_2: number = DP
+        ? Number(
+            localStorage.getItem(`DP_${curso}_${disciplina}_n1_2_${semestreDP}`)
+          ) || 0
+        : Number(localStorage.getItem(`${curso}_${disciplina}_n1_2`)) || 0;
+      const n2_2: number = DP
+        ? Number(
+            localStorage.getItem(`DP_${curso}_${disciplina}_n2_2_${semestreDP}`)
+          ) || 0
+        : Number(localStorage.getItem(`${curso}_${disciplina}_n2_2`)) || 0;
       const formativa: number =
         Number(localStorage.getItem(`${curso}_formativa_${semestre}`)) || 0;
 
