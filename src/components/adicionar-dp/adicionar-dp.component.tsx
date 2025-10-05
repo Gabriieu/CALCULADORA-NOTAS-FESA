@@ -42,7 +42,10 @@ export const AdicionarDPComponent = ({
   };
 
   return (
-    <AdicionarDPStyle>
+    <AdicionarDPStyle
+      onTouchMove={() => fecharModal()}
+      onWheel={() => fecharModal()}
+    >
       <dialog ref={dialogRef}>
         <h1>Selecione a DP que você está cursando</h1>
         <select

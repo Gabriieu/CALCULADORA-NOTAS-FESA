@@ -35,7 +35,7 @@ export const TableRowComponent = ({
     if (DP) {
       pressTimer.current = window.setTimeout(() => {
         confirmarExclusao();
-      }, 600);
+      }, 400);
     }
   }
 
