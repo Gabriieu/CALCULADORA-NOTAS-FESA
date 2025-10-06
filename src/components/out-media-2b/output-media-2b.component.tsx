@@ -5,25 +5,35 @@ interface IOutPutProp {
   curso: string;
   disciplina: string;
   semestre: number;
+  DP?: boolean;
+  semestreDP?: number;
 }
 
 export const OutPutMediaSegundoBimeste = ({
   curso,
   disciplina,
   semestre,
+  DP,
+  semestreDP,
 }: IOutPutProp) => {
   const [media, setMedia] = useState<number>(0);
 
   useEffect(() => {
     const calcularMedia = () => {
-      const n1: number =
-        Number(localStorage.getItem(`${curso}_${disciplina}_n1_2`)) || 0;
-      const n2: number =
-        Number(localStorage.getItem(`${curso}_${disciplina}_n2_2`)) || 0;
+      const n1: number = DP
+        ? Number(
+            localStorage.getItem(`DP_${curso}_${disciplina}_n1_2_${semestreDP}`)
+          ) || 0
+        : Number(localStorage.getItem(`${curso}_${disciplina}_n1_2`)) || 0;
+      const n2: number = DP
+        ? Number(
+            localStorage.getItem(`DP_${curso}_${disciplina}_n2_2_${semestreDP}`)
+          ) || 0
+        : Number(localStorage.getItem(`${curso}_${disciplina}_n2_2`)) || 0;
       const formativa: number =
-      Number(localStorage.getItem(`${curso}_formativa_${semestre}`)) || 0;
+        Number(localStorage.getItem(`${curso}_formativa_${semestre}`)) || 0;
 
-      setMedia((((n1 + formativa) / 2 ) * 0.4 )+ n2 * 0.6);
+      setMedia(((n1 + formativa) / 2) * 0.4 + n2 * 0.6);
     };
 
     calcularMedia();

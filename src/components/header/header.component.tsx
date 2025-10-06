@@ -6,8 +6,7 @@ export const HeaderComponent = () => {
     <HeaderStyle>
       <div>
         <img src={logo} alt="" />
-        <h1>Calculadora de Notas</h1>
-        {/* <AboutComponent /> */}
+        <span>Calculadora de Notas</span>
       </div>
     </HeaderStyle>
   );

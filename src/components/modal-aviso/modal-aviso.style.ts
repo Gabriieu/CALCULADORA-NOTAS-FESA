@@ -51,16 +51,30 @@ export const AvisoModalStyle = styled.div`
 
     button {
       flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.2rem;
       padding: 0.6rem 1rem;
-      font-size: 1rem;
+      font-size: 0.9rem;
       font-weight: 600;
       border-radius: 8px;
       border: none;
       cursor: pointer;
       transition: all 0.2s ease;
 
+      svg {
+        flex-shrink: 0;
+      }
+
       &:hover {
         transform: translateY(-2px);
+      }
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
       }
     }
 
@@ -68,7 +82,7 @@ export const AvisoModalStyle = styled.div`
       background-color: #0d6efd;
       color: #fff;
 
-      &:hover {
+      &:hover:enabled {
         background-color: #0b5ed7;
       }
     }
@@ -77,13 +91,9 @@ export const AvisoModalStyle = styled.div`
       background-color: #dc3545;
       color: #fff;
 
-      &:hover {
+      &:hover:enabled {
         background-color: #bb2d3b;
       }
-    }
-
-    .disabled{
-      
     }
   }
 `;

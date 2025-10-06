@@ -19,4 +19,8 @@ export const HeaderStyle = styled.header`
   img {
     width: 50px;
   }
+
+  span {
+    font-size: 18px;
+  }
 `;

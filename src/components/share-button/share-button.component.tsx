@@ -58,6 +58,8 @@ export const ShareButton = () => {
 
         {open && (
           <ShareOptions>
+            <span id="share-header">Compartilhe</span>
+            <br />
             <button onClick={handleWhatsAppClick}>
               <FaWhatsapp size={18} color="#25D366" />
               WhatsApp

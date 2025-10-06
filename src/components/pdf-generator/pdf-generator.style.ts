@@ -1,11 +1,6 @@
 import styled from "styled-components";
 
 export const PdfGeneratorStyle = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  padding: 1rem;
-  margin-top: 1rem;
-
   button {
     display: flex;
     align-items: center;
@@ -13,7 +8,7 @@ export const PdfGeneratorStyle = styled.div`
     background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 6px;
-    padding: 0.5rem 1rem;
+    padding: 10px;
     font-size: 0.8rem;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     cursor: pointer;
@@ -30,6 +25,26 @@ export const PdfGeneratorStyle = styled.div`
 
     span {
       font-weight: 500;
+    }
+  }
+
+  @keyframes modalShow {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
+
+  @keyframes backdropShow {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
     }
   }
 `;

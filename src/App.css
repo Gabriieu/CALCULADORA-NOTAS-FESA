@@ -108,6 +108,18 @@ table {
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
 }
 
+#table-bottom {
+  margin: 2.5rem 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  
+  #table-bottom-left {
+    display: flex;
+    gap: 1rem;
+  }
+}
+
 thead {
   background-color: #0077cc;
   color: white;
@@ -158,7 +170,7 @@ td {
     width: auto;
   }
 
-  #semestre{
+  #semestre {
     width: 200px;
   }
 

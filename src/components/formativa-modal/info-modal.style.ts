@@ -1,6 +1,9 @@
 import styled from "styled-components";
 
-export const AboutStyle = styled.div`
+export const FormativaModalStyle = styled.div`
+  align-self: center;
+  justify-self: left;
+
   #modal-background {
     background-color: rgba(0, 0, 0, 0.4);
     width: 100vw;

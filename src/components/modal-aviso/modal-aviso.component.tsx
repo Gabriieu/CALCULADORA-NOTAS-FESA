@@ -2,6 +2,8 @@ import { toast } from "react-toastify";
 import { AvisoModalStyle, BackgroudModalStyle } from "./modal-aviso.style";
 import { useState } from "react";
 import gif from "../../shared/gif/gif1.gif";
+import { IoCheckmarkSharp } from "react-icons/io5";
+import { ImCancelCircle } from "react-icons/im";
 
 export const AvisoModalComponent = ({ onCiente }: { onCiente: () => void }) => {
   const [clicks, setClick] = useState<number>(0);
@@ -59,9 +61,9 @@ export const AvisoModalComponent = ({ onCiente }: { onCiente: () => void }) => {
           </p>
           <br />
           <p>
-            Em caso de dúvidas ou divergências, o aluno deve sempre procurar o
-            professor responsável ou a própria instituição para obter as
-            informações oficiais.
+            Em caso de dúvidas ou divergências, o aluno deve sempre
+            procurar o professor responsável ou a própria instituição para
+            obter as informações oficiais.
           </p>
         </div>
 
@@ -70,15 +72,24 @@ export const AvisoModalComponent = ({ onCiente }: { onCiente: () => void }) => {
             <>
               <button id="agree" onClick={ciente}>
                 Li e estou ciente
+                <IoCheckmarkSharp size={20} />
               </button>
               <button id="disagree" onClick={discorda} disabled={clicks > 2}>
                 Não concordo
+                <ImCancelCircle size={20} />
               </button>
             </>
           ) : (
-            <button id="agree" onClick={ciente}>
-              COM CERTEZA, LI TUDINHO E ESTOU CIENTE. OBRIGADO!
-            </button>
+            <>
+              <button id="agree" onClick={ciente}>
+                Sim
+                <IoCheckmarkSharp size={20} />
+              </button>
+              <button id="agree" onClick={ciente}>
+                Com certeza
+                <IoCheckmarkSharp size={20} />
+              </button>
+            </>
           )}
         </div>
       </AvisoModalStyle>
