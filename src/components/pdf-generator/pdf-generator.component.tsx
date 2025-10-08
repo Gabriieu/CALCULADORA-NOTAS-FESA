@@ -74,7 +74,7 @@ export const PdfGenerator = ({ curso, semestre }: IPdfGeneratorProps) => {
 
       // 📋 CAIXA DE DADOS RESUMO
       pdf.setDrawColor(200, 200, 200);
-      pdf.setFillColor(245, 247, 250);
+      pdf.setFillColor(255, 255, 255);
       pdf.roundedRect(margin, 45, pageWidth - margin * 2, 25, 3, 3, "FD");
 
       pdf.setTextColor(50, 50, 50);
