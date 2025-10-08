@@ -19,6 +19,46 @@ export const TableRowStyle = styled.tr`
     color: #888;
     font-weight: normal;
   }
+
+  .DP {
+    position: relative;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    .trash-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(255, 255, 255, 0.15);
+      opacity: 0;
+      z-index: 10;
+      transition: opacity 0.3s ease;
+    }
+
+    &:hover .trash-overlay {
+      opacity: 1;
+    }
+
+    .trash-icon {
+      transform: rotate(-90deg) scale(0.8);
+      transition: transform 0.5s ease;
+    }
+
+    &:hover .trash-icon {
+      transform: rotate(0deg) scale(1);
+    }
+
+    .trash-overlay:hover {
+      background-color: rgba(245, 90, 90, 0.35);
+    }
+  }
 `;
 
 const modalAppear = keyframes`
@@ -53,7 +93,6 @@ export const TableRowDialogStyle = styled.div`
     text-align: center;
     margin-bottom: 0.6rem;
   }
-
 
   .buttons {
     display: flex;
