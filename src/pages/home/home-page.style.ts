@@ -1,16 +1,5 @@
 import styled, { keyframes } from "styled-components";
 
-const fadeInUp = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
-
 const fadeInLeft = keyframes`
   0% {
     opacity: 0;
@@ -28,13 +17,13 @@ const fadeInLeft = keyframes`
 
 export const MainStyle = styled.main`
   min-height: 90vh;
-  animation: ${fadeInUp} 0.6s ease-out;
+  animation: ${fadeInLeft} 0.6s ease-out;
 
   section {
     flex: 1;
     padding: 1rem;
     width: 100vw;
-    animation: ${fadeInUp} 0.6s ease-out;
+    animation: ${fadeInLeft} 0.6s ease-out;
   }
 
   fieldset {
@@ -122,7 +111,8 @@ export const MainStyle = styled.main`
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
-    animation: ${fadeInLeft} 0.6s ease-out;
+    /* desativado - gera opacidade no pdf - implementação futura */
+    /* animation: ${fadeInLeft} 0.6s ease-out; */
   }
 
   #table-bottom {
