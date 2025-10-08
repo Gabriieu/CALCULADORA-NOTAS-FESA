@@ -22,6 +22,7 @@ export const TableRowStyle = styled.tr`
 
   .DP {
     position: relative;
+    z-index: 0;
 
     &:hover {
       cursor: pointer;

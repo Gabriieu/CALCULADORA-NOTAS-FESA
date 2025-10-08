@@ -1,13 +1,44 @@
+import { Squash as Hamburger } from "hamburger-react";
+import { useState } from "react";
+import { FcHome, FcInfo } from "react-icons/fc";
 import logo from "../../shared/images/Gemini_Generated_Image_bb59e1bb59e1bb59.png";
-import { HeaderStyle } from "./header.style";
+import { DropdownMenu, HeaderContainer } from "./header.style";
 
 export const HeaderComponent = () => {
+  const [isOpen, setOpen] = useState(false);
+  // const [isDark, setIsDark] = useState(false);
+
+  // const toggleTheme = () => {
+  //   setIsDark(!isDark);
+  //   document.body.setAttribute("data-theme", !isDark ? "dark" : "light");
+  // };
+
   return (
-    <HeaderStyle>
-      <div>
+    <HeaderContainer>
+      <div className="header-content">
         <img src={logo} alt="" />
-        <span>Calculadora de Notas</span>
+        <Hamburger toggled={isOpen} toggle={setOpen} size={33} />
       </div>
-    </HeaderStyle>
+
+      {isOpen && (
+        <DropdownMenu>
+          <a href="/">
+            <FcHome /> Início
+          </a>
+          {/* {isDark ? (
+            <ThemeToggle onClick={toggleTheme}>
+              <BsFillMoonStarsFill /> Dark
+            </ThemeToggle>
+          ) : (
+            <ThemeToggle onClick={toggleTheme}>
+              <BsFillBrightnessHighFill /> Light
+            </ThemeToggle>
+          )} */}
+          <a href="/sobre">
+            <FcInfo /> Sobre
+          </a>
+        </DropdownMenu>
+      )}
+    </HeaderContainer>
   );
 };
