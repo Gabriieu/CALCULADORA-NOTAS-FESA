@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import { PdfGeneratorStyle } from "./pdf-generator.style";
 import { useContext, useState } from "react";
 import { MainContext } from "../../context/main.context";
+import logo from "../../shared/images/Gemini_Generated_Image_bb59e1bb59e1bb59.png";
 
 interface IPdfGeneratorProps {
   curso: string;
@@ -47,14 +48,19 @@ export const PdfGenerator = ({ curso, semestre }: IPdfGeneratorProps) => {
       const availableWidth = pageWidth - margin * 2;
       const imgHeight = (imgProps.height * availableWidth) / imgProps.width;
 
-      // 🎓 CABEÇALHO PROFISSIONAL E SÓBRIO
-      pdf.setFillColor(255, 255, 255); // fundo branco puro
+      // CABEÇALHO
+      pdf.setFillColor(255, 255, 255);
       pdf.rect(0, 0, pageWidth, 32, "F");
 
-      // linha sutil inferior para separar o cabeçalho
+      // linha para separar o cabeçalho
       pdf.setDrawColor(220, 220, 220);
       pdf.setLineWidth(0.3);
       pdf.line(margin, 32, pageWidth - margin, 32);
+
+      // adiciona a logo no canto superior esquerdo
+      const logoWidth = 25; // largura em mm
+      const logoHeight = 25; // altura em mm
+      pdf.addImage(logo, "PNG", margin, 3.5, logoWidth, logoHeight); // posicionado a 3.5mm do topo
 
       // título principal
       pdf.setTextColor(30, 30, 30);
@@ -64,7 +70,7 @@ export const PdfGenerator = ({ curso, semestre }: IPdfGeneratorProps) => {
         align: "center",
       });
 
-      // subtítulo discreto
+      // subtítulo
       pdf.setFont("helvetica", "normal");
       pdf.setFontSize(10.5);
       pdf.setTextColor(80, 80, 80);
@@ -72,7 +78,7 @@ export const PdfGenerator = ({ curso, semestre }: IPdfGeneratorProps) => {
         align: "center",
       });
 
-      // 📋 CAIXA DE DADOS RESUMO
+      // CAIXA DE DADOS RESUMO
       pdf.setDrawColor(200, 200, 200);
       pdf.setFillColor(255, 255, 255);
       pdf.roundedRect(margin, 45, pageWidth - margin * 2, 25, 3, 3, "FD");
@@ -89,14 +95,14 @@ export const PdfGenerator = ({ curso, semestre }: IPdfGeneratorProps) => {
       pdf.setFont("helvetica", "normal");
       pdf.text(formativaTexto, margin + 38, 62);
 
-      // 🖼️ INSERE A TABELA CENTRALIZADA
+      // INSERE A TABELA CENTRALIZADA
       const imageY = 75;
       const maxHeight = pageHeight - imageY - 30;
       const finalHeight = Math.min(imgHeight, maxHeight);
 
       pdf.addImage(imgData, "PNG", margin, imageY, availableWidth, finalHeight);
 
-      // ⚠️ AVISO NO RODAPÉ
+      // AVISO NO RODAPÉ
       pdf.setFontSize(8);
       pdf.setTextColor(130, 130, 130);
       pdf.text(
