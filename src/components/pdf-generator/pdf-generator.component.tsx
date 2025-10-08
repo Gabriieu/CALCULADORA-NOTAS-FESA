@@ -3,7 +3,6 @@ import { toast } from "react-toastify";
 import { PdfGeneratorStyle } from "./pdf-generator.style";
 import { useContext, useState } from "react";
 import { MainContext } from "../../context/main.context";
-import logo from "../../shared/images/Gemini_Generated_Image_bb59e1bb59e1bb59.png";
 
 interface IPdfGeneratorProps {
   curso: string;
@@ -17,11 +16,17 @@ export const PdfGenerator = ({ curso, semestre }: IPdfGeneratorProps) => {
     setShowInputPlaceholder(false);
     setGerandoPdf(true);
     try {
-      const [{ default: html2canvas }, { default: jsPDF }] = await Promise.all([
-        import("html2canvas"),
-        import("jspdf"),
-      ]);
+      // imports dinamicos para amenizar sobrecarregamento
+      const [{ default: html2canvas }, { default: jsPDF }, logoModule] =
+        await Promise.all([
+          import("html2canvas"),
+          import("jspdf"),
+          import(
+            "../../shared/images/Gemini_Generated_Image_bb59e1bb59e1bb59.png"
+          ),
+        ]);
 
+      const logo = logoModule.default;
       const tabela = document.getElementById("table-container");
       const formativaInput: HTMLInputElement | null = document.querySelector(
         "#field-formativa input"
@@ -49,17 +54,17 @@ export const PdfGenerator = ({ curso, semestre }: IPdfGeneratorProps) => {
       const imgHeight = (imgProps.height * availableWidth) / imgProps.width;
 
       // CABEÇALHO
-      pdf.setFillColor(255, 255, 255);
+      pdf.setFillColor(255, 255, 255); // fundo branco puro
       pdf.rect(0, 0, pageWidth, 32, "F");
 
-      // linha para separar o cabeçalho
+      // linha inferior para separar o cabeçalho
       pdf.setDrawColor(220, 220, 220);
       pdf.setLineWidth(0.3);
       pdf.line(margin, 32, pageWidth - margin, 32);
 
       // adiciona a logo no canto superior esquerdo
       const logoWidth = 25; // largura em mm
-      const logoHeight = 25; // altura em mm
+      const logoHeight = 25; // altura em mm (ajuste se precisar)
       pdf.addImage(logo, "PNG", margin, 3.5, logoWidth, logoHeight); // posicionado a 3.5mm do topo
 
       // título principal
@@ -122,7 +127,9 @@ export const PdfGenerator = ({ curso, semestre }: IPdfGeneratorProps) => {
       pdf.save(`${curso} ${semestre}º Semestre.pdf`);
     } catch (error) {
       console.log(error);
-      toast.error("Ops... Houve um erro inesperado ao gerar o PDF 😕");
+      toast.error(
+        "Ops... não foi possível gerar o PDF 😕. Isso pode acontecer devido a alta demanda no servidor. Tente novamente em alguns instantes."
+      );
     } finally {
       setGerandoPdf(false);
       setShowInputPlaceholder(true);
