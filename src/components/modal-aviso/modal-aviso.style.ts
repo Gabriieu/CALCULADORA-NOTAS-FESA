@@ -70,12 +70,6 @@ export const AvisoModalStyle = styled.div`
       &:hover {
         transform: translateY(-2px);
       }
-
-      &:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-        transform: none;
-      }
     }
 
     #agree {
@@ -84,15 +78,6 @@ export const AvisoModalStyle = styled.div`
 
       &:hover:enabled {
         background-color: #0b5ed7;
-      }
-    }
-
-    #disagree {
-      background-color: #dc3545;
-      color: #fff;
-
-      &:hover:enabled {
-        background-color: #bb2d3b;
       }
     }
   }

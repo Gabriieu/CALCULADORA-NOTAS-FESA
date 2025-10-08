@@ -127,14 +127,11 @@ function App() {
   function excluirDP(disciplina: string) {
     if (!cursoSelecionado || !semestreSelecionado) return;
 
-    // Remove do localStorage
     const prefix = `DP_${cursoSelecionado}_${disciplina}_`;
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (key && key.startsWith(prefix)) {
-        localStorage.removeItem(key);
-      }
-    }
+
+    Object.keys(localStorage)
+      .filter((key) => key.startsWith(prefix))
+      .forEach((key) => localStorage.removeItem(key));
 
     setDisciplinasDP((prev) => prev.filter((dp) => dp !== disciplina));
   }
@@ -145,6 +142,7 @@ function App() {
         <AvisoModalComponent onCiente={() => setCiente(true)} />
       ) : null}
       <HeaderComponent />
+      {/* <HeaderComponent2 /> */}
       <ToastContainer
         position="top-right"
         autoClose={3000}
