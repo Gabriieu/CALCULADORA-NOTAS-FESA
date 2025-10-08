@@ -28,6 +28,7 @@ function App() {
   );
   const [disciplinasDP, setDisciplinasDP] = useState<string[]>([]);
   const [ciente, setCiente] = useState<boolean>(false);
+  const [leuAvisoDP, setLeuAvisoDP] = useState<boolean>(false);
 
   const handleCursoSelecao = useCallback((nomeCurso: string) => {
     setCursoSelecionado(nomeCurso);
@@ -97,7 +98,8 @@ function App() {
     localStorage.setItem(key, disciplina);
 
     setDisciplinasDP((prev) => [...prev, disciplina]);
-    toast.success(`DP de ${disciplina} foi adicionada!`);
+
+    avisoExclusaoDP();
   }
 
   // Obtém DPs do localStorage
@@ -122,21 +124,74 @@ function App() {
 
     const dpItems = Array.from(dpSet);
     setDisciplinasDP(dpItems);
+
+    if (dpItems.length > 0) {
+      avisoExclusaoDP();
+    }
   }
 
   function excluirDP(disciplina: string) {
     if (!cursoSelecionado || !semestreSelecionado) return;
 
-    // Remove do localStorage
     const prefix = `DP_${cursoSelecionado}_${disciplina}_`;
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (key && key.startsWith(prefix)) {
-        localStorage.removeItem(key);
-      }
-    }
+
+    Object.keys(localStorage)
+      .filter((key) => key.startsWith(prefix))
+      .forEach((key) => localStorage.removeItem(key));
 
     setDisciplinasDP((prev) => prev.filter((dp) => dp !== disciplina));
+  }
+
+  function avisoExclusaoDP() {
+    const jaLeuAviso = localStorage.getItem("leuAvisoDP") === "true";
+    if (jaLeuAviso || leuAvisoDP) return;
+
+    toast.warning(
+      <div style={{ textAlign: "center", fontFamily: "Poppins, sans-serif" }}>
+        <p style={{ margin: 0, fontSize: "0.9rem", color: "#555" }}>
+          Toque sobre uma <strong>DP</strong> para excluí-la.
+        </p>
+        <button
+          style={{
+            marginTop: "14px",
+            padding: "8px 18px",
+            borderRadius: "12px",
+            border: "none",
+            background: "#0077cc",
+            color: "white",
+            fontWeight: "600",
+            fontSize: "0.9rem",
+            cursor: "pointer",
+            transition: "transform 0.2s ease, box-shadow 0.3s ease",
+          }}
+          onClick={() => {
+            localStorage.setItem("leuAvisoDP", "true");
+            toast.dismiss();
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = "scale(1.05)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = "scale(1)";
+          }}
+        >
+          Entendi
+        </button>
+      </div>,
+      {
+        autoClose: false,
+        closeOnClick: false,
+        draggable: false,
+        theme: "light",
+        position: "bottom-center",
+        transition: Bounce,
+        closeButton: false,
+        className: "custom-toast",
+      }
+    );
+
+    setLeuAvisoDP(true);
+    localStorage.setItem("leuAvisoDP", "true");
   }
 
   return (
@@ -145,6 +200,7 @@ function App() {
         <AvisoModalComponent onCiente={() => setCiente(true)} />
       ) : null}
       <HeaderComponent />
+      {/* <HeaderComponent2 /> */}
       <ToastContainer
         position="top-right"
         autoClose={3000}
@@ -271,12 +327,6 @@ function App() {
                     adicionarDP(disciplina, "n1", 1)
                   }
                 />
-                {disciplinasDP.length > 0 ? (
-                  <InfoModalComponent
-                    titulo="Exclusão de DP"
-                    descricao="Pressione e segure sobre uma DP para excluí-la."
-                  />
-                ) : null}
               </div>
             ) : null}
             <PdfGenerator
