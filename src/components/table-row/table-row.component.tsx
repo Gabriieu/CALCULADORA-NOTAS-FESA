@@ -121,7 +121,7 @@ export const TableRowComponent = ({
             <TableRowDialogStyle role="dialog" aria-modal="true">
               <div>
                 <h6 className="title">
-                  Tem certeza que deseja excluir {disciplina.toUpperCase()} (DP)?
+                  Excluir {disciplina.toUpperCase()} (DP)?
                 </h6>
               </div>
               <div className="buttons">

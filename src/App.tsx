@@ -272,7 +272,7 @@ function App() {
                 {disciplinasDP.length > 0 ? (
                   <InfoModalComponent
                     titulo="Exclusão de DP"
-                    descricao="Pressione e segure sobre uma DP para excluí-la."
+                    descricao="Toque sobre uma DP para excluí-la."
                   />
                 ) : null}
               </div>
