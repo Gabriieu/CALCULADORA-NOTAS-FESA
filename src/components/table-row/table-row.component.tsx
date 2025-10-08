@@ -38,6 +38,13 @@ export const TableRowComponent = ({
     setExcluindo(false);
   }
 
+  // pequeno delay para melhor experiencia em mobile
+  function handleDelete() {
+    setTimeout(() => {
+      setExcluindo(true);
+    }, 300);
+  }
+
   return (
     <TableRowStyle>
       <td className={DP ? "class DP" : "class"}>
@@ -48,7 +55,7 @@ export const TableRowComponent = ({
               className="trash-overlay"
               onClick={(e) => {
                 e.stopPropagation();
-                setExcluindo(true);
+                handleDelete();
               }}
             >
               <FaRegTrashCan
