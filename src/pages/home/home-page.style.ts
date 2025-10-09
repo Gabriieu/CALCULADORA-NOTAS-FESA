@@ -1,0 +1,188 @@
+import styled, { keyframes } from "styled-components";
+
+const fadeInLeft = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateX(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`;
+
+export const MainStyle = styled.main`
+  min-height: 90vh;
+  animation: ${fadeInLeft} 0.6s ease-out;
+
+  section {
+    flex: 1;
+    padding: 1rem;
+    width: 100vw;
+    animation: ${fadeInLeft} 0.6s ease-out;
+  }
+
+  fieldset {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    background-color: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  }
+
+  legend {
+    font-weight: bold;
+    padding: 0 0.5rem;
+    font-size: 1.05rem;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+  }
+
+  #field-formativa {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  input[type="number"] {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    transition: border 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  input[type="number"]:focus {
+    border-color: #0077cc;
+    box-shadow: 0 0 0 2px rgba(0, 119, 204, 0.2);
+    outline: none;
+  }
+
+  select {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    background-color: #fdfdfd;
+    font-size: 1rem;
+    font-family: Arial, sans-serif;
+    color: black;
+    margin: 0.5rem 0;
+    transition: border-color 0.3s, box-shadow 0.3s;
+
+    &:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+      outline: none;
+    }
+
+    &:disabled {
+      background-color: #eee;
+      color: #777;
+      cursor: not-allowed;
+    }
+  }
+
+  input[type="number"] {
+    width: max-content;
+    max-width: 80px;
+  }
+
+  #table-container {
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+    /* desativado - gera opacidade no pdf - implementação futura */
+    /* animation: ${fadeInLeft} 0.6s ease-out; */
+  }
+
+  #table-bottom {
+    margin: 2.5rem 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    #table-bottom-left {
+      display: flex;
+      gap: 1rem;
+    }
+  }
+
+  thead {
+    background-color: #0077cc;
+    color: white;
+  }
+
+  th,
+  td {
+    border: 1px solid #ddd;
+    padding: 0.6rem;
+    text-align: center;
+  }
+
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #dddddd;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #0077cc;
+    border-radius: 6px;
+    border: 2px solid #f1f1f1;
+  }
+
+  @media (min-width: 768px) {
+    section {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    fieldset {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    label {
+      margin: 0;
+      white-space: nowrap;
+    }
+
+    select,
+    input[type="number"] {
+      width: auto;
+    }
+
+    #semestre {
+      width: 200px;
+    }
+
+    footer {
+      font-size: 1rem;
+    }
+  }
+`;

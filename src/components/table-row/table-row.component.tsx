@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FaRegTrashCan } from "react-icons/fa6";
 import { FcBookmark } from "react-icons/fc";
 import { MdCancel, MdDeleteForever } from "react-icons/md";
 import { toast } from "react-toastify";
@@ -37,14 +38,35 @@ export const TableRowComponent = ({
     setExcluindo(false);
   }
 
+  // pequeno delay para melhor experiencia em mobile
+  function handleDelete() {
+    setTimeout(() => {
+      setExcluindo(true);
+    }, 300);
+  }
+
   return (
     <TableRowStyle>
-      <td
-        className={DP ? "class DP" : "class"}
-        onClick={() => setExcluindo(true)}
-      >
-        {DP ? <FcBookmark size={16} /> : null}
-        {disciplina.toUpperCase()}{" "}
+      <td className={DP ? "class DP" : "class"}>
+        {DP && (
+          <>
+            <FcBookmark size={16} />
+            <span
+              className="trash-overlay"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDelete();
+              }}
+            >
+              <FaRegTrashCan
+                size={32}
+                className="trash-icon"
+                color="rgb(0, 0, 0)"
+              />
+            </span>
+          </>
+        )}
+        {disciplina.toUpperCase()}
       </td>
       <td>
         <InputComponent
@@ -121,7 +143,7 @@ export const TableRowComponent = ({
             <TableRowDialogStyle role="dialog" aria-modal="true">
               <div>
                 <h6 className="title">
-                  Excluir {disciplina.toUpperCase()} (DP)?
+                  EXCLUIR {disciplina.toUpperCase()} (DP)?
                 </h6>
               </div>
               <div className="buttons">

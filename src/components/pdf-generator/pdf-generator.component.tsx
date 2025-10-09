@@ -16,21 +16,24 @@ export const PdfGenerator = ({ curso, semestre }: IPdfGeneratorProps) => {
     setShowInputPlaceholder(false);
     setGerandoPdf(true);
     try {
-      const [{ default: html2canvas }, { default: jsPDF }] = await Promise.all([
-        import("html2canvas"),
-        import("jspdf"),
-      ]);
+      // imports dinamicos para amenizar sobrecarregamento
+      const [{ default: html2canvas }, { default: jsPDF }, logoModule] =
+        await Promise.all([
+          import("html2canvas"),
+          import("jspdf"),
+          import(
+            "../../shared/images/Gemini_Generated_Image_bb59e1bb59e1bb59.png"
+          ),
+        ]);
 
+      const logo = logoModule.default;
       const tabela = document.getElementById("table-container");
-
       const formativaInput: HTMLInputElement | null = document.querySelector(
         "#field-formativa input"
       );
       const formativaTexto = formativaInput?.value.trim() || "Não informado";
 
-      if (!tabela) {
-        throw new Error("Tabela não encontrada");
-      }
+      if (!tabela) throw new Error("Tabela não encontrada");
 
       const canvas = await html2canvas(tabela, {
         scale: 2,
@@ -45,77 +48,88 @@ export const PdfGenerator = ({ curso, semestre }: IPdfGeneratorProps) => {
 
       const pageWidth = 210;
       const pageHeight = 297;
+      const margin = 15;
       const imgProps = pdf.getImageProperties(imgData);
-      const pdfWidth = pageWidth - 10;
-      const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      const availableWidth = pageWidth - margin * 2;
+      const imgHeight = (imgProps.height * availableWidth) / imgProps.width;
 
-      const headerHeight = 50;
-      let remainingHeight = imgHeight;
-      let positionY = headerHeight;
-      let pageNumber = 1;
+      // CABEÇALHO
+      pdf.setFillColor(255, 255, 255); // fundo branco puro
+      pdf.rect(0, 0, pageWidth, 32, "F");
 
-      while (remainingHeight > 0) {
-        if (pageNumber > 1) {
-          pdf.addPage();
-          positionY = 10;
-        }
+      // linha inferior para separar o cabeçalho
+      pdf.setDrawColor(220, 220, 220);
+      pdf.setLineWidth(0.3);
+      pdf.line(margin, 32, pageWidth - margin, 32);
 
-        if (pageNumber === 1) {
-          pdf.setFont("helvetica", "bold");
-          pdf.setFontSize(18);
-          pdf.setTextColor(0, 0, 0);
-          pdf.text("Boletim Semestral de Notas", pageWidth / 2, 20, {
-            align: "center",
-          });
+      // adiciona a logo no canto superior esquerdo
+      const logoWidth = 25; // largura em mm
+      const logoHeight = 25; // altura em mm (ajuste se precisar)
+      pdf.addImage(logo, "PNG", margin, 3.5, logoWidth, logoHeight); // posicionado a 3.5mm do topo
 
-          pdf.setLineWidth(0.5);
-          pdf.line(10, 23, pageWidth - 10, 23);
+      // título principal
+      pdf.setTextColor(30, 30, 30);
+      pdf.setFont("helvetica", "bold");
+      pdf.setFontSize(18);
+      pdf.text("Relatório de Desempenho Semestral", pageWidth / 2, 18, {
+        align: "center",
+      });
 
-          pdf.setFont("courier", "normal");
-          pdf.setFontSize(14);
-          pdf.text(`Curso: ${curso} - ${semestre}º Semestre`, 10, 28);
-          pdf.text(`Data de geração: ${new Date().toLocaleString()}`, 10, 35);
-          pdf.text(`Nota da Avaliação Formativa: ${formativaTexto}`, 10, 42);
-        }
-
-        const sliceHeight = Math.min(remainingHeight, pageHeight - positionY);
-        const canvasSlice = document.createElement("canvas");
-        canvasSlice.width = canvas.width;
-        canvasSlice.height = (sliceHeight * canvas.width) / pdfWidth;
-
-        const ctx = canvasSlice.getContext("2d");
-        if (!ctx) return;
-
-        ctx.drawImage(
-          canvas,
-          0,
-          (imgHeight - remainingHeight) * (canvas.height / imgHeight),
-          canvas.width,
-          canvasSlice.height,
-          0,
-          0,
-          canvas.width,
-          canvasSlice.height
-        );
-
-        const sliceData = canvasSlice.toDataURL("image/png");
-        pdf.addImage(sliceData, "PNG", 5, positionY, pdfWidth, sliceHeight);
-
-        remainingHeight -= sliceHeight;
-        pageNumber++;
-      }
-
-      const footerText =
-        "Documento gerado em https://precisoestudar.com.br/ sem validade oficial da instituição Faculdade Engenheiro Salvador Arena.";
+      // subtítulo
       pdf.setFont("helvetica", "normal");
+      pdf.setFontSize(10.5);
+      pdf.setTextColor(80, 80, 80);
+      pdf.text(`Curso: ${curso}  |  ${semestre}º semestre`, pageWidth / 2, 26, {
+        align: "center",
+      });
+
+      // CAIXA DE DADOS RESUMO
+      pdf.setDrawColor(200, 200, 200);
+      pdf.setFillColor(255, 255, 255);
+      pdf.roundedRect(margin, 45, pageWidth - margin * 2, 25, 3, 3, "FD");
+
+      pdf.setTextColor(50, 50, 50);
+      pdf.setFontSize(10);
+      pdf.setFont("helvetica", "bold");
+      pdf.text("Data de geração:", margin + 5, 55);
+      pdf.setFont("helvetica", "normal");
+      pdf.text(new Date().toLocaleString(), margin + 42, 55);
+
+      pdf.setFont("helvetica", "bold");
+      pdf.text("Nota formativa:", margin + 5, 62);
+      pdf.setFont("helvetica", "normal");
+      pdf.text(formativaTexto, margin + 38, 62);
+
+      // INSERE A TABELA CENTRALIZADA
+      const imageY = 75;
+      const maxHeight = pageHeight - imageY - 30;
+      const finalHeight = Math.min(imgHeight, maxHeight);
+
+      pdf.addImage(imgData, "PNG", margin, imageY, availableWidth, finalHeight);
+
+      // AVISO NO RODAPÉ
       pdf.setFontSize(8);
-      pdf.setTextColor(100, 100, 100);
-      pdf.text(footerText, 10, pageHeight - 10);
+      pdf.setTextColor(130, 130, 130);
+      pdf.text(
+        "Este documento não possui validade oficial da Faculdade Engenheiro Salvador Arena",
+        pageWidth / 2,
+        pageHeight - 15,
+        { align: "center" }
+      );
+
+      pdf.text(
+        "https://precisoestudar.com.br/",
+        pageWidth / 2,
+        pageHeight - 10,
+        { align: "center" }
+      );
 
       pdf.save(`${curso} ${semestre}º Semestre.pdf`);
     } catch (error) {
-      setGerandoPdf(false);
-      throw error;
+      console.log(error);
+      toast.error(
+        "Ops... não foi possível gerar o PDF 😕. Isso pode acontecer devido a alta demanda no servidor. Tente novamente em alguns instantes."
+      );
     } finally {
       setGerandoPdf(false);
       setShowInputPlaceholder(true);
