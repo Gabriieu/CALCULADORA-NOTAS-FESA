@@ -7,12 +7,13 @@ export const InputFormativaStyle = styled.input`
   outline: none;
 
   &.vermelho {
-    border-color: red;
+    /* !important define prioridade de estilo */
+    border-color: red !important;
     color: red;
   }
 
   &.azul {
-    border-color: blue;
+    border-color: blue !important;
     color: blue;
   }
 `;

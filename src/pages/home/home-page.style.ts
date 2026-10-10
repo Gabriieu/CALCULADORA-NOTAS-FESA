@@ -15,6 +15,38 @@ const fadeInLeft = keyframes`
   }
 `;
 
+const pulseRing = keyframes`
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.8);
+  }
+  50% {
+    transform: scale(1.12);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 8px rgba(255, 255, 255, 0);
+  }
+`;
+
+const wiggle = keyframes`
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  20% {
+    transform: rotate(-18deg);
+  }
+  40% {
+    transform: rotate(16deg);
+  }
+  60% {
+    transform: rotate(-10deg);
+  }
+  80% {
+    transform: rotate(6deg);
+  }
+`;
+
 export const MainStyle = styled.main`
   min-height: 90vh;
   animation: ${fadeInLeft} 0.6s ease-out;
@@ -60,7 +92,9 @@ export const MainStyle = styled.main`
     border-radius: 6px;
     border: 1px solid #ccc;
     box-sizing: border-box;
-    transition: border 0.2s ease, box-shadow 0.2s ease;
+    transition:
+      border 0.2s ease,
+      box-shadow 0.2s ease;
   }
 
   input[type="number"]:focus {
@@ -79,7 +113,9 @@ export const MainStyle = styled.main`
     font-family: Arial, sans-serif;
     color: black;
     margin: 0.5rem 0;
-    transition: border-color 0.3s, box-shadow 0.3s;
+    transition:
+      border-color 0.3s,
+      box-shadow 0.3s;
 
     &:focus {
       border-color: #007bff;
@@ -109,10 +145,86 @@ export const MainStyle = styled.main`
     font-size: 0.9rem;
     background-color: #fff;
     border-radius: 8px;
-    overflow: hidden;
+    /* sem overflow: hidden - ele quebra o position: sticky da coluna fixa */
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
     /* desativado - gera opacidade no pdf - implementação futura */
     /* animation: ${fadeInLeft} 0.6s ease-out; */
+  }
+
+  .th-disciplina {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .btn-fixar-disciplina {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.8rem;
+    height: 1.8rem;
+    padding: 0;
+    /* a margem negativa evita que o botão aumente a altura do cabeçalho */
+    margin-block: -0.4rem;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 6px;
+    background-color: transparent;
+    color: #fff;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition:
+      background-color 0.2s,
+      color 0.2s;
+    /* toca ao montar a tabela, 3 vezes, e para */
+    animation: ${pulseRing} 1.2s ease-out 0.5s 3;
+
+    svg {
+      animation: ${wiggle} 1.2s ease-in-out 0.5s 3;
+    }
+
+    &[aria-pressed="true"] {
+      background-color: #fff;
+      color: #0077cc;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+
+      svg {
+        animation: none;
+      }
+    }
+  }
+
+  /* coluna Disciplina fixa durante o scroll horizontal.
+     Com border-collapse a borda vertical não acompanha a célula sticky, por
+     isso ela é redesenhada com box-shadow inset. */
+  table[data-disciplina-fixa="true"] {
+    thead tr:first-child th:first-child,
+    tbody td:first-child {
+      position: sticky;
+      left: 0;
+      box-shadow:
+        inset -1px 0 0 #ddd,
+        3px 0 5px -2px rgba(0, 0, 0, 0.25);
+    }
+
+    thead tr:first-child th:first-child {
+      background-color: #0077cc;
+    }
+
+    tbody td:first-child {
+      background-color: #fff;
+
+      &:hover {
+        background-image: linear-gradient(
+          rgba(13, 110, 253, 0.05),
+          rgba(13, 110, 253, 0.05)
+        );
+      }
+    }
   }
 
   #table-bottom {

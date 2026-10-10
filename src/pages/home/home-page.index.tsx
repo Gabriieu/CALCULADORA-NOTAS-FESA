@@ -1,4 +1,5 @@
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { FaLock, FaLockOpen } from "react-icons/fa6";
 import { Bounce, toast } from "react-toastify";
 import { AdicionarDPComponent } from "../../components/adicionar-dp/adicionar-dp.component";
 import { InfoModalComponent } from "../../components/info-modal/info-modal.component";
@@ -21,11 +22,40 @@ export const HomePage = () => {
 
   const [cursoSelecionado, setCursoSelecionado] = useState<string | null>(null);
   const [semestreSelecionado, setSemestreSelecionado] = useState<number | null>(
-    null
+    null,
   );
   const [disciplinasDP, setDisciplinasDP] = useState<string[]>([]);
   const [ciente, setCiente] = useState<boolean>(false);
   const [leuAvisoDP, setLeuAvisoDP] = useState<boolean>(false);
+  const [disciplinaFixa, setDisciplinaFixa] = useState<boolean>(
+    () => localStorage.getItem("disciplinaFixa") === "true",
+  );
+  const [tabelaComScroll, setTabelaComScroll] = useState<boolean>(false);
+  const tableContainerRef = useRef<HTMLDivElement>(null);
+
+  function alternarDisciplinaFixa() {
+    const fixar = !disciplinaFixa;
+    setDisciplinaFixa(fixar);
+    localStorage.setItem("disciplinaFixa", String(fixar));
+  }
+
+  useEffect(() => {
+    const container = tableContainerRef.current;
+    const table = container?.querySelector("table");
+
+    if (!container || !table) {
+      setTabelaComScroll(false);
+      return;
+    }
+
+    const observer = new ResizeObserver(() =>
+      setTabelaComScroll(container.scrollWidth > container.clientWidth),
+    );
+    observer.observe(container);
+    observer.observe(table);
+
+    return () => observer.disconnect();
+  }, [cursoSelecionado, semestreSelecionado, disciplinas, disciplinasDP]);
 
   const handleCursoSelecao = useCallback((nomeCurso: string) => {
     setCursoSelecionado(nomeCurso);
@@ -184,7 +214,7 @@ export const HomePage = () => {
         transition: Bounce,
         closeButton: false,
         className: "custom-toast",
-      }
+      },
     );
 
     setLeuAvisoDP(true);
@@ -257,12 +287,33 @@ export const HomePage = () => {
         ) : null}
 
         <section>
-          <div id="table-container">
+          <div id="table-container" ref={tableContainerRef}>
             {cursoSelecionado && semestreSelecionado ? (
-              <table>
+              <table data-disciplina-fixa={disciplinaFixa && tabelaComScroll}>
                 <thead>
                   <tr>
-                    <th rowSpan={2}>DISCIPLINA</th>
+                    <th rowSpan={2}>
+                      <div className="th-disciplina">
+                        <span>DISCIPLINA</span>
+                        {tabelaComScroll && (
+                          <button
+                            type="button"
+                            className="btn-fixar-disciplina"
+                            aria-pressed={disciplinaFixa}
+                            aria-label="Fixar coluna Disciplina"
+                            title={
+                              disciplinaFixa
+                                ? "Desafixar coluna Disciplina"
+                                : "Fixar coluna Disciplina"
+                            }
+                            onClick={alternarDisciplinaFixa}
+                            data-html2canvas-ignore
+                          >
+                            {disciplinaFixa ? <FaLock /> : <FaLockOpen />}
+                          </button>
+                        )}
+                      </div>
+                    </th>
                     <th colSpan={3}>1º BIMESTRE</th>
                     <th colSpan={3}>2º BIMESTRE</th>
                     <th rowSpan={2}>MÉDIA FINAL</th>
