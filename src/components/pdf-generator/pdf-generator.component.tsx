@@ -1,8 +1,8 @@
+import { useContext, useState } from "react";
 import { FaFilePdf } from "react-icons/fa";
 import { toast } from "react-toastify";
-import { PdfGeneratorStyle } from "./pdf-generator.style";
-import { useContext, useState } from "react";
 import { MainContext } from "../../context/main.context";
+import { PdfGeneratorStyle } from "./pdf-generator.style";
 
 interface IPdfGeneratorProps {
   curso: string;
@@ -21,15 +21,13 @@ export const PdfGenerator = ({ curso, semestre }: IPdfGeneratorProps) => {
         await Promise.all([
           import("html2canvas"),
           import("jspdf"),
-          import(
-            "../../shared/images/Gemini_Generated_Image_bb59e1bb59e1bb59.png"
-          ),
+          import("../../shared/images/Gemini_Generated_Image_bb59e1bb59e1bb59.png"),
         ]);
 
       const logo = logoModule.default;
       const tabela = document.getElementById("table-container");
       const formativaInput: HTMLInputElement | null = document.querySelector(
-        "#field-formativa input"
+        "#field-formativa input",
       );
       const formativaTexto = formativaInput?.value.trim() || "Não informado";
 
@@ -41,6 +39,11 @@ export const PdfGenerator = ({ curso, semestre }: IPdfGeneratorProps) => {
         windowWidth: 1024,
         scrollX: 0,
         scrollY: -window.scrollY,
+        onclone: (_doc, clonedTabela) => {
+          clonedTabela
+            .querySelector("table")
+            ?.removeAttribute("data-disciplina-fixa");
+        },
       });
 
       const imgData = canvas.toDataURL("image/png");
@@ -114,21 +117,21 @@ export const PdfGenerator = ({ curso, semestre }: IPdfGeneratorProps) => {
         "Este documento não possui validade oficial da Faculdade Engenheiro Salvador Arena",
         pageWidth / 2,
         pageHeight - 15,
-        { align: "center" }
+        { align: "center" },
       );
 
       pdf.text(
         "https://precisoestudar.com.br/",
         pageWidth / 2,
         pageHeight - 10,
-        { align: "center" }
+        { align: "center" },
       );
 
       pdf.save(`${curso} ${semestre}º Semestre.pdf`);
     } catch (error) {
       console.log(error);
       toast.error(
-        "Ops... não foi possível gerar o PDF 😕. Isso pode acontecer devido a alta demanda no servidor. Tente novamente em alguns instantes."
+        "Ops... não foi possível gerar o PDF 😕. Isso pode acontecer devido a alta demanda no servidor. Tente novamente em alguns instantes.",
       );
     } finally {
       setGerandoPdf(false);
