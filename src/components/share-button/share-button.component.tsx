@@ -7,13 +7,52 @@ import {
   ShareOptions,
 } from "./share-button.style";
 
+// navigator.clipboard só existe em contexto seguro (HTTPS/localhost). Em HTTP
+// (ex.: abrindo pelo IP da rede no celular) e em alguns navegadores embutidos
+// ele é undefined, então cai no fallback com execCommand.
+async function copiarTexto(texto: string): Promise<boolean> {
+  if (navigator.clipboard && window.isSecureContext) {
+    try {
+      await navigator.clipboard.writeText(texto);
+      return true;
+    } catch {
+      // permissão negada: tenta o fallback
+    }
+  }
+
+  const textarea = document.createElement("textarea");
+  textarea.value = texto;
+  textarea.setAttribute("readonly", "");
+  textarea.style.position = "fixed";
+  textarea.style.top = "0";
+  textarea.style.opacity = "0";
+  document.body.appendChild(textarea);
+  textarea.select();
+  textarea.setSelectionRange(0, texto.length);
+
+  try {
+    return document.execCommand("copy");
+  } catch {
+    return false;
+  } finally {
+    document.body.removeChild(textarea);
+  }
+}
+
 export const ShareButton = () => {
   const [open, setOpen] = useState(false);
   const currentUrl = typeof window !== "undefined" ? window.location.href : "";
 
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(currentUrl);
-    toast.info("Link copiado! 📋");
+  const copyToClipboard = async () => {
+    const copiado = await copiarTexto(currentUrl);
+
+    if (copiado) {
+      toast.info("Link copiado! 📋");
+    } else {
+      toast.error(
+        "Não foi possível copiar o link. Copie pelo endereço do navegador."
+      );
+    }
     setOpen(false);
   };
 
