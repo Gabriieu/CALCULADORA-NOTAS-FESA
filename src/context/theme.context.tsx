@@ -5,6 +5,8 @@ export type Tema = "light" | "dark";
 interface ITemaContext {
   tema: Tema;
   alternarTema(): void;
+  // volta ao tema padrão sem gravar nada; usado depois de apagar os dados salvos
+  redefinirTema(): void;
 }
 
 interface ITemaProviderProps {
@@ -43,8 +45,10 @@ export const TemaProvider = ({ children }: ITemaProviderProps) => {
     }
   };
 
+  const redefinirTema = () => setTema("light");
+
   return (
-    <TemaContext.Provider value={{ tema, alternarTema }}>
+    <TemaContext.Provider value={{ tema, alternarTema, redefinirTema }}>
       {children}
     </TemaContext.Provider>
   );
