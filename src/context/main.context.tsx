@@ -12,6 +12,7 @@ interface iMainContext {
   semestres: number[] | undefined;
   disciplinas: [] | IDisciplina[];
   getDisciplinas(nomeCurso: string, semestre: number): void;
+  existeSelecao(nomeCurso: string, semestre: number): boolean;
   showInputPlaceholder: boolean;
   setShowInputPlaceholder: React.Dispatch<React.SetStateAction<boolean>>;
   getDisciplinasAnteriores(
@@ -618,6 +619,13 @@ export const MainProvider = ({ children }: iMainProviderProps) => {
     setDisciplinas(disciplinas!.classes);
   }
 
+  // getDisciplinas quebra com um curso/semestre que não existe na grade; use isto antes
+  // de restaurar uma seleção salva, já que a grade pode mudar entre uma visita e outra
+  function existeSelecao(nomeCurso: string, semestre: number): boolean {
+    const curso = grade.find((curso) => curso.course_name === nomeCurso);
+    return Number.isInteger(semestre) && !!curso?.course_semesters[semestre - 1];
+  }
+
   // função para obter as disciplinas disponíveis para DP (todas as disciplinas anteriores ao semestre selecionado)
   function getDisciplinasAnteriores(nomeCurso: string, semestre: number) {
     const disciplinas = [];
@@ -638,6 +646,7 @@ export const MainProvider = ({ children }: iMainProviderProps) => {
         semestres,
         disciplinas,
         getDisciplinas,
+        existeSelecao,
         showInputPlaceholder,
         setShowInputPlaceholder,
         getDisciplinasAnteriores,

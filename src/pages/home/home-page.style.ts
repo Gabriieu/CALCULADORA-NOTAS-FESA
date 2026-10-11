@@ -15,6 +15,19 @@ const fadeInLeft = keyframes`
   }
 `;
 
+// só opacidade e escala (a partir do topo): o #table-container tem overflow-x: auto, e uma
+// animação que deslocasse a tabela para os lados ou para baixo faria a barra de rolagem piscar
+const tabelaEntra = keyframes`
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+`;
+
 const pulseRing = keyframes`
   0% {
     transform: scale(1);
@@ -147,8 +160,12 @@ export const MainStyle = styled.main`
     border-radius: 8px;
     /* sem overflow: hidden - ele quebra o position: sticky da coluna fixa */
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
-    /* desativado - gera opacidade no pdf - implementação futura */
-    /* animation: ${fadeInLeft} 0.6s ease-out; */
+    transform-origin: top center;
+    animation: ${tabelaEntra} 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
   }
 
   .th-disciplina {

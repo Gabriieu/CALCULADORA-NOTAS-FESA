@@ -57,9 +57,10 @@ async function capturarTabela(): Promise<HTMLCanvasElement> {
     // o relatório é sempre claro e não herda o estilo da coluna "Disciplina" fixa
     onclone: (clonedDoc, clonedTabela) => {
       clonedDoc.documentElement.setAttribute("data-theme", "light");
-      clonedTabela
-        .querySelector("table")
-        ?.removeAttribute("data-disciplina-fixa");
+      const tabelaClonada = clonedTabela.querySelector("table");
+      tabelaClonada?.removeAttribute("data-disciplina-fixa");
+      // as animações CSS recomeçam no clone: sem isto a tabela sai translúcida e reduzida no arquivo
+      tabelaClonada?.style.setProperty("animation", "none");
     },
   });
 }
