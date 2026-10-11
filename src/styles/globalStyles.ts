@@ -38,6 +38,7 @@ export const GlobalStyle = createGlobalStyle`
         --social-linkedin: #0e76a8;
         --scroll-track: #ddd;
         --scroll-thumb-border: #f1f1f1;
+        --shadow-header: 0 2px 10px rgba(0, 0, 0, 0.12);
     }
 
     :root[data-theme="dark"]{
@@ -71,6 +72,7 @@ export const GlobalStyle = createGlobalStyle`
         --social-linkedin: #3ba0d6;
         --scroll-track: #2a2f36;
         --scroll-thumb-border: #1c2025;
+        --shadow-header: 0 2px 12px rgba(0, 0, 0, 0.5);
     }
 
     body{

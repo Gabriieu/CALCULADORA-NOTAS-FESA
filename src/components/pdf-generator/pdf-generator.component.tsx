@@ -576,7 +576,7 @@ export const PdfGenerator = ({ curso, semestre }: IPdfGeneratorProps) => {
       // imports dinamicos para amenizar sobrecarregamento
       const [tabela, logoModule] = await Promise.all([
         capturarTabela(),
-        import("../../shared/images/Gemini_Generated_Image_bb59e1bb59e1bb59.png"),
+        import("../../shared/images/logo.png"),
       ]);
 
       const formativaInput: HTMLInputElement | null = document.querySelector(
