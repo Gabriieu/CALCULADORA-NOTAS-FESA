@@ -1,4 +1,10 @@
-import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import {
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { FaLock, FaLockOpen } from "react-icons/fa6";
 import { Bounce, toast } from "react-toastify";
 import { AdicionarDPComponent } from "../../components/adicionar-dp/adicionar-dp.component";
@@ -8,6 +14,11 @@ import { AvisoModalComponent } from "../../components/modal-aviso/modal-aviso.co
 import { PdfGenerator } from "../../components/pdf-generator/pdf-generator.component";
 import { TableRowComponent } from "../../components/table-row/table-row.component";
 import { MainContext } from "../../context/main.context";
+import { useTema } from "../../context/theme.context";
+import {
+  lerUltimaSelecao,
+  salvarUltimaSelecao,
+} from "../../shared/utils/armazenamento";
 import { MainStyle } from "./home-page.style";
 
 export const HomePage = () => {
@@ -18,11 +29,20 @@ export const HomePage = () => {
     semestres,
     disciplinas,
     getDisciplinas,
+    existeSelecao,
   } = useContext(MainContext);
+  const { tema } = useTema();
 
-  const [cursoSelecionado, setCursoSelecionado] = useState<string | null>(null);
+  // a grade pode ter mudado desde a última visita, então só restaura o que ainda existe
+  const [selecaoSalva] = useState(() => {
+    const salva = lerUltimaSelecao();
+    return salva && existeSelecao(salva.curso, salva.semestre) ? salva : null;
+  });
+  const [cursoSelecionado, setCursoSelecionado] = useState<string | null>(
+    selecaoSalva?.curso ?? null,
+  );
   const [semestreSelecionado, setSemestreSelecionado] = useState<number | null>(
-    null,
+    selecaoSalva?.semestre ?? null,
   );
   const [disciplinasDP, setDisciplinasDP] = useState<string[]>([]);
   const [ciente, setCiente] = useState<boolean>(false);
@@ -57,9 +77,28 @@ export const HomePage = () => {
     return () => observer.disconnect();
   }, [cursoSelecionado, semestreSelecionado, disciplinas, disciplinasDP]);
 
-  const handleCursoSelecao = useCallback((nomeCurso: string) => {
-    setCursoSelecionado(nomeCurso);
+  // carrega a tabela do último curso/semestre antes da primeira pintura, sem piscar vazia
+  useLayoutEffect(() => {
+    getCursos();
+    if (selecaoSalva) {
+      getSemestres(selecaoSalva.curso);
+      getDisciplinas(selecaoSalva.curso, selecaoSalva.semestre);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- só na montagem
   }, []);
+
+  function selecionarCursoESemestre(nomeCurso: string, semestre: number) {
+    setCursoSelecionado(nomeCurso);
+    getSemestres(nomeCurso);
+    setSemestreSelecionado(semestre);
+    getDisciplinas(nomeCurso, semestre);
+    salvarUltimaSelecao(nomeCurso, semestre);
+  }
+
+  // ao trocar de curso o semestre volta para o 1º
+  function handleCursoSelecao(nomeCurso: string) {
+    selecionarCursoESemestre(nomeCurso, 1);
+  }
 
   useEffect(() => {
     const ciente = localStorage.getItem("ciente");
@@ -85,11 +124,6 @@ export const HomePage = () => {
     }
 
     getCursos();
-    if (cursoSelecionado) {
-      getSemestres(cursoSelecionado);
-      setSemestreSelecionado(1);
-      getDisciplinas(cursoSelecionado, 1);
-    }
     getDPs();
   }, [cursoSelecionado]);
 
@@ -103,6 +137,7 @@ export const HomePage = () => {
 
     if (cursoSelecionado && semestreNumero) {
       getDisciplinas(cursoSelecionado, semestreNumero);
+      salvarUltimaSelecao(cursoSelecionado, semestreNumero);
     }
   }
 
@@ -175,7 +210,9 @@ export const HomePage = () => {
 
     toast.warning(
       <div style={{ textAlign: "center", fontFamily: "Poppins, sans-serif" }}>
-        <p style={{ margin: 0, fontSize: "0.9rem", color: "#555" }}>
+        <p
+          style={{ margin: 0, fontSize: "0.9rem", color: "var(--text-muted)" }}
+        >
           Toque sobre uma <strong>DP</strong> para excluí-la.
         </p>
         <button
@@ -209,7 +246,7 @@ export const HomePage = () => {
         autoClose: false,
         closeOnClick: false,
         draggable: false,
-        theme: "light",
+        theme: tema,
         position: "bottom-center",
         transition: Bounce,
         closeButton: false,
@@ -236,6 +273,7 @@ export const HomePage = () => {
             <select
               id="curso"
               name="curso"
+              value={cursoSelecionado ?? ""}
               onChange={(e) => handleCursoSelecao(e.target.value)}
             >
               <option value="" disabled={!!cursoSelecionado}>
@@ -289,7 +327,11 @@ export const HomePage = () => {
         <section>
           <div id="table-container" ref={tableContainerRef}>
             {cursoSelecionado && semestreSelecionado ? (
-              <table data-disciplina-fixa={disciplinaFixa && tabelaComScroll}>
+              <table
+                // a key faz a tabela ser montada de novo (e animar) a cada curso/semestre escolhido
+                key={`${cursoSelecionado}_${semestreSelecionado}`}
+                data-disciplina-fixa={disciplinaFixa && tabelaComScroll}
+              >
                 <thead>
                   <tr>
                     <th rowSpan={2}>

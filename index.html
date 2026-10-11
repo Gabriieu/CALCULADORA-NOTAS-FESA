@@ -3,9 +3,21 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="./src/shared/images/Gemini_Generated_Image_bb59e1bb59e1bb59.png" />
+  <link rel="icon" type="image/png" href="./src/shared/images/logo.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Notas FESA</title>
+  <!-- aplica o tema antes da primeira pintura para não piscar branco no modo escuro -->
+  <script>
+    (function () {
+      var tema;
+      try { tema = localStorage.getItem("tema"); } catch (e) { }
+      if (tema !== "light" && tema !== "dark") tema = "light";
+      document.documentElement.setAttribute("data-theme", tema);
+    })();
+  </script>
+  <style>
+    html[data-theme="dark"] { background-color: #121417; color-scheme: dark; }
+  </style>
 </head>
 
 <body>

@@ -19,27 +19,27 @@ export const Page404Style = styled.div`
   justify-content: center;
   min-height: 90vh;
   text-align: center;
-  background-color: #f9fafb;
-  color: black;
+  background-color: var(--surface-alt);
+  color: var(--text-strong);
   padding: 20px;
 
   h1 {
     font-size: 5rem;
     font-weight: 700;
     margin-bottom: 0.5rem;
-    color: black;
+    color: var(--text-strong);
   }
 
   h2 {
     font-size: 1.5rem;
     font-weight: 500;
     margin-bottom: 1.2rem;
-    color: black;
+    color: var(--text-strong);
   }
 
   p {
     max-width: 480px;
-    color: black;
+    color: var(--text-strong);
     line-height: 1.6;
     margin-bottom: 2rem;
   }

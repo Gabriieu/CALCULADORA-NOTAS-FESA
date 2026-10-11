@@ -61,7 +61,7 @@ export const TableRowComponent = ({
               <FaRegTrashCan
                 size={32}
                 className="trash-icon"
-                color="rgb(0, 0, 0)"
+                color="var(--text-strong)"
               />
             </span>
           </>

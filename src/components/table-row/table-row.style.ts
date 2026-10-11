@@ -81,7 +81,8 @@ export const TableRowDialogStyle = styled.div`
   z-index: 20;
   padding: 2rem 2.2rem;
   border-radius: 12px;
-  background-color: #fff;
+  background-color: var(--surface);
+  color: var(--text);
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
   width: 90%;
   max-width: 420px;
@@ -89,7 +90,7 @@ export const TableRowDialogStyle = styled.div`
 
   .title {
     font-size: 1rem;
-    color: #dc3545;
+    color: var(--media-vermelha);
     font-weight: 800;
     text-align: center;
     margin-bottom: 0.6rem;
@@ -125,11 +126,11 @@ export const TableRowDialogStyle = styled.div`
     }
 
     .cancel {
-      background-color: #e9ecef;
-      color: #333;
+      background-color: var(--btn-neutral-bg);
+      color: var(--text);
 
       &:hover {
-        background-color: #d6d8db;
+        background-color: var(--btn-neutral-hover);
       }
     }
   }

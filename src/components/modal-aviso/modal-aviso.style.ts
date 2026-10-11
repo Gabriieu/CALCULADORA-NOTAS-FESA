@@ -23,7 +23,7 @@ export const AvisoModalStyle = styled.div`
   border: none;
   max-width: 500px;
   width: 90%;
-  background-color: #f9f9f9;
+  background-color: var(--surface);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
   animation: ${modalAppear} 0.3s ease-out;
 
@@ -31,7 +31,7 @@ export const AvisoModalStyle = styled.div`
 
   .title {
     font-size: 1.6rem;
-    color: #0d6efd;
+    color: var(--primary-text);
     font-weight: 800;
     text-align: center;
     margin-bottom: 1rem;
@@ -40,7 +40,7 @@ export const AvisoModalStyle = styled.div`
   .text {
     text-align: justify;
     line-height: 1.5;
-    color: #333;
+    color: var(--text);
     margin-bottom: 1.5rem;
   }
 
