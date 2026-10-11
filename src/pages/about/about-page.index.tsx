@@ -54,14 +54,14 @@ export const AboutPage = () => {
             <FaShieldHalved /> Seus dados
           </h2>
           <p>
-            As notas, as DPs e suas preferências (como o tema) ficam salvas{" "}
+            As notas, as DPs e suas preferências ficam salvas{" "}
             <strong>somente neste navegador</strong>. Elas não são enviadas
             para nenhum servidor e não exigem cadastro. Por isso, ao trocar de
-            navegador ou de aparelho, você começa do zero.
+            navegador ou de aparelho, você perde seus dados.
           </p>
           <p>
-            O site usa o Vercel Analytics para medir o número de acessos. Essa
-            ferramenta não tem acesso às notas que você digita.
+            O site utiliza ferramentas somente de análise de tráfego. Essa
+            ferramenta não tem acesso aos seus dados.
           </p>
 
           <div className="danger-zone">
@@ -69,8 +69,8 @@ export const AboutPage = () => {
               <h3>Apagar meus dados</h3>
               <p>
                 Remove deste navegador todas as notas, DPs e preferências
-                salvas, incluindo o tema e o aceite do aviso. Não dá para
-                desfazer. Se quiser guardar suas notas, baixe o PDF antes.
+                salvas. Não é possível
+                desfazer essa ação. Se quiser guardar suas notas, baixe o PDF antes.
               </p>
             </div>
             <button
