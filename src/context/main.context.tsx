@@ -37,7 +37,7 @@ export const MainProvider = ({ children }: iMainProviderProps) => {
               nome: "Macroeconomia",
             },
             {
-              nome: "Teoria Geral de Administração",
+              nome: "Teoria Geral da Administração",
             },
             {
               nome: "Ética e Cidadania",
@@ -63,7 +63,7 @@ export const MainProvider = ({ children }: iMainProviderProps) => {
               nome: "Sociologia Aplicada à Administração",
             },
             {
-              nome: "Direito Aplicado à Gestão",
+              nome: "Direito Aplicado à Empresa",
             },
             {
               nome: "Estatística Básica",
@@ -92,13 +92,13 @@ export const MainProvider = ({ children }: iMainProviderProps) => {
               nome: "Comportamento do Consumidor e Pesquisa de Mercado",
             },
             {
-              nome: "Administração de Sistema de Informação",
+              nome: "Administração de Sistemas de Informação",
             },
             {
               nome: "Contabilidade para Administradores",
             },
             {
-              nome: "Projeto Interdisciplinar",
+              nome: "Projeto Interdisciplinar I",
             },
             {
               nome: "Eletiva I",
@@ -155,7 +155,7 @@ export const MainProvider = ({ children }: iMainProviderProps) => {
           semester_id: 6,
           classes: [
             {
-              nome: "Gerenciamento de Cadeia de Suprimentos",
+              nome: "Gerenciamento da Cadeia de Suprimentos",
             },
             {
               nome: "Comércio Exterior",
@@ -167,7 +167,7 @@ export const MainProvider = ({ children }: iMainProviderProps) => {
               nome: "Estratégia Competitiva e Corporativa",
             },
             {
-              nome: "Modelos de Análises de Decisões",
+              nome: "Modelos de Análise de Decisões",
             },
             {
               nome: "Projeto Interdisciplinar II",
@@ -187,13 +187,13 @@ export const MainProvider = ({ children }: iMainProviderProps) => {
               nome: "Gestão da Qualidade e Produtividade",
             },
             {
-              nome: "Projeto Final de Curso I",
+              nome: "TCC I",
             },
             {
               nome: "Liderança e Gestão por Competência",
             },
             {
-              nome: "Avaliação de Empresas para M&A",
+              nome: "Avaliação de Empresa para M&A",
             },
             {
               nome: "Empreendedorismo",
@@ -213,7 +213,7 @@ export const MainProvider = ({ children }: iMainProviderProps) => {
               nome: "Gestão do Relacionamento Público e Privado",
             },
             {
-              nome: "Estratégia e Simulação Empresarial",
+              nome: "Jogos Empresariais",
             },
             {
               nome: "TCC II",
@@ -222,10 +222,10 @@ export const MainProvider = ({ children }: iMainProviderProps) => {
               nome: "Tópicos Avançados de Gestão de Projetos",
             },
             {
-              nome: "Tópicos Avançados de Administração",
+              nome: "Práticas de Gestão Contemporânea e Internacionalização de Negócios",
             },
             {
-              nome: "Estudo das Organizações e suas Culturas",
+              nome: "Gestão da Inovação",
             },
           ],
         },
@@ -241,7 +241,7 @@ export const MainProvider = ({ children }: iMainProviderProps) => {
             { nome: "ALGORITMO E INFORMÁTICA" },
             { nome: "ÁLGEBRA LINEAR E GEOMETRIA ANALÍTICA" },
             { nome: "CÁLCULO DIFERENCIAL E INTEGRAL I" },
-            { nome: "CIÊNCIAS AMB. E DES. SUST" },
+            { nome: "CIÊNCIA DO AMBIENTE E DESENVOLVIMENTO SUSTENTÁVEL" },
             { nome: "FÍSICA GERAL E EXPERIMENTAL I" },
             { nome: "INTRODUÇÃO À ENGENHARIA DE ALIMENTOS" },
             { nome: "METODOLOGIA CIENTÍFICA" },
@@ -255,7 +255,7 @@ export const MainProvider = ({ children }: iMainProviderProps) => {
             { nome: "CÁLCULO DIFERENCIAL E INTEGRAL II" },
             { nome: "CIÊNCIA DOS MATERIAIS" },
             { nome: "ÉTICA E CIDADANIA" },
-            { nome: "FISICO-QUÍMICA" },
+            { nome: "FÍSICO-QUÍMICA" },
             { nome: "FÍSICA GERAL E EXPERIMENTAL II" },
             { nome: "MECÂNICA GERAL" },
             { nome: "MICROBIOLOGIA DE ALIMENTOS" },
@@ -273,19 +273,19 @@ export const MainProvider = ({ children }: iMainProviderProps) => {
             { nome: "HIGIENE E LEGISLAÇÃO" },
             { nome: "MECÂNICA DOS SÓLIDOS" },
             { nome: "QUÍMICA ANALÍTICA" },
-            { nome: "QUÍMICA DOS ALIMENTOS I" },
+            { nome: "QUÍMICA DE ALIMENTOS I" },
             { nome: "ELETIVA I" },
           ],
         },
         {
           semester_id: 4,
           classes: [
-            { nome: "BIOQUÍMICA DOS ALIMENTOS" },
-            { nome: "ELETROTÉCNICA E INSTALAÇÕES ELÉTTRICAS" },
+            { nome: "BIOQUÍMICA DE ALIMENTOS" },
+            { nome: "ELETROTÉCNICA E INSTALAÇÕES ELÉTRICAS" },
             { nome: "ESTATÍSTICA APLICADA" },
             { nome: "FENÔMENOS DE TRANSPORTE" },
             { nome: "GESTÃO AMBIENTAL E TRATAMENTO DE RESÍDUOS" },
-            { nome: "QUÍMICA DOS ALIMENTOS II" },
+            { nome: "QUÍMICA DE ALIMENTOS II" },
             { nome: "TERMODINÂMICA" },
           ],
         },
@@ -323,34 +323,28 @@ export const MainProvider = ({ children }: iMainProviderProps) => {
             { nome: "INSTALAÇÕES INDUSTRIAIS" },
             { nome: "INSTRUMENTAÇÃO E CONTROLE DE PROCESSOS" },
             { nome: "TECNOLOGIA DE FRUTAS E HORTALIÇAS E PRODUTOS AÇUCARADOS" },
-            { nome: "TECNOLOGIA DE PANIFICAÇÃO" },
+            { nome: "TECNOLOGIA DE PANIFICAÇÃO E MASSAS ALIMENTÍCIAS" },
           ],
         },
         {
           semester_id: 8,
           classes: [
-            { nome: "COMUNICAÇÃO EMPRESARIAL" },
-            { nome: "CONTAB. E CUSTOS" },
-            { nome: "GESTÃO AMBIENTAL" },
-            { nome: "METODOLOGIA CIENTÍFICA" },
+            { nome: "DESENVOLVIMENTO DE PRODUTOS II" },
+            { nome: "ECONOMIA DE NEGÓCIOS E MODELO E ANÁLISE DE DECISÃO" },
+            { nome: "GESTÃO EMPREENDEDORA" },
             { nome: "TECNOLOGIA DE BEBIDAS" },
-            { nome: "TECNOLOGIA DE ÓLEOS" },
           ],
         },
         {
           semester_id: 9,
           classes: [
-            { nome: "GESTÃO DE PROJETOS" },
             { nome: "PLANEJAMENTO E PROJETOS INDUSTRIAIS" },
-            { nome: "PRINCÍPIOS DE ADMINISTRAÇÃO" },
             { nome: "TCC I" },
           ],
         },
         {
           semester_id: 10,
           classes: [
-            { nome: "ECONOMIA INDUSTRIAL" },
-            { nome: "GESTÃO EMPREENDEDORA" },
             { nome: "TCC II" },
           ],
         },
@@ -366,10 +360,10 @@ export const MainProvider = ({ children }: iMainProviderProps) => {
             { nome: "ALGORITMO E INFORMÁTICA" },
             { nome: "ÁLGEBRA LINEAR E GEOMETRIA ANALÍTICA" },
             { nome: "CÁLCULO DIFERENCIAL E INTEGRAL I" },
-            { nome: "CIÊNCIAS DO AMBIENTE DES. SUSTENTÁVEL" },
+            { nome: "CIÊNCIAS DO AMBIENTE E DESENVOLVIMENTO SUSTENTÁVEL" },
             { nome: "EXPRESSÃO GRÁFICA" },
             { nome: "FÍSICA GERAL E EXPERIMENTAL I" },
-            { nome: "INTRODUÇÃO À ENG. CONTROLE E AUTOMAÇÃO" },
+            { nome: "INTRODUÇÃO À ENGENHARIA DE CONTROLE E AUTOMAÇÃO" },
             { nome: "SISTEMAS DIGITAIS" },
           ],
         },
@@ -382,7 +376,7 @@ export const MainProvider = ({ children }: iMainProviderProps) => {
             { nome: "GESTÃO DE PROJETOS" },
             { nome: "PROJETO INTEGRADOR I" },
             { nome: "QUÍMICA GERAL" },
-            { nome: "TECNOLOGIA MECANICA APLICADA" },
+            { nome: "TECNOLOGIA MECÂNICA APLICADA" },
           ],
         },
         {
@@ -391,8 +385,8 @@ export const MainProvider = ({ children }: iMainProviderProps) => {
             { nome: "CIÊNCIA DOS MATERIAIS" },
             { nome: "ELETROTÉCNICA E INSTALAÇÕES ELÉTRICAS" },
             { nome: "ESTATÍSTICA BÁSICA" },
-            { nome: "GESTÃO DE CUSTO" },
-            { nome: "MECÂNICA GERA" },
+            { nome: "GESTÃO DE CUSTOS" },
+            { nome: "MECÂNICA GERAL" },
             { nome: "OPERAÇÕES DE MANUFATURA" },
             { nome: "PROGRAMAÇÃO VISUAL E BANCO DE DADOS" },
             { nome: "ELETIVA I" },
@@ -401,7 +395,7 @@ export const MainProvider = ({ children }: iMainProviderProps) => {
         {
           semester_id: 4,
           classes: [
-            { nome: "AUTOMAÇÃO+CLP" },
+            { nome: "AUTOMAÇÃO + CLP" },
             { nome: "CNC" },
             { nome: "ELETRÔNICA ANALÓGICA" },
             { nome: "MECÂNICA DOS SÓLIDOS" },
@@ -425,6 +419,7 @@ export const MainProvider = ({ children }: iMainProviderProps) => {
         {
           semester_id: 6,
           classes: [
+            { nome: "CAM" },
             { nome: "HIDRÁULICA INDUSTRIAL" },
             { nome: "INSTRUMENTAÇÃO E SENSORES" },
             { nome: "MODELAGEM DE SISTEMAS DINÂMICOS" },
@@ -440,37 +435,37 @@ export const MainProvider = ({ children }: iMainProviderProps) => {
             { nome: "COMUNICAÇÃO EMPRESARIAL" },
             { nome: "CONTROLE E SERVOMECANISMO" },
             { nome: "GESTÃO DE PESSOAS" },
-            { nome: "GESTÃO EMPR. E NOGÓCIOS" },
-            { nome: "SISTEMAS SUPERV. E REDES" },
+            { nome: "GESTÃO EMPREENDEDORA E MODELO DE NEGÓCIOS" },
+            { nome: "SISTEMA SUPERVISÓRIO E REDES" },
             { nome: "SISTEMAS TÉRMICOS" },
           ],
         },
         {
           semester_id: 8,
           classes: [
-            { nome: "CONTABILIDADE E CUSTOS" },
-            { nome: "GESTÃO EMPREENDEDORA" },
-            { nome: "GESTÃO DE PROJ. ENG CONTROLE E AUTOMAÇÃO" },
-            { nome: "METODOLOGIA DO TRABALHO CIENTÍFICO" },
+            { nome: "CONTROLE AVANÇADO" },
+            { nome: "DIREITO E LEGISLAÇÃO" },
+            { nome: "ESTRATÉGIA E SIMULAÇÃO EMPRESARIAL" },
+            { nome: "INTELIGÊNCIA ARTIFICIAL" },
             { nome: "PROCESSOS METALÚRGICOS" },
-            { nome: "SISTEMAS DE CONTROLE DISCRETO" },
-            { nome: "SISTEMAS TÉRMICOS" },
+            { nome: "PROJETO INTEGRADOR IV" },
           ],
         },
         {
           semester_id: 9,
           classes: [
-            { nome: "SISTEMAS SUPERVISÓRIOS" },
+            { nome: "CONTROLE DISCRETO" },
+            { nome: "SISTEMAS EMBARCADOS" },
             { nome: "TCC I" },
-            { nome: "VIBRAÇÕES MECÂNICAS" },
+            { nome: "TÓPICOS ESPECIAIS EM ENGENHARIA" },
           ],
         },
         {
           semester_id: 10,
           classes: [
-            { nome: "INTELIGÊNCIA ARTIFICIAL" },
+            { nome: "CIÊNCIA DE DADOS" },
+            { nome: "PROJETO DE MANUFATURA INTEGRADA POR COMPUTADOR" },
             { nome: "TCC II" },
-            { nome: "TÓPICOS ESPECIAIS DE ENGENHARIA" },
           ],
         },
       ],
@@ -483,7 +478,7 @@ export const MainProvider = ({ children }: iMainProviderProps) => {
           semester_id: 1,
           classes: [
             { nome: "Álgebra Linear e Geometria Analítica" },
-            { nome: "Algorítmos I" },
+            { nome: "Algoritmos I" },
             { nome: "Cálculo Diferencial e Integral I" },
             { nome: "Ética e Cidadania" },
             { nome: "Introdução à Engenharia de Computação" },
@@ -493,7 +488,7 @@ export const MainProvider = ({ children }: iMainProviderProps) => {
         {
           semester_id: 2,
           classes: [
-            { nome: "Algorítmos II" },
+            { nome: "Algoritmos II" },
             { nome: "Banco de Dados I" },
             { nome: "Cálculo Diferencial e Integral II" },
             { nome: "Eletricidade Aplicada" },
@@ -518,7 +513,7 @@ export const MainProvider = ({ children }: iMainProviderProps) => {
             { nome: "Desenho Digital" },
             { nome: "Eletromagnetismo" },
             { nome: "Eletrônica Digital" },
-            { nome: "Estrutura de Dados" },
+            { nome: "Estruturas de Dados" },
             { nome: "Mecânica Geral" },
           ],
         },
@@ -541,7 +536,7 @@ export const MainProvider = ({ children }: iMainProviderProps) => {
             { nome: "Linguagens Formais e Autômatos" },
             { nome: "Modelagem de Software" },
             { nome: "Processamento de Sinais" },
-            { nome: "ELETIVA II" },
+            { nome: "Eletiva II" },
           ],
         },
         {
@@ -551,7 +546,7 @@ export const MainProvider = ({ children }: iMainProviderProps) => {
             { nome: "Comunicação de Dados" },
             { nome: "Economia" },
             { nome: "Gestão de Custos" },
-            { nome: "Programação Mobile I" },
+            { nome: "Programação Mobile" },
             { nome: "Sistemas Reconfiguráveis" },
           ],
         },
@@ -560,7 +555,7 @@ export const MainProvider = ({ children }: iMainProviderProps) => {
           classes: [
             { nome: "Engenharia de Software" },
             { nome: "Estatística" },
-            { nome: "Gestão de Projetos na Eng. de Computação" },
+            { nome: "Gestão de Projetos na Engenharia de Computação" },
             { nome: "Pesquisa Operacional" },
             { nome: "Redes de Computadores I" },
             { nome: "Sistemas Operacionais" },
@@ -569,25 +564,27 @@ export const MainProvider = ({ children }: iMainProviderProps) => {
         {
           semester_id: 9,
           classes: [
-            { nome: "Gestão da Tecnologia da Informação" },
-            { nome: "Gestão Empreendedora" },
+            { nome: "Arquitetura de Software" },
+            { nome: "Empreendedorismo, Inovação e Modelagem de Negócios" },
+            { nome: "Gestão da Qualidade" },
             { nome: "Inteligência Artificial" },
-            { nome: "Serviços de Rede" },
-            { nome: "Sistemas Distribuídos" },
+            { nome: "Qualidade de Software" },
+            { nome: "Redes de Computadores II" },
             { nome: "TCC I" },
           ],
         },
         {
           semester_id: 10,
           classes: [
+            { nome: "Análise de Dados" },
             {
               nome: "Ciências do Ambiente e Desenvolvimento Sustentável",
             },
             { nome: "Direito Digital" },
-            { nome: "Gestão Estratégica da Informação" },
-            { nome: "Programação Mobile II" },
+            { nome: "Gestão da Tecnologia da Informação" },
+            { nome: "Segurança da Informação" },
+            { nome: "Sistemas Distribuídos" },
             { nome: "TCC II" },
-            { nome: "Tópicos Avançados de Redes" },
           ],
         },
       ],
