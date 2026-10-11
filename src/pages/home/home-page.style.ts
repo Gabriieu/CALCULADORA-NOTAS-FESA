@@ -59,11 +59,11 @@ export const MainStyle = styled.main`
   }
 
   fieldset {
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-input);
     border-radius: 8px;
     padding: 1rem;
     margin-bottom: 1.5rem;
-    background-color: #fff;
+    background-color: var(--surface);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
   }
 
@@ -90,7 +90,7 @@ export const MainStyle = styled.main`
     padding: 0.5rem 0.75rem;
     font-size: 1rem;
     border-radius: 6px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-input);
     box-sizing: border-box;
     transition:
       border 0.2s ease,
@@ -106,12 +106,12 @@ export const MainStyle = styled.main`
   select {
     width: 100%;
     padding: 0.5rem 1rem;
-    border: 2px solid #ccc;
+    border: 2px solid var(--border-input);
     border-radius: 8px;
-    background-color: #fdfdfd;
+    background-color: var(--input-bg);
     font-size: 1rem;
     font-family: Arial, sans-serif;
-    color: black;
+    color: var(--text-strong);
     margin: 0.5rem 0;
     transition:
       border-color 0.3s,
@@ -124,8 +124,8 @@ export const MainStyle = styled.main`
     }
 
     &:disabled {
-      background-color: #eee;
-      color: #777;
+      background-color: var(--disabled-bg);
+      color: var(--disabled-text);
       cursor: not-allowed;
     }
   }
@@ -143,7 +143,7 @@ export const MainStyle = styled.main`
     width: 100%;
     border-collapse: collapse;
     font-size: 0.9rem;
-    background-color: #fff;
+    background-color: var(--surface);
     border-radius: 8px;
     /* sem overflow: hidden - ele quebra o position: sticky da coluna fixa */
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
@@ -207,7 +207,7 @@ export const MainStyle = styled.main`
       position: sticky;
       left: 0;
       box-shadow:
-        inset -1px 0 0 #ddd,
+        inset -1px 0 0 var(--border),
         3px 0 5px -2px rgba(0, 0, 0, 0.25);
     }
 
@@ -216,7 +216,7 @@ export const MainStyle = styled.main`
     }
 
     tbody td:first-child {
-      background-color: #fff;
+      background-color: var(--surface);
 
       &:hover {
         background-image: linear-gradient(
@@ -246,7 +246,7 @@ export const MainStyle = styled.main`
 
   th,
   td {
-    border: 1px solid #ddd;
+    border: 1px solid var(--border);
     padding: 0.6rem;
     text-align: center;
   }
@@ -257,13 +257,13 @@ export const MainStyle = styled.main`
   }
 
   ::-webkit-scrollbar-track {
-    background: #dddddd;
+    background: var(--scroll-track);
   }
 
   ::-webkit-scrollbar-thumb {
     background-color: #0077cc;
     border-radius: 6px;
-    border: 2px solid #f1f1f1;
+    border: 2px solid var(--scroll-thumb-border);
   }
 
   @media (min-width: 768px) {

@@ -3,11 +3,11 @@ import styled from "styled-components";
 export const FooterStyle = styled.footer`
   margin-top: 100px;
   padding: .7rem .7rem;
-  background-color: #f8f9fa;
-  color: #333;
+  background-color: var(--surface-alt);
+  color: var(--text);
   text-align: center;
   font-size: 0.95rem;
-  border-top: 1px solid #ddd;
+  border-top: 1px solid var(--border);
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
@@ -18,7 +18,7 @@ export const FooterStyle = styled.footer`
 
   #developed-by {
     font-size: 0.85rem;
-    color: #555;
+    color: var(--text-muted);
     font-weight: 500;
   }
 
@@ -40,11 +40,11 @@ export const FooterStyle = styled.footer`
   }
 
   #github {
-    color: #181717;
+    color: var(--social-github);
   }
 
   #linkedin {
-    color: #0e76a8;
+    color: var(--social-linkedin);
   }
 
   #portfolio {
@@ -56,7 +56,7 @@ export const FooterStyle = styled.footer`
   }
   #footer-note {
     font-size: 12px;
-    color: #aaa;
+    color: var(--text-faint);
     margin-top: .5rem;
 
     @media (max-width: 600px) {

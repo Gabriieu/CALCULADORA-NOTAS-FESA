@@ -54,8 +54,9 @@ async function capturarTabela(): Promise<HTMLCanvasElement> {
     windowWidth: 1024,
     scrollX: 0,
     scrollY: -window.scrollY,
-    // o relatório não deve herdar o estilo da coluna "Disciplina" fixa
-    onclone: (_doc, clonedTabela) => {
+    // o relatório é sempre claro e não herda o estilo da coluna "Disciplina" fixa
+    onclone: (clonedDoc, clonedTabela) => {
+      clonedDoc.documentElement.setAttribute("data-theme", "light");
       clonedTabela
         .querySelector("table")
         ?.removeAttribute("data-disciplina-fixa");

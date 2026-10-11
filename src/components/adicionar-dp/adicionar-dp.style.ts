@@ -5,8 +5,9 @@ export const AdicionarDPStyle = styled.div`
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    background-color: #fff;
-    border: 1px solid #ccc;
+    background-color: var(--surface);
+    color: var(--text-strong);
+    border: 1px solid var(--border-input);
     border-radius: 6px;
     padding: 10px;
     font-size: 0.8rem;
@@ -15,11 +16,11 @@ export const AdicionarDPStyle = styled.div`
     transition: background-color 0.2s ease;
 
     &:hover {
-      background-color: #f5f5f5;
+      background-color: var(--hover-bg);
     }
 
     svg {
-      color: #173596ff;
+      color: var(--blue-deep);
       font-size: 1rem;
     }
 
@@ -41,7 +42,8 @@ export const AdicionarDPStyle = styled.div`
     max-width: 90%;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #fff;
+    background-color: var(--surface);
+    color: var(--text);
     z-index: 1000;
     animation: modalShow 0.25s forwards;
 
@@ -49,16 +51,18 @@ export const AdicionarDPStyle = styled.div`
       margin-top: 0;
       margin-bottom: 1rem;
       font-size: 1.2rem;
-      color: #173596ff;
+      color: var(--blue-deep);
     }
 
     select {
       width: 100%;
       padding: 0.5rem;
       font-size: 0.9rem;
-      border: 1px solid #ccc;
+      border: 1px solid var(--border-input);
       border-radius: 4px;
       margin-bottom: 1rem;
+      background-color: var(--input-bg);
+      color: var(--text-strong);
     }
 
     div {

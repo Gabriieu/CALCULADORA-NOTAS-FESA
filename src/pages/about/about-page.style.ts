@@ -16,12 +16,12 @@ export const AboutPageStyle = styled.div`
   display: flex;
   justify-content: center;
   min-height: 80vh;
-  color: #222;
+  color: var(--text);
   padding: 40px 20px;
 
   .about-container {
     max-width: 720px;
-    background: #fff;
+    background: var(--surface);
     padding: 32px 28px;
     text-align: center;
     line-height: 1.7;
@@ -31,25 +31,25 @@ export const AboutPageStyle = styled.div`
       font-size: 2rem;
       margin-bottom: 24px;
       font-weight: 700;
-      color: #0077cc;
+      color: var(--accent-text);
     }
 
     p {
       font-size: 1rem;
       margin-bottom: 18px;
-      color: black;
+      color: var(--text-strong);
       text-align: justify;
     }
 
     strong {
-      color: #000;
+      color: var(--text-strong);
       font-weight: 600;
     }
 
     .divider {
       width: 60%;
       height: 1px;
-      background: #ddd;
+      background: var(--border);
       margin: 32px auto;
     }
   }

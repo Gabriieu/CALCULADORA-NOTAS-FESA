@@ -17,7 +17,7 @@ export const FormativaModalStyle = styled.div`
 
   .icon {
     font-size: 1.8rem;
-    color: #444;
+    color: var(--text-muted);
     cursor: pointer;
     transition: color 0.2s ease;
   }
@@ -30,7 +30,8 @@ export const FormativaModalStyle = styled.div`
     z-index: 1;
     width: 100vw;
     padding: 1rem;
-    background: #fff;
+    background: var(--surface);
+    color: var(--text);
     border: none;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
@@ -74,7 +75,7 @@ export const FormativaModalStyle = styled.div`
     #att {
       font-size: 0.8rem;
       font-style: italic;
-      color: gray;
+      color: var(--text-muted);
     }
   }
 

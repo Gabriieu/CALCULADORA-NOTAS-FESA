@@ -29,8 +29,9 @@ export const PdfGeneratorStyle = styled.div`
     justify-content: center;
     gap: 0.5rem;
     width: 100%;
-    background-color: #fff;
-    border: 1px solid #ccc;
+    background-color: var(--surface);
+    color: var(--text-strong);
+    border: 1px solid var(--border-input);
     border-radius: 6px;
     padding: 10px;
     font-size: 0.8rem;
@@ -39,7 +40,7 @@ export const PdfGeneratorStyle = styled.div`
     transition: background-color 0.2s ease;
 
     &:hover {
-      background-color: #f5f5f5;
+      background-color: var(--hover-bg);
     }
 
     &:disabled {
@@ -48,7 +49,7 @@ export const PdfGeneratorStyle = styled.div`
     }
 
     svg {
-      color: #37474f;
+      color: var(--icon-neutral);
       font-size: 1rem;
     }
 
@@ -72,8 +73,8 @@ export const PdfGeneratorStyle = styled.div`
     left: 0;
     right: 0;
     padding: 6px;
-    background-color: #fff;
-    border: 1px solid #ccc;
+    background-color: var(--surface);
+    border: 1px solid var(--border-input);
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     z-index: 20;
@@ -88,14 +89,14 @@ export const PdfGeneratorStyle = styled.div`
       border: none;
       border-radius: 6px;
       background: none;
-      color: #333;
+      color: var(--text);
       font-size: 0.8rem;
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
       text-align: left;
       cursor: pointer;
 
       &:hover {
-        background-color: #f0f0f0;
+        background-color: var(--hover-bg);
       }
 
       svg {
@@ -103,11 +104,11 @@ export const PdfGeneratorStyle = styled.div`
       }
 
       .icon-pdf {
-        color: #d32f2f;
+        color: var(--icon-pdf);
       }
 
       .icon-imagem {
-        color: #2e7d32;
+        color: var(--icon-img);
       }
     }
   }

@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import "react-toastify/dist/ReactToastify.css";
 import App from "./App.tsx";
 import { MainProvider } from "./context/main.context.tsx";
+import { TemaProvider } from "./context/theme.context.tsx";
 import { GlobalStyle } from "./styles/globalStyles.ts";
 import { ResetStyle } from "./styles/resetStyles.ts";
 import { BrowserRouter } from "react-router-dom";
@@ -14,12 +15,14 @@ createRoot(document.getElementById("root")!).render(
     <ResetStyle />
     <GlobalStyle />
     <BrowserRouter>
-      <MainProvider>
-        <HeaderComponent />
-        <App />
-        <Analytics />
-        <FooterComponent />
-      </MainProvider>
+      <TemaProvider>
+        <MainProvider>
+          <HeaderComponent />
+          <App />
+          <Analytics />
+          <FooterComponent />
+        </MainProvider>
+      </TemaProvider>
     </BrowserRouter>
   </>
 );

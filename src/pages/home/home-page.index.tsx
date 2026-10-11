@@ -8,6 +8,7 @@ import { AvisoModalComponent } from "../../components/modal-aviso/modal-aviso.co
 import { PdfGenerator } from "../../components/pdf-generator/pdf-generator.component";
 import { TableRowComponent } from "../../components/table-row/table-row.component";
 import { MainContext } from "../../context/main.context";
+import { useTema } from "../../context/theme.context";
 import { MainStyle } from "./home-page.style";
 
 export const HomePage = () => {
@@ -19,6 +20,7 @@ export const HomePage = () => {
     disciplinas,
     getDisciplinas,
   } = useContext(MainContext);
+  const { tema } = useTema();
 
   const [cursoSelecionado, setCursoSelecionado] = useState<string | null>(null);
   const [semestreSelecionado, setSemestreSelecionado] = useState<number | null>(
@@ -175,7 +177,9 @@ export const HomePage = () => {
 
     toast.warning(
       <div style={{ textAlign: "center", fontFamily: "Poppins, sans-serif" }}>
-        <p style={{ margin: 0, fontSize: "0.9rem", color: "#555" }}>
+        <p
+          style={{ margin: 0, fontSize: "0.9rem", color: "var(--text-muted)" }}
+        >
           Toque sobre uma <strong>DP</strong> para excluí-la.
         </p>
         <button
@@ -209,7 +213,7 @@ export const HomePage = () => {
         autoClose: false,
         closeOnClick: false,
         draggable: false,
-        theme: "light",
+        theme: tema,
         position: "bottom-center",
         transition: Bounce,
         closeButton: false,

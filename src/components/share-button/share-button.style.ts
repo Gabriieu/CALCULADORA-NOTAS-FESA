@@ -21,6 +21,10 @@ export const ShareButtonStyle = styled.div`
   position: relative;
   display: inline-block;
 
+  > button {
+    color: var(--text-strong);
+  }
+
   svg:hover {
     cursor: pointer;
     transform: scale(1.2);
@@ -31,8 +35,9 @@ export const ShareOptions = styled.div`
   position: absolute;
   bottom: 110%;
   left: 0;
-  background-color: white;
-  border: 1px solid #ccc;
+  background-color: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border-input);
   border-radius: 8px;
   padding: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -44,7 +49,7 @@ export const ShareOptions = styled.div`
     align-items: center;
     gap: 8px;
     text-decoration: none;
-    color: #333;
+    color: var(--text);
     background: none;
     border: none;
     padding: 6px 10px;
@@ -54,7 +59,7 @@ export const ShareOptions = styled.div`
     cursor: pointer;
 
     &:hover {
-      background-color: #f0f0f0;
+      background-color: var(--hover-bg);
     }
   }
 
