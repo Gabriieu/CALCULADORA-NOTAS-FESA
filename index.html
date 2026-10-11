@@ -11,9 +11,7 @@
     (function () {
       var tema;
       try { tema = localStorage.getItem("tema"); } catch (e) { }
-      if (tema !== "light" && tema !== "dark") {
-        tema = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-      }
+      if (tema !== "light" && tema !== "dark") tema = "light";
       document.documentElement.setAttribute("data-theme", tema);
     })();
   </script>

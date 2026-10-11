@@ -24,32 +24,14 @@ function lerTemaSalvo(): Tema | null {
   }
 }
 
-function temaDoSistema(): Tema {
-  return window.matchMedia("(prefers-color-scheme: dark)").matches
-    ? "dark"
-    : "light";
-}
-
 // a mesma lógica roda inline no index.html para evitar o flash de tema errado
 export const TemaProvider = ({ children }: ITemaProviderProps) => {
-  const [tema, setTema] = useState<Tema>(
-    () => lerTemaSalvo() ?? temaDoSistema(),
-  );
+  // o padrão é sempre o claro, até o usuário escolher outro tema
+  const [tema, setTema] = useState<Tema>(() => lerTemaSalvo() ?? "light");
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", tema);
   }, [tema]);
-
-  // enquanto o usuário não escolher um tema, acompanha o do sistema
-  useEffect(() => {
-    const consulta = window.matchMedia("(prefers-color-scheme: dark)");
-    const acompanharSistema = (e: MediaQueryListEvent) => {
-      if (!lerTemaSalvo()) setTema(e.matches ? "dark" : "light");
-    };
-
-    consulta.addEventListener("change", acompanharSistema);
-    return () => consulta.removeEventListener("change", acompanharSistema);
-  }, []);
 
   const alternarTema = () => {
     const novo: Tema = tema === "dark" ? "light" : "dark";
