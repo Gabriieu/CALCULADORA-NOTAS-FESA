@@ -55,13 +55,13 @@ export const AboutPage = () => {
           </h2>
           <p>
             As notas, as DPs e suas preferências ficam salvas{" "}
-            <strong>somente neste navegador</strong>. Elas não são enviadas
-            para nenhum servidor e não exigem cadastro. Por isso, ao trocar de
+            <strong>somente neste navegador</strong>. Elas não são enviadas para
+            nenhum servidor e não exigem cadastro. Por isso, ao trocar de
             navegador ou de aparelho, você perde seus dados.
           </p>
           <p>
-            O site utiliza ferramentas somente de análise de tráfego. Essa
-            ferramenta não tem acesso aos seus dados.
+            O site utiliza ferramentas exclusivamente para análise de tráfego,
+            que não têm acesso aos seus dados pessoais.
           </p>
 
           <div className="danger-zone">
@@ -69,8 +69,8 @@ export const AboutPage = () => {
               <h3>Apagar meus dados</h3>
               <p>
                 Remove deste navegador todas as notas, DPs e preferências
-                salvas. Não é possível
-                desfazer essa ação. Se quiser guardar suas notas, baixe o PDF antes.
+                salvas. Não é possível desfazer essa ação. Se quiser guardar
+                suas notas, baixe o PDF antes.
               </p>
             </div>
             <button
