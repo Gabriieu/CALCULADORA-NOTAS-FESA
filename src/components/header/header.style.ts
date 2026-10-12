@@ -81,12 +81,18 @@ export const ThemeToggle = styled.button`
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  color: var(--text);
+  color: var(--toggle-icon);
   font-size: 1.2rem;
-  transition: background 0.2s ease;
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease;
 
   &:hover {
     background: var(--hover-bg);
+  }
+
+  &:active {
+    transform: scale(0.88);
   }
 
   ${anelDeFoco}
@@ -94,6 +100,12 @@ export const ThemeToggle = styled.button`
   @media (min-width: ${BREAKPOINT_DESKTOP}) {
     order: 2;
   }
+`;
+
+// envolve o ícone para a troca de tema poder girá-lo (header.component.tsx)
+export const IconeTema = styled.span`
+  display: grid;
+  place-items: center;
 `;
 
 export const Navegacao = styled.nav<{ $aberto: boolean }>`

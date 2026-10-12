@@ -1,5 +1,5 @@
 import { Squash as Hamburger } from "hamburger-react";
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import {
   BsFillBrightnessHighFill,
   BsFillMoonStarsFill,
@@ -12,9 +12,22 @@ import logo from "../../shared/images/logo-header.webp";
 import {
   BrandLink,
   HeaderContainer,
+  IconeTema,
   Navegacao,
   ThemeToggle,
 } from "./header.style";
+
+// o sol gira ao nascer; a lua se inclina ao surgir
+const ENTRADA_ICONE = {
+  sol: [
+    { transform: "rotate(-180deg) scale(0.2)", opacity: 0 },
+    { transform: "rotate(0deg) scale(1)", opacity: 1 },
+  ],
+  lua: [
+    { transform: "rotate(-70deg) scale(0.2)", opacity: 0 },
+    { transform: "rotate(0deg) scale(1)", opacity: 1 },
+  ],
+};
 
 // o hamburger-react renderiza o botão como <div role="button"> e não expõe ref nem aria-controls
 const encontrarBotao = (raiz: HTMLElement | null) =>
@@ -26,8 +39,24 @@ export const HeaderComponent = () => {
   const menuId = useId();
   const menuRef = useRef<HTMLElement>(null);
   const botaoRef = useRef<HTMLDivElement>(null);
+  const iconeRef = useRef<HTMLSpanElement>(null);
+  const temaAnterior = useRef(tema);
 
   const temaDestino = tema === "dark" ? "claro" : "escuro";
+
+  // roda dentro do flushSync da troca, já com o ícone novo, então a animação aparece na tela nova;
+  // comparar com o tema anterior evita animar na primeira renderização
+  useLayoutEffect(() => {
+    if (temaAnterior.current === tema) return;
+    temaAnterior.current = tema;
+    // o botão mostra o sol no tema escuro e a lua no claro
+    iconeRef.current?.animate(ENTRADA_ICONE[tema === "dark" ? "sol" : "lua"], {
+      duration: 700,
+      delay: 100,
+      easing: "cubic-bezier(0.34, 1.56, 0.64, 1)",
+      fill: "backwards",
+    });
+  }, [tema]);
 
   useEffect(() => {
     encontrarBotao(botaoRef.current)?.setAttribute("aria-controls", menuId);
@@ -84,11 +113,13 @@ export const HeaderComponent = () => {
           aria-label={`Mudar para o tema ${temaDestino}`}
           title={`Tema ${temaDestino}`}
         >
-          {tema === "dark" ? (
-            <BsFillBrightnessHighFill aria-hidden />
-          ) : (
-            <BsFillMoonStarsFill aria-hidden />
-          )}
+          <IconeTema ref={iconeRef}>
+            {tema === "dark" ? (
+              <BsFillBrightnessHighFill aria-hidden />
+            ) : (
+              <BsFillMoonStarsFill aria-hidden />
+            )}
+          </IconeTema>
         </ThemeToggle>
 
         <div className="menu-botao" ref={botaoRef} onKeyDown={alternarComEspaco}>
