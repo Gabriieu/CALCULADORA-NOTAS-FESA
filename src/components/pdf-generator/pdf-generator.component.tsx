@@ -178,6 +178,9 @@ async function salvarPdf({
   pdf.setLineWidth(0.3);
   pdf.roundedRect(quadroX, quadroY, quadroLargura, quadroAltura, 2, 2, "FD");
 
+  // sem o último argumento o jsPDF grava os pixels descomprimidos (~6MB para esta tabela, contra
+  // ~140KB comprimida). "FAST" não perde qualidade e custa bem menos CPU que "SLOW" para ganhar
+  // poucos KB
   pdf.addImage(
     imgData,
     "PNG",
@@ -185,6 +188,8 @@ async function salvarPdf({
     quadroY + quadroPadding,
     imgWidth,
     imgHeight,
+    undefined,
+    "FAST",
   );
 
   desenharRodape(pdf);
