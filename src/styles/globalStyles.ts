@@ -80,4 +80,20 @@ export const GlobalStyle = createGlobalStyle`
         color: var(--text-strong);
     }
 
+    /* troca de tema (theme.context.tsx): o círculo é animado via JS sobre a tela nova,
+       então o fade padrão da view transition sai de cena e a tela antiga fica parada por baixo */
+    html.troca-tema::view-transition-old(root),
+    html.troca-tema::view-transition-new(root){
+        animation: none;
+        mix-blend-mode: normal;
+    }
+
+    /* a tela nova é renderizada ao vivo; sem isto, as transições de cor dos componentes
+       fariam o tema novo aparecer "atrasado" dentro do círculo */
+    html.troca-tema *,
+    html.troca-tema *::before,
+    html.troca-tema *::after{
+        transition: none !important;
+    }
+
 `;
