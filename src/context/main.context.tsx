@@ -1,11 +1,12 @@
 import React, { createContext, useState } from "react";
-import { IDisciplina } from "./interfaces/interfaces";
+import { ICurso, IDisciplina } from "./interfaces/interfaces";
 
 interface iMainProviderProps {
   children: React.ReactNode;
 }
 
 interface iMainContext {
+  grade: ICurso[];
   cursos: [] | string[];
   getCursos(): void;
   getSemestres(nomeCurso: string): void;
@@ -26,7 +27,7 @@ interface iMainContext {
 export const MainContext = createContext({} as iMainContext);
 
 export const MainProvider = ({ children }: iMainProviderProps) => {
-  const grade = [
+  const grade: ICurso[] = [
     {
       course_id: 1,
       course_name: "Administração",
@@ -640,6 +641,7 @@ export const MainProvider = ({ children }: iMainProviderProps) => {
   return (
     <MainContext.Provider
       value={{
+        grade,
         cursos,
         getCursos,
         getSemestres,

@@ -111,6 +111,23 @@ export const PdfGeneratorStyle = styled.div`
         color: var(--icon-img);
       }
     }
+
+    .grupo-titulo {
+      display: block;
+      padding: 4px 10px 2px;
+      color: var(--text-muted);
+      font-size: 0.65rem;
+      font-weight: 600;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .divisor {
+      height: 1px;
+      margin: 4px 2px;
+      background-color: var(--border);
+    }
   }
 
   @keyframes modalShow {

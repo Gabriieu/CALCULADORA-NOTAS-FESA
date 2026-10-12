@@ -18,6 +18,7 @@ Com um design moderno, responsivo e intuitivo, o projeto prioriza a experiência
 - ✅ Nota mínima para que a média do bimestre seja ≥5
 - ✅ Salvamento automático no `localStorage`
 - ✅ Geração de boletim de notas em PDF
+- ✅ Relatório geral do curso em PDF, com todas as notas salvas (menu "Gerar arquivo")
 - ✅ Interface amigável e responsiva
 
 ---

@@ -6,10 +6,28 @@ import {
   FaFilePdf,
 } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { ICurso } from "../../context/interfaces/interfaces";
 import { MainContext } from "../../context/main.context";
+import { cursoTemNotas } from "../../shared/utils/notas-salvas";
+import {
+  AVISO_RODAPE,
+  MARGEM,
+  PAGINA_LARGURA,
+  RELATORIO_COR,
+  RODAPE_Y,
+  SITE_URL,
+  carregarImagem,
+  desenharCabecalho,
+  desenharCartoes,
+  desenharFaixas,
+  desenharRodape,
+  type RGB,
+} from "../../shared/utils/relatorio-pdf";
 import { MenuBackdropStyle, PdfGeneratorStyle } from "./pdf-generator.style";
 
-type Formato = "pdf" | "imagem";
+// "pdf" e "imagem" reproduzem a tabela do semestre na tela; "relatorio" reúne todas as notas salvas do curso
+type FormatoTabela = "pdf" | "imagem";
+type Formato = FormatoTabela | "relatorio";
 
 interface IPdfGeneratorProps {
   curso: string;
@@ -40,6 +58,12 @@ const MENSAGENS: Record<
     error:
       "Ops... não foi possível gerar a imagem 😕. Isso pode acontecer devido a alta demanda no servidor. Tente novamente em alguns instantes.",
   },
+  relatorio: {
+    pending: "Estamos gerando o relatório do curso, aguarde um instante...",
+    success: "Relatório gerado com sucesso! 🎉",
+    error:
+      "Ops... não foi possível gerar o relatório 😕. Tente novamente em alguns instantes.",
+  },
 };
 
 async function capturarTabela(): Promise<HTMLCanvasElement> {
@@ -65,24 +89,7 @@ async function capturarTabela(): Promise<HTMLCanvasElement> {
   });
 }
 
-type RGB = readonly [number, number, number];
-
-// paleta do relatório (PDF e imagem), na família de azul do cabeçalho da tabela
-const RELATORIO_COR = {
-  primaria: [0, 119, 204],
-  profunda: [23, 53, 150],
-  titulo: [15, 39, 66],
-  suave: [100, 116, 139],
-  fundo: [243, 247, 251],
-  borda: [214, 224, 236],
-  sombra: [232, 237, 243],
-  branco: [255, 255, 255],
-} as const satisfies Record<string, RGB>;
-
-const SITE_URL = "https://precisoestudar.com.br/";
 const TITULO_RELATORIO = "Relatório de Desempenho Semestral";
-const AVISO_RODAPE =
-  "Este documento não possui validade oficial da Faculdade Engenheiro Salvador Arena";
 
 async function salvarPdf({
   tabela,
@@ -95,13 +102,9 @@ async function salvarPdf({
   const { default: jsPDF } = await import("jspdf");
 
   const imgData = tabela.toDataURL("image/png");
-  const logoImg = await carregarImagem(logo);
   const pdf = new jsPDF("p", "mm", "a4");
 
-  const pageWidth = 210;
-  const pageHeight = 297;
-  const margin = 15;
-  const contentWidth = pageWidth - margin * 2;
+  const contentWidth = PAGINA_LARGURA - MARGEM * 2;
   const imgProps = pdf.getImageProperties(imgData);
 
   pdf.setProperties({
@@ -111,123 +114,41 @@ async function salvarPdf({
     creator: SITE_URL,
   });
 
-  // escreve trechos com estilos diferentes na mesma linha
-  const escreverTrechos = (
-    trechos: { texto: string; negrito?: boolean; cor: RGB }[],
-    x: number,
-    y: number,
-  ) => {
-    let cursor = x;
-    trechos.forEach(({ texto, negrito, cor }) => {
-      pdf.setFont("helvetica", negrito ? "bold" : "normal");
-      pdf.setTextColor(...cor);
-      pdf.text(texto, cursor, y);
-      cursor += pdf.getTextWidth(texto);
-    });
-  };
+  desenharFaixas(pdf);
 
-  // FAIXAS DE TOPO E BASE (espelhadas)
-  pdf.setFillColor(...RELATORIO_COR.profunda);
-  pdf.rect(0, 0, pageWidth, 3, "F");
-  pdf.rect(0, pageHeight - 3, pageWidth, 3, "F");
-  pdf.setFillColor(...RELATORIO_COR.primaria);
-  pdf.rect(0, 3, pageWidth, 1.2, "F");
-  pdf.rect(0, pageHeight - 4.2, pageWidth, 1.2, "F");
+  await desenharCabecalho(pdf, logo, TITULO_RELATORIO, [
+    { texto: "Curso: ", cor: RELATORIO_COR.suave },
+    { texto: curso, negrito: true, cor: RELATORIO_COR.titulo },
+    { texto: "   |   ", cor: RELATORIO_COR.borda },
+    {
+      texto: `${semestre}º semestre`,
+      negrito: true,
+      cor: RELATORIO_COR.titulo,
+    },
+  ]);
 
-  // CABEÇALHO
-  // a logo mantém a proporção original dentro de um quadrado de 24mm
-  const logoBox = 24;
-  const logoScale = Math.min(
-    logoBox / logoImg.naturalWidth,
-    logoBox / logoImg.naturalHeight,
-  );
-  const logoWidth = logoImg.naturalWidth * logoScale;
-  const logoHeight = logoImg.naturalHeight * logoScale;
-  pdf.addImage(
-    logo,
-    "PNG",
-    margin,
-    11 + (logoBox - logoHeight) / 2,
-    logoWidth,
-    logoHeight,
-  );
-
-  const textoX = margin + logoWidth + 6;
-
-  pdf.setFont("helvetica", "bold");
-  pdf.setFontSize(7.5);
-  pdf.setTextColor(...RELATORIO_COR.primaria);
-  pdf.text("CALCULADORA DE NOTAS FESA", textoX, 15.5, { charSpace: 0.5 });
-
-  pdf.setFontSize(18);
-  pdf.setTextColor(...RELATORIO_COR.titulo);
-  pdf.text(TITULO_RELATORIO, textoX, 24);
-
-  pdf.setFontSize(10.5);
-  escreverTrechos(
+  desenharCartoes(
+    pdf,
     [
-      { texto: "Curso: ", cor: RELATORIO_COR.suave },
-      { texto: curso, negrito: true, cor: RELATORIO_COR.titulo },
-      { texto: "   |   ", cor: RELATORIO_COR.borda },
-      {
-        texto: `${semestre}º semestre`,
-        negrito: true,
-        cor: RELATORIO_COR.titulo,
-      },
+      { rotulo: "Data de geração", valor: new Date().toLocaleString() },
+      { rotulo: "Nota formativa", valor: formativa },
     ],
-    textoX,
-    31,
+    47,
   );
-
-  // linha inferior para separar o cabeçalho
-  pdf.setDrawColor(...RELATORIO_COR.borda);
-  pdf.setLineWidth(0.3);
-  pdf.line(margin, 40, pageWidth - margin, 40);
-
-  // CARTÕES DE DADOS RESUMO
-  const cartaoY = 47;
-  const cartaoAltura = 20;
-  const cartaoGap = 6;
-  const cartaoLargura = (contentWidth - cartaoGap) / 2;
-
-  [
-    { rotulo: "Data de geração", valor: new Date().toLocaleString() },
-    { rotulo: "Nota formativa", valor: formativa },
-  ].forEach(({ rotulo, valor }, i) => {
-    const x = margin + i * (cartaoLargura + cartaoGap);
-
-    pdf.setFillColor(...RELATORIO_COR.fundo);
-    pdf.setDrawColor(...RELATORIO_COR.borda);
-    pdf.setLineWidth(0.3);
-    pdf.roundedRect(x, cartaoY, cartaoLargura, cartaoAltura, 2, 2, "FD");
-
-    pdf.setFillColor(...RELATORIO_COR.primaria);
-    pdf.roundedRect(x + 4, cartaoY + 4.5, 1, cartaoAltura - 9, 0.5, 0.5, "F");
-
-    pdf.setFont("helvetica", "bold");
-    pdf.setFontSize(7.5);
-    pdf.setTextColor(...RELATORIO_COR.suave);
-    pdf.text(rotulo.toUpperCase(), x + 8, cartaoY + 8.2, { charSpace: 0.4 });
-
-    pdf.setFontSize(12.5);
-    pdf.setTextColor(...RELATORIO_COR.titulo);
-    pdf.text(valor, x + 8, cartaoY + 15);
-  });
 
   // TÍTULO DA SEÇÃO
   pdf.setFillColor(...RELATORIO_COR.primaria);
-  pdf.rect(margin, 74.2, 1.2, 4.6, "F");
+  pdf.rect(MARGEM, 74.2, 1.2, 4.6, "F");
   pdf.setFont("helvetica", "bold");
   pdf.setFontSize(10);
   pdf.setTextColor(...RELATORIO_COR.titulo);
-  pdf.text("Desempenho por disciplina", margin + 3.5, 77.8);
+  pdf.text("Desempenho por disciplina", MARGEM + 3.5, 77.8);
 
   // INSERE A TABELA CENTRALIZADA, EMOLDURADA
-  const rodapeY = 272;
   const quadroY = 82;
   const quadroPadding = 2.5;
   const larguraMax = contentWidth - quadroPadding * 2;
-  const alturaMax = rodapeY - 5 - quadroY - quadroPadding * 2;
+  const alturaMax = RODAPE_Y - 5 - quadroY - quadroPadding * 2;
 
   // se a tabela for muito alta, reduz mantendo a proporção
   const escala = Math.min(
@@ -238,7 +159,7 @@ async function salvarPdf({
   const imgHeight = imgProps.height * escala;
   const quadroLargura = imgWidth + quadroPadding * 2;
   const quadroAltura = imgHeight + quadroPadding * 2;
-  const quadroX = margin + (contentWidth - quadroLargura) / 2;
+  const quadroX = MARGEM + (contentWidth - quadroLargura) / 2;
 
   // sombra suave
   pdf.setFillColor(...RELATORIO_COR.sombra);
@@ -266,34 +187,9 @@ async function salvarPdf({
     imgHeight,
   );
 
-  // RODAPÉ
-  pdf.setDrawColor(...RELATORIO_COR.borda);
-  pdf.setLineWidth(0.3);
-  pdf.line(margin, rodapeY, pageWidth - margin, rodapeY);
-
-  pdf.setFont("helvetica", "normal");
-  pdf.setFontSize(7.5);
-  pdf.setTextColor(...RELATORIO_COR.suave);
-  pdf.text(AVISO_RODAPE, pageWidth / 2, rodapeY + 6.5, { align: "center" });
-
-  pdf.setFont("helvetica", "bold");
-  pdf.setFontSize(8);
-  pdf.setTextColor(...RELATORIO_COR.primaria);
-  const siteLargura = pdf.getTextWidth(SITE_URL);
-  const siteX = (pageWidth - siteLargura) / 2;
-  pdf.text(SITE_URL, siteX, rodapeY + 11.5);
-  pdf.link(siteX, rodapeY + 8.5, siteLargura, 4, { url: SITE_URL });
+  desenharRodape(pdf);
 
   pdf.save(`${curso} ${semestre}º Semestre.pdf`);
-}
-
-function carregarImagem(src: string): Promise<HTMLImageElement> {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.onload = () => resolve(img);
-    img.onerror = reject;
-    img.src = src;
-  });
 }
 
 // mesmo layout do PDF, desenhado em um canvas. As medidas estão em mm (as
@@ -557,7 +453,7 @@ async function salvarImagem({
 export const PdfGenerator = ({ curso, semestre }: IPdfGeneratorProps) => {
   const [gerando, setGerando] = useState<boolean>(false);
   const [menuAberto, setMenuAberto] = useState<boolean>(false);
-  const { setShowInputPlaceholder } = useContext(MainContext);
+  const { grade, setShowInputPlaceholder } = useContext(MainContext);
 
   useEffect(() => {
     if (!menuAberto) return;
@@ -570,7 +466,7 @@ export const PdfGenerator = ({ curso, semestre }: IPdfGeneratorProps) => {
     return () => document.removeEventListener("keydown", fecharComEsc);
   }, [menuAberto]);
 
-  const gerarArquivo = async (formato: Formato) => {
+  const gerarArquivo = async (formato: FormatoTabela) => {
     setShowInputPlaceholder(false);
     setGerando(true);
     try {
@@ -606,9 +502,41 @@ export const PdfGenerator = ({ curso, semestre }: IPdfGeneratorProps) => {
     }
   };
 
-  const handleGeneration = (formato: Formato) => {
+  // não depende da tabela na tela, então não mexe nos placeholders
+  const gerarRelatorio = async (cursoGrade: ICurso) => {
+    setGerando(true);
+    try {
+      // import dinamico para amenizar sobrecarregamento
+      const { salvarRelatorioCurso } = await import(
+        "../../shared/utils/relatorio-curso-pdf"
+      );
+
+      await salvarRelatorioCurso(cursoGrade);
+    } catch (error) {
+      console.log(error);
+      throw error;
+    } finally {
+      setGerando(false);
+    }
+  };
+
+  const handleGeneration = (formato: FormatoTabela) => {
     setMenuAberto(false);
     toast.promise(gerarArquivo(formato), MENSAGENS[formato]);
+  };
+
+  const handleRelatorio = () => {
+    setMenuAberto(false);
+
+    const cursoGrade = grade.find((c) => c.course_name === curso);
+    if (!cursoGrade) return;
+
+    if (!cursoTemNotas(cursoGrade)) {
+      toast.info("Ainda não há notas salvas neste curso para gerar o relatório.");
+      return;
+    }
+
+    toast.promise(gerarRelatorio(cursoGrade), MENSAGENS.relatorio);
   };
 
   return (
@@ -636,22 +564,44 @@ export const PdfGenerator = ({ curso, semestre }: IPdfGeneratorProps) => {
 
       {menuAberto && (
         <div className="menu" role="menu">
-          <button
-            type="button"
-            role="menuitem"
-            onClick={() => handleGeneration("pdf")}
-          >
-            <FaFilePdf className="icon-pdf" />
-            PDF
-          </button>
-          <button
-            type="button"
-            role="menuitem"
-            onClick={() => handleGeneration("imagem")}
-          >
-            <FaFileImage className="icon-imagem" />
-            Imagem (PNG)
-          </button>
+          <div role="group" aria-labelledby="grupo-semestre">
+            <span id="grupo-semestre" className="grupo-titulo">
+              Semestre atual ({semestre}º)
+            </span>
+            <button
+              type="button"
+              role="menuitem"
+              onClick={() => handleGeneration("pdf")}
+            >
+              <FaFilePdf className="icon-pdf" />
+              Documento (PDF)
+            </button>
+            <button
+              type="button"
+              role="menuitem"
+              onClick={() => handleGeneration("imagem")}
+            >
+              <FaFileImage className="icon-imagem" />
+              Imagem (PNG)
+            </button>
+          </div>
+
+          <div className="divisor" role="separator" />
+
+          <div role="group" aria-labelledby="grupo-curso">
+            <span id="grupo-curso" className="grupo-titulo">
+              Curso completo
+            </span>
+            <button
+              type="button"
+              role="menuitem"
+              title="Todas as notas salvas do curso, separadas por semestre"
+              onClick={handleRelatorio}
+            >
+              <FaFilePdf className="icon-pdf" />
+              Relatório (PDF)
+            </button>
+          </div>
         </div>
       )}
     </PdfGeneratorStyle>
