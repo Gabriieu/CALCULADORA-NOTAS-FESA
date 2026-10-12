@@ -1,11 +1,12 @@
 import { IoCheckmarkSharp } from "react-icons/io5";
+import { gravarItem } from "../../shared/utils/armazenamento";
 import { AvisoModalStyle, BackgroudModalStyle } from "./modal-aviso.style";
 
 export const AvisoModalComponent = ({ onCiente }: { onCiente: () => void }) => {
   function ciente() {
     const now = new Date();
-    localStorage.setItem("ciente", "true");
-    localStorage.setItem("cienteData", now.toISOString()); // salva a data de aceite
+    gravarItem("ciente", "true");
+    gravarItem("cienteData", now.toISOString()); // salva a data de aceite
     onCiente();
   }
 

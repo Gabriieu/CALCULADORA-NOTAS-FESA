@@ -152,6 +152,33 @@ export const MainStyle = styled.main`
     overflow-x: auto;
   }
 
+  /* sombra na borda direita enquanto há colunas escondidas: no iOS a barra de rolagem só aparece
+     durante o arrasto. Fica fora do #table-container, então não entra no PDF nem no PNG */
+  .table-wrapper {
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 28px;
+      background: linear-gradient(
+        to left,
+        rgba(0, 0, 0, 0.22),
+        rgba(0, 0, 0, 0)
+      );
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    &[data-colunas-a-direita="true"]::after {
+      opacity: 1;
+    }
+  }
+
   table {
     width: 100%;
     border-collapse: collapse;
@@ -235,11 +262,13 @@ export const MainStyle = styled.main`
     tbody td:first-child {
       background-color: var(--surface);
 
-      &:hover {
-        background-image: linear-gradient(
-          rgba(13, 110, 253, 0.05),
-          rgba(13, 110, 253, 0.05)
-        );
+      @media (hover: hover) {
+        &:hover {
+          background-image: linear-gradient(
+            rgba(13, 110, 253, 0.05),
+            rgba(13, 110, 253, 0.05)
+          );
+        }
       }
     }
   }

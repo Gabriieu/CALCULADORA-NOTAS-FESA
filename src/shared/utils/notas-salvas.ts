@@ -1,4 +1,5 @@
 import { ICurso } from "../../context/interfaces/interfaces";
+import { lerItem, listarChaves } from "./armazenamento";
 
 // chaves das notas no localStorage (ver input.component e input-formativa.component):
 //   disciplina:  `${curso}_${disciplina}_${n1|n2}_${bimestre}` (não depende do semestre)
@@ -30,15 +31,11 @@ export interface INotasSemestre {
 // null = nota não informada. Ao adicionar uma DP o app grava o nome da disciplina no lugar da
 // N1 do 1º bimestre (é o que marca que a DP existe), então qualquer valor não numérico é ignorado
 function lerNota(chave: string): number | null {
-  try {
-    const valor = localStorage.getItem(chave);
-    if (valor === null || valor.trim() === "") return null;
+  const valor = lerItem(chave);
+  if (valor === null || valor.trim() === "") return null;
 
-    const nota = Number(valor);
-    return Number.isFinite(nota) ? nota : null;
-  } catch {
-    return null;
-  }
+  const nota = Number(valor);
+  return Number.isFinite(nota) ? nota : null;
 }
 
 // nomes das DPs do curso, por semestre
@@ -46,20 +43,15 @@ function listarDPs(curso: string): Map<number, Set<string>> {
   const prefixo = `DP_${curso}_`;
   const nomesPorSemestre = new Map<number, Set<string>>();
 
-  try {
-    for (let i = 0; i < localStorage.length; i++) {
-      const chave = localStorage.key(i);
-      if (!chave?.startsWith(prefixo)) continue;
+  for (const chave of listarChaves()) {
+    if (!chave.startsWith(prefixo)) continue;
 
-      const partes = /^(.+)_n[12]_[12]_(\d+)$/.exec(chave.slice(prefixo.length));
-      if (!partes) continue;
+    const partes = /^(.+)_n[12]_[12]_(\d+)$/.exec(chave.slice(prefixo.length));
+    if (!partes) continue;
 
-      const semestre = Number(partes[2]);
-      const nomes = nomesPorSemestre.get(semestre) ?? new Set<string>();
-      nomesPorSemestre.set(semestre, nomes.add(partes[1]));
-    }
-  } catch {
-    // sem acesso ao armazenamento: segue como se não houvesse DPs
+    const semestre = Number(partes[2]);
+    const nomes = nomesPorSemestre.get(semestre) ?? new Set<string>();
+    nomesPorSemestre.set(semestre, nomes.add(partes[1]));
   }
 
   return nomesPorSemestre;

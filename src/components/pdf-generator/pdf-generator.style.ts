@@ -35,12 +35,13 @@ export const PdfGeneratorStyle = styled.div`
     border-radius: 6px;
     padding: 10px;
     font-size: 0.8rem;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     cursor: pointer;
     transition: background-color 0.2s ease;
 
-    &:hover {
-      background-color: var(--hover-bg);
+    @media (hover: hover) {
+      &:hover {
+        background-color: var(--hover-bg);
+      }
     }
 
     &:disabled {
@@ -91,12 +92,13 @@ export const PdfGeneratorStyle = styled.div`
       background: none;
       color: var(--text);
       font-size: 0.8rem;
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
       text-align: left;
       cursor: pointer;
 
-      &:hover {
-        background-color: var(--hover-bg);
+      @media (hover: hover) {
+        &:hover {
+          background-color: var(--hover-bg);
+        }
       }
 
       svg {
@@ -118,7 +120,6 @@ export const PdfGeneratorStyle = styled.div`
       color: var(--text-muted);
       font-size: 0.65rem;
       font-weight: 600;
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
       letter-spacing: 0.04em;
       text-transform: uppercase;
     }

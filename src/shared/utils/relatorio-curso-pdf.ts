@@ -11,6 +11,7 @@ import {
   RELATORIO_COR,
   RODAPE_Y,
   SITE_URL,
+  dataGeracao,
   desenharCabecalho,
   desenharCartoes,
   desenharFaixas,
@@ -341,7 +342,7 @@ export async function salvarRelatorioCurso(curso: ICurso) {
   desenharCartoes(
     pdf,
     [
-      { rotulo: "Data de geração", valor: new Date().toLocaleString() },
+      { rotulo: "Data de geração", valor: dataGeracao() },
       {
         rotulo: "Semestres com notas",
         valor: `${semestres.length} de ${curso.course_semesters.length}`,

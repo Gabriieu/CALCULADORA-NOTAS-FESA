@@ -85,8 +85,10 @@ export const ThemeToggle = styled.button`
   font-size: 1.2rem;
   transition: background 0.2s ease;
 
-  &:hover {
-    background: var(--hover-bg);
+  @media (hover: hover) {
+    &:hover {
+      background: var(--hover-bg);
+    }
   }
 
   ${anelDeFoco}
@@ -127,8 +129,10 @@ export const Navegacao = styled.nav<{ $aberto: boolean }>`
       font-size: 1.1rem;
     }
 
-    &:hover {
-      background: var(--hover-bg);
+    @media (hover: hover) {
+      &:hover {
+        background: var(--hover-bg);
+      }
     }
 
     &.active {

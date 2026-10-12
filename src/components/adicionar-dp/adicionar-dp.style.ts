@@ -11,12 +11,13 @@ export const AdicionarDPStyle = styled.div`
     border-radius: 6px;
     padding: 10px;
     font-size: 0.8rem;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     cursor: pointer;
     transition: background-color 0.2s ease;
 
-    &:hover {
-      background-color: var(--hover-bg);
+    @media (hover: hover) {
+      &:hover {
+        background-color: var(--hover-bg);
+      }
     }
 
     svg {
@@ -41,7 +42,6 @@ export const AdicionarDPStyle = styled.div`
     width: 400px;
     max-width: 90%;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     background-color: var(--surface);
     color: var(--text);
     z-index: 1000;
@@ -57,7 +57,8 @@ export const AdicionarDPStyle = styled.div`
     select {
       width: 100%;
       padding: 0.5rem;
-      font-size: 0.9rem;
+      /* abaixo de 16px o Safari do iOS dá zoom na página ao focar o campo */
+      font-size: 1rem;
       border: 1px solid var(--border-input);
       border-radius: 4px;
       margin-bottom: 1rem;
@@ -81,8 +82,10 @@ export const AdicionarDPStyle = styled.div`
       font-size: 0.9rem;
       transition: background-color 0.2s ease;
 
-      &:hover {
-        background-color: #0f276d;
+      @media (hover: hover) {
+        &:hover {
+          background-color: #0f276d;
+        }
       }
     }
 

@@ -16,7 +16,11 @@ import { TableRowComponent } from "../../components/table-row/table-row.componen
 import { MainContext } from "../../context/main.context";
 import { useTema } from "../../context/theme.context";
 import {
+  gravarItem,
+  lerItem,
   lerUltimaSelecao,
+  listarChaves,
+  removerItem,
   salvarUltimaSelecao,
 } from "../../shared/utils/armazenamento";
 import { MainStyle } from "./home-page.style";
@@ -48,15 +52,17 @@ export const HomePage = () => {
   const [ciente, setCiente] = useState<boolean>(false);
   const [leuAvisoDP, setLeuAvisoDP] = useState<boolean>(false);
   const [disciplinaFixa, setDisciplinaFixa] = useState<boolean>(
-    () => localStorage.getItem("disciplinaFixa") === "true",
+    () => lerItem("disciplinaFixa") === "true",
   );
   const [tabelaComScroll, setTabelaComScroll] = useState<boolean>(false);
+  // ainda há colunas escondidas à direita; no iOS a barra de rolagem só aparece enquanto se arrasta
+  const [colunasADireita, setColunasADireita] = useState<boolean>(false);
   const tableContainerRef = useRef<HTMLDivElement>(null);
 
   function alternarDisciplinaFixa() {
     const fixar = !disciplinaFixa;
     setDisciplinaFixa(fixar);
-    localStorage.setItem("disciplinaFixa", String(fixar));
+    gravarItem("disciplinaFixa", String(fixar));
   }
 
   useEffect(() => {
@@ -65,16 +71,28 @@ export const HomePage = () => {
 
     if (!container || !table) {
       setTabelaComScroll(false);
+      setColunasADireita(false);
       return;
     }
 
-    const observer = new ResizeObserver(() =>
-      setTabelaComScroll(container.scrollWidth > container.clientWidth),
-    );
+    const atualizarRolagem = () => {
+      setTabelaComScroll(container.scrollWidth > container.clientWidth);
+      setColunasADireita(
+        Math.ceil(container.scrollLeft + container.clientWidth) <
+          container.scrollWidth - 1,
+      );
+    };
+
+    atualizarRolagem();
+    const observer = new ResizeObserver(atualizarRolagem);
     observer.observe(container);
     observer.observe(table);
+    container.addEventListener("scroll", atualizarRolagem, { passive: true });
 
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      container.removeEventListener("scroll", atualizarRolagem);
+    };
   }, [cursoSelecionado, semestreSelecionado, disciplinas, disciplinasDP]);
 
   // carrega a tabela do último curso/semestre antes da primeira pintura, sem piscar vazia
@@ -101,8 +119,8 @@ export const HomePage = () => {
   }
 
   useEffect(() => {
-    const ciente = localStorage.getItem("ciente");
-    const cienteData = localStorage.getItem("cienteData");
+    const ciente = lerItem("ciente");
+    const cienteData = lerItem("cienteData");
 
     if (ciente === "true" && cienteData) {
       const dataAceite = new Date(cienteData);
@@ -113,8 +131,8 @@ export const HomePage = () => {
         (agora.getMonth() - dataAceite.getMonth());
 
       if (diffMeses >= 2) {
-        localStorage.removeItem("ciente");
-        localStorage.removeItem("cienteData");
+        removerItem("ciente");
+        removerItem("cienteData");
         setCiente(false);
       } else {
         setCiente(true);
@@ -157,7 +175,7 @@ export const HomePage = () => {
     }
 
     const key = `DP_${cursoSelecionado}_${disciplina}_${tipoNota}_${bimestre}_${semestreSelecionado}`;
-    localStorage.setItem(key, disciplina);
+    gravarItem(key, disciplina);
 
     setDisciplinasDP((prev) => [...prev, disciplina]);
 
@@ -171,9 +189,8 @@ export const HomePage = () => {
     const dpPrefix = `DP_${cursoSelecionado}_`;
     const dpSet = new Set<string>();
 
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (key && key.startsWith(dpPrefix)) {
+    for (const key of listarChaves()) {
+      if (key.startsWith(dpPrefix)) {
         const parts = key.split("_");
         const semestre = Number(parts[parts.length - 1]);
 
@@ -197,19 +214,19 @@ export const HomePage = () => {
 
     const prefix = `DP_${cursoSelecionado}_${disciplina}_`;
 
-    Object.keys(localStorage)
+    listarChaves()
       .filter((key) => key.startsWith(prefix))
-      .forEach((key) => localStorage.removeItem(key));
+      .forEach(removerItem);
 
     setDisciplinasDP((prev) => prev.filter((dp) => dp !== disciplina));
   }
 
   function avisoExclusaoDP() {
-    const jaLeuAviso = localStorage.getItem("leuAvisoDP") === "true";
+    const jaLeuAviso = lerItem("leuAvisoDP") === "true";
     if (jaLeuAviso || leuAvisoDP) return;
 
     toast.warning(
-      <div style={{ textAlign: "center", fontFamily: "Poppins, sans-serif" }}>
+      <div style={{ textAlign: "center" }}>
         <p
           style={{ margin: 0, fontSize: "0.9rem", color: "var(--text-muted)" }}
         >
@@ -229,7 +246,7 @@ export const HomePage = () => {
             transition: "transform 0.2s ease, box-shadow 0.3s ease",
           }}
           onClick={() => {
-            localStorage.setItem("leuAvisoDP", "true");
+            gravarItem("leuAvisoDP", "true");
             toast.dismiss();
           }}
           onMouseEnter={(e) => {
@@ -255,7 +272,7 @@ export const HomePage = () => {
     );
 
     setLeuAvisoDP(true);
-    localStorage.setItem("leuAvisoDP", "true");
+    gravarItem("leuAvisoDP", "true");
   }
 
   return (
@@ -325,73 +342,78 @@ export const HomePage = () => {
         ) : null}
 
         <section>
-          <div id="table-container" ref={tableContainerRef}>
-            {cursoSelecionado && semestreSelecionado ? (
-              <table
-                // a key faz a tabela ser montada de novo (e animar) a cada curso/semestre escolhido
-                key={`${cursoSelecionado}_${semestreSelecionado}`}
-                data-disciplina-fixa={disciplinaFixa && tabelaComScroll}
-              >
-                <thead>
-                  <tr>
-                    <th rowSpan={2}>
-                      <div className="th-disciplina">
-                        <span>DISCIPLINA</span>
-                        {tabelaComScroll && (
-                          <button
-                            type="button"
-                            className="btn-fixar-disciplina"
-                            aria-pressed={disciplinaFixa}
-                            aria-label="Fixar coluna Disciplina"
-                            title={
-                              disciplinaFixa
-                                ? "Desafixar coluna Disciplina"
-                                : "Fixar coluna Disciplina"
-                            }
-                            onClick={alternarDisciplinaFixa}
-                            data-html2canvas-ignore
-                          >
-                            {disciplinaFixa ? <FaLock /> : <FaLockOpen />}
-                          </button>
-                        )}
-                      </div>
-                    </th>
-                    <th colSpan={3}>1º BIMESTRE</th>
-                    <th colSpan={3}>2º BIMESTRE</th>
-                    <th rowSpan={2}>MÉDIA FINAL</th>
-                  </tr>
-                  <tr>
-                    <th>N1</th>
-                    <th>N2</th>
-                    <th>MÉDIA B1</th>
-                    <th>N1</th>
-                    <th>N2</th>
-                    <th>MÉDIA B2</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {disciplinas.map((disciplina) => (
-                    <TableRowComponent
-                      key={`${cursoSelecionado}_${disciplina.nome}`}
-                      curso={cursoSelecionado ?? ""}
-                      disciplina={disciplina.nome}
-                      semestre={semestreSelecionado!}
-                    />
-                  ))}
-                  {/* disciplinas DP */}
-                  {disciplinasDP.map((dp, index) => (
-                    <TableRowComponent
-                      key={`DP_${index}`}
-                      curso={cursoSelecionado ?? ""}
-                      disciplina={dp}
-                      semestre={semestreSelecionado!}
-                      DP={true}
-                      onExcluirDP={excluirDP}
-                    />
-                  ))}
-                </tbody>
-              </table>
-            ) : null}
+          <div
+            className="table-wrapper"
+            data-colunas-a-direita={colunasADireita}
+          >
+            <div id="table-container" ref={tableContainerRef}>
+              {cursoSelecionado && semestreSelecionado ? (
+                <table
+                  // a key faz a tabela ser montada de novo (e animar) a cada curso/semestre escolhido
+                  key={`${cursoSelecionado}_${semestreSelecionado}`}
+                  data-disciplina-fixa={disciplinaFixa && tabelaComScroll}
+                >
+                  <thead>
+                    <tr>
+                      <th rowSpan={2}>
+                        <div className="th-disciplina">
+                          <span>DISCIPLINA</span>
+                          {tabelaComScroll && (
+                            <button
+                              type="button"
+                              className="btn-fixar-disciplina"
+                              aria-pressed={disciplinaFixa}
+                              aria-label="Fixar coluna Disciplina"
+                              title={
+                                disciplinaFixa
+                                  ? "Desafixar coluna Disciplina"
+                                  : "Fixar coluna Disciplina"
+                              }
+                              onClick={alternarDisciplinaFixa}
+                              data-html2canvas-ignore
+                            >
+                              {disciplinaFixa ? <FaLock /> : <FaLockOpen />}
+                            </button>
+                          )}
+                        </div>
+                      </th>
+                      <th colSpan={3}>1º BIMESTRE</th>
+                      <th colSpan={3}>2º BIMESTRE</th>
+                      <th rowSpan={2}>MÉDIA FINAL</th>
+                    </tr>
+                    <tr>
+                      <th>N1</th>
+                      <th>N2</th>
+                      <th>MÉDIA B1</th>
+                      <th>N1</th>
+                      <th>N2</th>
+                      <th>MÉDIA B2</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {disciplinas.map((disciplina) => (
+                      <TableRowComponent
+                        key={`${cursoSelecionado}_${disciplina.nome}`}
+                        curso={cursoSelecionado ?? ""}
+                        disciplina={disciplina.nome}
+                        semestre={semestreSelecionado!}
+                      />
+                    ))}
+                    {/* disciplinas DP */}
+                    {disciplinasDP.map((dp, index) => (
+                      <TableRowComponent
+                        key={`DP_${index}`}
+                        curso={cursoSelecionado ?? ""}
+                        disciplina={dp}
+                        semestre={semestreSelecionado!}
+                        DP={true}
+                        onExcluirDP={excluirDP}
+                      />
+                    ))}
+                  </tbody>
+                </table>
+              ) : null}
+            </div>
           </div>
 
           {cursoSelecionado ? (

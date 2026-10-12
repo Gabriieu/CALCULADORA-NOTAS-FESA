@@ -17,6 +17,7 @@ import {
   RODAPE_Y,
   SITE_URL,
   carregarImagem,
+  dataGeracao,
   desenharCabecalho,
   desenharCartoes,
   desenharFaixas,
@@ -130,7 +131,7 @@ async function salvarPdf({
   desenharCartoes(
     pdf,
     [
-      { rotulo: "Data de geração", valor: new Date().toLocaleString() },
+      { rotulo: "Data de geração", valor: dataGeracao() },
       { rotulo: "Nota formativa", valor: formativa },
     ],
     47,
@@ -235,6 +236,10 @@ async function salvarImagem({
   const fonte = "Arial, Helvetica, sans-serif";
   const rgb = ([r, g, b]: RGB) => `rgb(${r}, ${g}, ${b})`;
 
+  // o letterSpacing do canvas só existe a partir do Safari 18.4; antes disso o espaçamento é
+  // desenhado letra a letra
+  const letterSpacingNativo = typeof ctx.letterSpacing === "string";
+
   // o tamanho é em pt (como no PDF), convertido para mm, a unidade do canvas
   const escrever = (
     texto: string,
@@ -250,11 +255,40 @@ async function salvarImagem({
   ) => {
     const { tamanho, negrito, alinhar = "left", charSpace = 0 } = opcoes;
     ctx.font = `${negrito ? "bold " : ""}${(tamanho * 25.4) / 72}px ${fonte}`;
-    ctx.letterSpacing = `${charSpace}px`;
-    ctx.textAlign = alinhar;
     ctx.fillStyle = rgb(opcoes.cor);
+
+    // só textos alinhados à esquerda usam espaçamento entre letras
+    if (charSpace > 0 && !letterSpacingNativo) {
+      ctx.textAlign = "left";
+      let cursor = x;
+      for (const letra of texto) {
+        ctx.fillText(letra, cursor, y);
+        cursor += ctx.measureText(letra).width + charSpace;
+      }
+      return cursor - x;
+    }
+
+    if (letterSpacingNativo) ctx.letterSpacing = `${charSpace}px`;
+    ctx.textAlign = alinhar;
     ctx.fillText(texto, x, y);
     return ctx.measureText(texto).width;
+  };
+
+  // o roundRect só existe a partir do Safari 16; o caminho com arcTo funciona em qualquer versão
+  const caminhoArredondado = (
+    x: number,
+    y: number,
+    largura: number,
+    altura: number,
+    raio: number,
+  ) => {
+    const r = Math.min(raio, largura / 2, altura / 2);
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + largura, y, x + largura, y + altura, r);
+    ctx.arcTo(x + largura, y + altura, x, y + altura, r);
+    ctx.arcTo(x, y + altura, x, y, r);
+    ctx.arcTo(x, y, x + largura, y, r);
+    ctx.closePath();
   };
 
   const retangulo = (
@@ -267,7 +301,7 @@ async function salvarImagem({
     borda: RGB | null = null,
   ) => {
     ctx.beginPath();
-    ctx.roundRect(x, y, largura, altura, raio);
+    caminhoArredondado(x, y, largura, altura, raio);
     if (preenchimento) {
       ctx.fillStyle = rgb(preenchimento);
       ctx.fill();
@@ -354,7 +388,7 @@ async function salvarImagem({
   const cartaoLargura = (larguraConteudo - cartaoGap) / 2;
 
   [
-    { rotulo: "Data de geração", valor: new Date().toLocaleString() },
+    { rotulo: "Data de geração", valor: dataGeracao() },
     { rotulo: "Nota formativa", valor: formativa },
   ].forEach(({ rotulo, valor }, i) => {
     const x = margem + i * (cartaoLargura + cartaoGap);

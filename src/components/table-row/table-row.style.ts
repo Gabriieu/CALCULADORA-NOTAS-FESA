@@ -10,8 +10,10 @@ export const TableRowStyle = styled.tr`
     transition: background 0.2s;
   }
 
-  .class:hover {
-    background-color: rgba(13, 110, 253, 0.05);
+  @media (hover: hover) {
+    .class:hover {
+      background-color: rgba(13, 110, 253, 0.05);
+    }
   }
 
   .DP::after {
@@ -23,10 +25,7 @@ export const TableRowStyle = styled.tr`
   .DP {
     position: relative;
     z-index: 0;
-
-    &:hover {
-      cursor: pointer;
-    }
+    cursor: pointer;
 
     .trash-overlay {
       position: absolute;
@@ -43,21 +42,25 @@ export const TableRowStyle = styled.tr`
       transition: opacity 0.3s ease;
     }
 
-    &:hover .trash-overlay {
-      opacity: 1;
-    }
-
     .trash-icon {
       transform: rotate(-90deg) scale(0.8);
       transition: transform 0.5s ease;
     }
 
-    &:hover .trash-icon {
-      transform: rotate(0deg) scale(1);
-    }
+    /* só com mouse: no iOS o primeiro toque viraria "hover" e o clique que exclui a DP se perderia.
+       Em telas de toque a lixeira fica invisível, mas o toque na célula continua excluindo */
+    @media (hover: hover) {
+      &:hover .trash-overlay {
+        opacity: 1;
+      }
 
-    .trash-overlay:hover {
-      background-color: rgba(245, 90, 90, 0.35);
+      &:hover .trash-icon {
+        transform: rotate(0deg) scale(1);
+      }
+
+      .trash-overlay:hover {
+        background-color: rgba(245, 90, 90, 0.35);
+      }
     }
   }
 `;
@@ -120,8 +123,10 @@ export const TableRowDialogStyle = styled.div`
       background-color: #dc3545;
       color: #fff;
 
-      &:hover {
-        background-color: #bb2d3b;
+      @media (hover: hover) {
+        &:hover {
+          background-color: #bb2d3b;
+        }
       }
     }
 
@@ -129,8 +134,10 @@ export const TableRowDialogStyle = styled.div`
       background-color: var(--btn-neutral-bg);
       color: var(--text);
 
-      &:hover {
-        background-color: var(--btn-neutral-hover);
+      @media (hover: hover) {
+        &:hover {
+          background-color: var(--btn-neutral-hover);
+        }
       }
     }
   }
@@ -138,12 +145,10 @@ export const TableRowDialogStyle = styled.div`
 
 export const BackgroudModalStyle = styled.div`
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  inset: 0;
   z-index: 10;
   background-color: rgba(0, 0, 0, 0.45);
+  -webkit-backdrop-filter: blur(2px);
   backdrop-filter: blur(2px);
   animation: fadeIn 0.2s ease;
 

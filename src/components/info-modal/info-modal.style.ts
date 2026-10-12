@@ -6,12 +6,10 @@ export const FormativaModalStyle = styled.div`
 
   #modal-background {
     background-color: rgba(0, 0, 0, 0.4);
-    width: 100vw;
-    height: 100vh;
     position: fixed;
-    top: 0;
-    left: 0;
+    inset: 0;
     z-index: 1050;
+    -webkit-backdrop-filter: blur(2px);
     backdrop-filter: blur(2px);
   }
 
@@ -22,13 +20,16 @@ export const FormativaModalStyle = styled.div`
     transition: color 0.2s ease;
   }
 
-  .icon:hover {
-    color: #007bff;
+  @media (hover: hover) {
+    .icon:hover {
+      color: #007bff;
+    }
   }
 
   dialog {
     z-index: 1;
-    width: 100vw;
+    /* 100vw sozinho, com right: 1rem, empurrava o diálogo 1rem para fora da tela no celular */
+    width: calc(100vw - 2rem);
     padding: 1rem;
     background: var(--surface);
     color: var(--text);
@@ -60,16 +61,12 @@ export const FormativaModalStyle = styled.div`
     }
 
     strong {
-      font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
-        sans-serif;
       font-style: oblique;
     }
 
     p {
       text-align: justify;
       line-height: 1.4;
-      font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
-        sans-serif;
     }
 
     #att {

@@ -54,9 +54,11 @@ export const Page404Style = styled.div`
     text-decoration: none;
     transition: background-color 0.25s ease, transform 0.25s ease;
 
-    &:hover {
-      background-color: #005fa3;
-      transform: translateY(-2px);
+    @media (hover: hover) {
+      &:hover {
+        background-color: #005fa3;
+        transform: translateY(-2px);
+      }
     }
   }
 `;

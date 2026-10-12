@@ -21,6 +21,7 @@ export const BackgroundConfirmacaoStyle = styled.div`
   justify-content: center;
   padding: 1rem;
   background-color: rgba(0, 0, 0, 0.45);
+  -webkit-backdrop-filter: blur(2px);
   backdrop-filter: blur(2px);
 `;
 
@@ -65,8 +66,10 @@ export const ModalConfirmacaoStyle = styled.div`
       border-radius: 8px;
       transition: all 0.2s ease;
 
-      &:hover {
-        transform: translateY(-2px);
+      @media (hover: hover) {
+        &:hover {
+          transform: translateY(-2px);
+        }
       }
 
       &:focus-visible {
@@ -79,8 +82,10 @@ export const ModalConfirmacaoStyle = styled.div`
       background-color: var(--btn-neutral-bg);
       color: var(--text-strong);
 
-      &:hover {
-        background-color: var(--btn-neutral-hover);
+      @media (hover: hover) {
+        &:hover {
+          background-color: var(--btn-neutral-hover);
+        }
       }
     }
 
@@ -88,8 +93,10 @@ export const ModalConfirmacaoStyle = styled.div`
       background-color: #dc3545;
       color: #fff;
 
-      &:hover {
-        background-color: #bb2d3b;
+      @media (hover: hover) {
+        &:hover {
+          background-color: #bb2d3b;
+        }
       }
     }
   }

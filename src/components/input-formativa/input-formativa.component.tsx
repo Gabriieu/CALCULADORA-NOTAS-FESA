@@ -1,4 +1,9 @@
 import { useEffect, useState } from "react";
+import {
+  gravarItem,
+  lerItem,
+  removerItem,
+} from "../../shared/utils/armazenamento";
 import { InputFormativaStyle } from "./input-formativa.style";
 
 interface IInputProp {
@@ -11,7 +16,7 @@ export const InputFormativaComponent = ({ curso, semestre }: IInputProp) => {
   const [nota, setNota] = useState<number | "">("");
 
   useEffect(() => {
-    const notaSalva = Number(localStorage.getItem(storageKey)) || '';
+    const notaSalva = Number(lerItem(storageKey)) || '';
 
     setNota(notaSalva);
   }, [storageKey]);
@@ -21,7 +26,7 @@ export const InputFormativaComponent = ({ curso, semestre }: IInputProp) => {
 
     if (valor === "") {
       setNota("");
-      localStorage.removeItem(storageKey);
+      removerItem(storageKey);
     } else {
       const numero = Number(valor);
 
@@ -30,7 +35,7 @@ export const InputFormativaComponent = ({ curso, semestre }: IInputProp) => {
 
       if (valido) {
         setNota(numero);
-        localStorage.setItem(storageKey, String(numero));
+        gravarItem(storageKey, String(numero));
       }
     }
   };

@@ -124,9 +124,11 @@ export const AboutPageStyle = styled.div`
       border-radius: 8px;
       transition: background-color 0.2s ease, transform 0.2s ease;
 
-      &:hover:enabled {
-        background: #bb2d3b;
-        transform: translateY(-2px);
+      @media (hover: hover) {
+        &:hover:enabled {
+          background: #bb2d3b;
+          transform: translateY(-2px);
+        }
       }
 
       &:focus-visible {
@@ -173,9 +175,11 @@ export const AboutPageStyle = styled.div`
       border-radius: 8px;
       transition: background-color 0.2s ease, transform 0.2s ease;
 
-      &:hover {
-        background: var(--btn-neutral-hover);
-        transform: translateY(-2px);
+      @media (hover: hover) {
+        &:hover {
+          background: var(--btn-neutral-hover);
+          transform: translateY(-2px);
+        }
       }
 
       &:focus-visible {

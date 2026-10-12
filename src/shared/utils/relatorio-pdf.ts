@@ -30,6 +30,10 @@ export interface ITrecho {
   cor: RGB;
 }
 
+// sem o locale, a data sairia no formato da região do aparelho (ex.: "3:45:12 PM"), e o espaço
+// especial antes do AM/PM não existe na fonte padrão do PDF
+export const dataGeracao = () => new Date().toLocaleString("pt-BR");
+
 export function carregarImagem(src: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const img = new Image();

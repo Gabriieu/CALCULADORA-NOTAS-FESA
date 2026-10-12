@@ -1,5 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import { MainContext } from "../../context/main.context";
+import {
+  assinarArmazenamento,
+  gravarItem,
+  lerItem,
+  removerItem,
+} from "../../shared/utils/armazenamento";
 import { InputStyle } from "./input.style";
 
 interface IInputProp {
@@ -44,7 +50,7 @@ export const InputComponent = ({
 
     const atualizaValores = () => {
       // Valor principal do input
-      const notaSalva = localStorage.getItem(key);
+      const notaSalva = lerItem(key);
       if (notaSalva !== null && !isNaN(Number(notaSalva))) {
         setNota(Number(notaSalva));
       } else {
@@ -52,13 +58,13 @@ export const InputComponent = ({
       }
 
       // N1
-      const valorN1 = localStorage.getItem(n1Key);
+      const valorN1 = lerItem(n1Key);
       setN1(
         valorN1 !== null && !isNaN(Number(valorN1)) ? Number(valorN1) : null
       );
 
       // Formativa
-      const valorFormativa = localStorage.getItem(formativaKey);
+      const valorFormativa = lerItem(formativaKey);
       setFormativa(
         valorFormativa !== null && !isNaN(Number(valorFormativa))
           ? Number(valorFormativa)
@@ -67,8 +73,8 @@ export const InputComponent = ({
     };
 
     atualizaValores();
-    const interval = setInterval(atualizaValores, 500);
-    return () => clearInterval(interval);
+    // as outras notas mudam em outros inputs; reage a qualquer gravação em vez de ficar consultando
+    return assinarArmazenamento(atualizaValores);
   }, [curso, disciplina, tipo, bimestre, semestre, DP, n1Key, formativaKey]);
 
   // Atualiza placeholder (nota mínima para aprovação)
@@ -101,12 +107,12 @@ export const InputComponent = ({
 
     if (valor === "") {
       setNota("");
-      localStorage.removeItem(storageKey);
+      removerItem(storageKey);
     } else {
       const numero = Number(valor);
       if (!isNaN(numero) && numero >= 0 && numero <= 10) {
         setNota(numero);
-        localStorage.setItem(storageKey, String(numero));
+        gravarItem(storageKey, String(numero));
       }
     }
   };

@@ -60,6 +60,13 @@ export const AboutPage = () => {
             navegador ou de aparelho, você perde seus dados.
           </p>
           <p>
+            No Safari (iPhone e iPad), o navegador pode apagar os dados de um
+            site se você passar cerca de 7 dias de uso do Safari sem abri-lo.
+            Adicionar o site à <strong>Tela de Início</strong> (Compartilhar →
+            Adicionar à Tela de Início) reduz esse risco. Para não perder suas
+            notas, baixe o PDF de tempos em tempos.
+          </p>
+          <p>
             O site utiliza ferramentas exclusivamente para análise de tráfego,
             que não têm acesso aos seus dados pessoais.
           </p>

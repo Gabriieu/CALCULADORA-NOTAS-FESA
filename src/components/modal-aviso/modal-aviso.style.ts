@@ -27,8 +27,6 @@ export const AvisoModalStyle = styled.div`
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
   animation: ${modalAppear} 0.3s ease-out;
 
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-
   .title {
     font-size: 1.6rem;
     color: var(--primary-text);
@@ -67,8 +65,10 @@ export const AvisoModalStyle = styled.div`
         flex-shrink: 0;
       }
 
-      &:hover {
-        transform: translateY(-2px);
+      @media (hover: hover) {
+        &:hover {
+          transform: translateY(-2px);
+        }
       }
     }
 
@@ -76,8 +76,10 @@ export const AvisoModalStyle = styled.div`
       background-color: #0d6efd;
       color: #fff;
 
-      &:hover:enabled {
-        background-color: #0b5ed7;
+      @media (hover: hover) {
+        &:hover:enabled {
+          background-color: #0b5ed7;
+        }
       }
     }
   }
@@ -85,11 +87,9 @@ export const AvisoModalStyle = styled.div`
 
 export const BackgroudModalStyle = styled.div`
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  inset: 0;
   z-index: 9;
   background-color: rgba(0, 0, 0, 0.4);
+  -webkit-backdrop-filter: blur(2px);
   backdrop-filter: blur(2px);
 `;

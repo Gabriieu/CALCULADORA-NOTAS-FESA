@@ -31,6 +31,18 @@ export const AdicionarDPComponent = ({
   const abrirModal = () => dialogRef.current?.showModal();
   const fecharModal = () => dialogRef.current?.close();
 
+  // o ::backdrop é do <dialog>, então um toque ou rolagem nele (ou dentro do diálogo) chega a este
+  // wrapper do mesmo jeito; só fecha quando o ponteiro está fora da caixa, senão arrastar o dedo
+  // dentro do diálogo o fecharia
+  const fecharSeForaDoDialogo = (x: number, y: number) => {
+    const caixa = dialogRef.current?.getBoundingClientRect();
+    if (!caixa) return;
+
+    if (x < caixa.left || x > caixa.right || y < caixa.top || y > caixa.bottom) {
+      fecharModal();
+    }
+  };
+
   const handleSelect = () => {
     if (!dpSelecionada) {
       toast.warn("Selecione uma disciplina!");
@@ -43,8 +55,10 @@ export const AdicionarDPComponent = ({
 
   return (
     <AdicionarDPStyle
-      onTouchMove={() => fecharModal()}
-      onWheel={() => fecharModal()}
+      onTouchMove={(e) =>
+        fecharSeForaDoDialogo(e.touches[0].clientX, e.touches[0].clientY)
+      }
+      onWheel={(e) => fecharSeForaDoDialogo(e.clientX, e.clientY)}
     >
       <dialog ref={dialogRef}>
         <h1>Selecione a DP que você está cursando</h1>

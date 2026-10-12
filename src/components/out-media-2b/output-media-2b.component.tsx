@@ -1,4 +1,8 @@
 import { useEffect, useState } from "react";
+import {
+  assinarArmazenamento,
+  lerItem,
+} from "../../shared/utils/armazenamento";
 import { OutPutMediaSegundoBimestreStyle } from "./output-media-2b.style";
 
 interface IOutPutProp {
@@ -21,26 +25,21 @@ export const OutPutMediaSegundoBimeste = ({
   useEffect(() => {
     const calcularMedia = () => {
       const n1: number = DP
-        ? Number(
-            localStorage.getItem(`DP_${curso}_${disciplina}_n1_2_${semestreDP}`)
-          ) || 0
-        : Number(localStorage.getItem(`${curso}_${disciplina}_n1_2`)) || 0;
+        ? Number(lerItem(`DP_${curso}_${disciplina}_n1_2_${semestreDP}`)) || 0
+        : Number(lerItem(`${curso}_${disciplina}_n1_2`)) || 0;
       const n2: number = DP
-        ? Number(
-            localStorage.getItem(`DP_${curso}_${disciplina}_n2_2_${semestreDP}`)
-          ) || 0
-        : Number(localStorage.getItem(`${curso}_${disciplina}_n2_2`)) || 0;
+        ? Number(lerItem(`DP_${curso}_${disciplina}_n2_2_${semestreDP}`)) || 0
+        : Number(lerItem(`${curso}_${disciplina}_n2_2`)) || 0;
       const formativa: number =
-        Number(localStorage.getItem(`${curso}_formativa_${semestre}`)) || 0;
+        Number(lerItem(`${curso}_formativa_${semestre}`)) || 0;
 
       setMedia(((n1 + formativa) / 2) * 0.4 + n2 * 0.6);
     };
 
     calcularMedia();
-    const intervalo = setInterval(calcularMedia, 300);
-
-    return () => clearInterval(intervalo);
-  }, [curso, disciplina]);
+    // recalcula quando qualquer nota é gravada, em vez de consultar o armazenamento em intervalos
+    return assinarArmazenamento(calcularMedia);
+  }, [curso, disciplina, semestre, DP, semestreDP]);
 
   const className =
     typeof media === "number"

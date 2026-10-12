@@ -1,8 +1,8 @@
 import { createGlobalStyle } from "styled-components";
+import { INTER_FONT_FACE } from "./fontes";
 
 export const ResetStyle = createGlobalStyle`
-
-
+${INTER_FONT_FACE}
 
 * {
 
@@ -13,16 +13,11 @@ export const ResetStyle = createGlobalStyle`
     font-size: 100%;
     vertical-align: baseline;
     text-decoration: none;
-    font-family: 'Inter', sans-serif;
+    /* a Inter é carregada em fontes.ts, igual em todos os aparelhos */
+    font-family: 'Inter', system-ui, sans-serif;
     box-sizing: border-box;
-    
-}
-html, body, div, span, applet, object,
-h1, h2, h3, h4, h5, h6, p, a, del, img, 
-b, u, i, ol, ul, li, form, label,article, 
-aside, figure, footer, header, 
-nav, section{
 
+}
 
 ol, ul {
     list-style: none;
@@ -42,7 +37,7 @@ button , a , select{
     cursor: pointer;
     background-color:transparent;
     border:none;
-   
+
 }
 
 
@@ -57,12 +52,10 @@ dialog{
 
 dialog::backdrop{
   background-color: rgba(0, 0, 255, 0.11);
-  
+
 }
 
 html {
     scroll-behavior: smooth;
-}
-
 }
 `;

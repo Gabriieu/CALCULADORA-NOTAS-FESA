@@ -25,9 +25,11 @@ export const ShareButtonStyle = styled.div`
     color: var(--text-strong);
   }
 
-  svg:hover {
-    cursor: pointer;
-    transform: scale(1.2);
+  @media (hover: hover) {
+    svg:hover {
+      cursor: pointer;
+      transform: scale(1.2);
+    }
   }
 `;
 
@@ -58,8 +60,10 @@ export const ShareOptions = styled.div`
     font-size: 14px;
     cursor: pointer;
 
-    &:hover {
-      background-color: var(--hover-bg);
+    @media (hover: hover) {
+      &:hover {
+        background-color: var(--hover-bg);
+      }
     }
   }
 

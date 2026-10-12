@@ -35,8 +35,10 @@ export const FooterStyle = styled.footer`
     transition: transform 0.2s ease, color 0.3s ease;
   }
 
-  #footer-socials a:hover {
-    transform: scale(1.2);
+  @media (hover: hover) {
+    #footer-socials a:hover {
+      transform: scale(1.2);
+    }
   }
 
   #github {
@@ -51,9 +53,12 @@ export const FooterStyle = styled.footer`
     color: #3a3f44;
   }
 
-  a:hover {
-    transform: scale(1.2);
+  @media (hover: hover) {
+    a:hover {
+      transform: scale(1.2);
+    }
   }
+
   #footer-note {
     font-size: 12px;
     color: var(--text-faint);
