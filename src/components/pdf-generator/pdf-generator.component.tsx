@@ -85,6 +85,10 @@ async function capturarTabela(): Promise<HTMLCanvasElement> {
       tabelaClonada?.removeAttribute("data-disciplina-fixa");
       // as animações CSS recomeçam no clone: sem isto a tabela sai translúcida e reduzida no arquivo
       tabelaClonada?.style.setProperty("animation", "none");
+      // o ícone de exame pisca e só faz sentido com o modal, que o arquivo não tem
+      clonedTabela
+        .querySelectorAll("[data-aviso-exame]")
+        .forEach((aviso) => aviso.remove());
     },
   });
 }

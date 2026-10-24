@@ -3,6 +3,7 @@ import { FaRegTrashCan } from "react-icons/fa6";
 import { FcBookmark } from "react-icons/fc";
 import { MdCancel, MdDeleteForever } from "react-icons/md";
 import { toast } from "react-toastify";
+import { AvisoExame } from "../aviso-exame/aviso-exame.component";
 import { InputComponent } from "../input/input.component";
 import { OutPutMediaPrimerioBimeste } from "../out-media-1b/output-media-1b.component";
 import { OutPutMediaSegundoBimeste } from "../out-media-2b/output-media-2b.component";
@@ -67,6 +68,12 @@ export const TableRowComponent = ({
           </>
         )}
         {disciplina.toUpperCase()}
+        <AvisoExame
+          curso={curso}
+          disciplina={disciplina}
+          semestre={semestre}
+          DP={DP}
+        />
       </td>
       <td>
         <InputComponent

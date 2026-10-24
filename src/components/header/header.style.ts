@@ -36,6 +36,12 @@ export const HeaderContainer = styled.header`
   background-color: var(--surface);
   color: var(--text-strong);
 
+  /* na troca de tema o header vira uma camada própria da view transition, para deslizar
+     sozinho em vez de ir junto com a tela (theme.context.tsx e globalStyles.ts) */
+  html.troca-tema & {
+    view-transition-name: header-tema;
+  }
+
   .header-content {
     display: flex;
     align-items: center;

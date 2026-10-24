@@ -109,7 +109,7 @@ export const HeaderComponent = () => {
 
         <ThemeToggle
           type="button"
-          onClick={(e) => alternarTema(e.currentTarget)}
+          onClick={() => alternarTema()}
           aria-label={`Mudar para o tema ${temaDestino}`}
           title={`Tema ${temaDestino}`}
         >

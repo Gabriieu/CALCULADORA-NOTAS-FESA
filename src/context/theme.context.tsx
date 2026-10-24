@@ -11,8 +11,7 @@ export type Tema = "light" | "dark";
 
 interface ITemaContext {
   tema: Tema;
-  // origem: elemento de onde a revelação nasce (o botão); sem ele, parte do centro da tela
-  alternarTema(origem?: Element): void;
+  alternarTema(): void;
   // volta ao tema padrão sem gravar nada; usado depois de apagar os dados salvos
   redefinirTema(): void;
 }
@@ -23,12 +22,9 @@ interface ITemaProviderProps {
 
 const STORAGE_KEY = "tema";
 const CLASSE_TRANSICAO = "troca-tema";
-const DURACAO_REVELACAO_MS = 800;
-// arranca rápido e assenta devagar, como uma onda que perde força
-const SUAVIZACAO_REVELACAO = "cubic-bezier(0.6, 0, 0.1, 1)";
-// largura da borda esfumada do círculo, proporcional ao tamanho da tela
-const PENA_MIN_PX = 90;
-const PENA_MAX_PX = 220;
+const DURACAO_TROCA_MS = 800;
+// arranca rápido e assenta devagar
+const SUAVIZACAO_TROCA = "cubic-bezier(0.6, 0, 0.1, 1)";
 
 const TemaContext = createContext({} as ITemaContext);
 
@@ -47,7 +43,6 @@ export const TemaProvider = ({ children }: ITemaProviderProps) => {
   const [tema, setTema] = useState<Tema>(() => lerTemaSalvo() ?? "light");
 
   const transicaoAtual = useRef<ViewTransition | null>(null);
-  const ondaRef = useRef<HTMLDivElement>(null);
 
   // layout effect (e não useEffect) para o atributo já estar no DOM quando o flushSync
   // retornar: é nesse instante que a view transition captura o estado novo
@@ -55,10 +50,11 @@ export const TemaProvider = ({ children }: ITemaProviderProps) => {
     document.documentElement.setAttribute("data-theme", tema);
   }, [tema]);
 
-  // revela o tema novo em um círculo de borda esfumada que cresce a partir da origem, com uma
-  // onda de luz na borda enquanto a tela antiga se afasta. Os estilos da transição (classe
+  // o header desliza para a direita e volta pela esquerda, e a página faz o oposto: sai para a
+  // esquerda e volta pela direita. Cada tela antiga é emendada à nova como uma esteira, então
+  // juntas cobrem a largura inteira durante todo o percurso. Os estilos da transição (classe
   // troca-tema) ficam em globalStyles.ts
-  const trocarTema = (novo: Tema, origem?: Element) => {
+  const trocarTema = (novo: Tema) => {
     if (novo === tema) return;
 
     const aplicar = () => flushSync(() => setTema(novo));
@@ -71,77 +67,44 @@ export const TemaProvider = ({ children }: ITemaProviderProps) => {
       return;
     }
 
-    const caixa = origem?.getBoundingClientRect();
-    const x = caixa ? caixa.left + caixa.width / 2 : window.innerWidth / 2;
-    const y = caixa ? caixa.top + caixa.height / 2 : window.innerHeight / 2;
-    // distância até o canto mais afastado, para o círculo terminar cobrindo a tela toda
-    const raio = Math.hypot(
-      Math.max(x, window.innerWidth - x),
-      Math.max(y, window.innerHeight - y),
-    );
-
-    const pena = Math.round(
-      Math.min(PENA_MAX_PX, Math.max(PENA_MIN_PX, raio * 0.14)),
-    );
-    // com o raio nesse valor a borda esfumada já saiu inteira da tela
-    const raioFinal = `${Math.ceil(raio + pena)}px`;
-
     const raiz = document.documentElement;
-    raiz.style.setProperty("--tema-x", `${x}px`);
-    raiz.style.setProperty("--tema-y", `${y}px`);
-    raiz.style.setProperty("--tema-pena", `${pena}px`);
     raiz.classList.add(CLASSE_TRANSICAO);
     const transicao = document.startViewTransition(aplicar);
     transicaoAtual.current = transicao;
-
-    let mascara: Animation | undefined;
 
     // se outra troca começar antes desta terminar, ready é rejeitada; não há o que animar
     transicao.ready
       .then(() => {
         const tempo = {
-          duration: DURACAO_REVELACAO_MS,
-          easing: SUAVIZACAO_REVELACAO,
+          duration: DURACAO_TROCA_MS,
+          easing: SUAVIZACAO_TROCA,
         };
-        const crescer = { "--tema-raio": ["0px", raioFinal] };
+        const deslizar = (camada: string, de: string, para: string) =>
+          raiz.animate(
+            { transform: [`translateX(${de})`, `translateX(${para})`] },
+            { ...tempo, pseudoElement: `::view-transition-${camada}` },
+          );
 
-        // forwards: ao terminar, a máscara não pode voltar a fechar em 0 antes de a troca acabar
-        mascara = raiz.animate(crescer, {
-          ...tempo,
-          fill: "forwards",
-          pseudoElement: "::view-transition-new(root)",
-        });
-        ondaRef.current?.animate(crescer, tempo);
-        // a tela antiga é empurrada para trás, de dentro para fora
-        raiz.animate(
-          {
-            transform: ["scale(1)", "scale(1.05)"],
-            filter: [
-              "blur(0px) brightness(1)",
-              "blur(6px) brightness(0.9)",
-            ],
-          },
-          { ...tempo, pseudoElement: "::view-transition-old(root)" },
-        );
+        // header: para a direita
+        deslizar("old(header-tema)", "0", "100%");
+        deslizar("new(header-tema)", "-100%", "0");
+        // página: para a esquerda
+        deslizar("old(root)", "0", "-100%");
+        deslizar("new(root)", "100%", "0");
       })
       .catch(() => {});
 
     transicao.finished.finally(() => {
-      // o pseudo-elemento já sumiu; sem isso a animação com fill forwards fica pendurada na raiz
-      mascara?.cancel();
       // a classe só sai quando termina a troca mais recente
       if (transicaoAtual.current !== transicao) return;
       transicaoAtual.current = null;
       raiz.classList.remove(CLASSE_TRANSICAO);
-      raiz.style.removeProperty("--tema-x");
-      raiz.style.removeProperty("--tema-y");
-      raiz.style.removeProperty("--tema-pena");
     });
   };
 
-  const alternarTema = (origem?: Element) => {
+  const alternarTema = () => {
     const novo: Tema = tema === "dark" ? "light" : "dark";
-    trocarTema(novo, origem);
+    trocarTema(novo);
     try {
       localStorage.setItem(STORAGE_KEY, novo);
     } catch {
@@ -154,7 +117,6 @@ export const TemaProvider = ({ children }: ITemaProviderProps) => {
   return (
     <TemaContext.Provider value={{ tema, alternarTema, redefinirTema }}>
       {children}
-      <div ref={ondaRef} className="onda-tema" aria-hidden="true" />
     </TemaContext.Provider>
   );
 };

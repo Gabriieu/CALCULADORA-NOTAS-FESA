@@ -40,7 +40,6 @@ export const GlobalStyle = createGlobalStyle`
         --scroll-thumb-border: #f1f1f1;
         --shadow-header: 0 2px 10px rgba(0, 0, 0, 0.12);
         --toggle-icon: #4f46e5;
-        --brilho-troca: #fbbf24;
     }
 
     :root[data-theme="dark"]{
@@ -76,7 +75,6 @@ export const GlobalStyle = createGlobalStyle`
         --scroll-thumb-border: #1c2025;
         --shadow-header: 0 2px 12px rgba(0, 0, 0, 0.5);
         --toggle-icon: #fbbf24;
-        --brilho-troca: #6ea8fe;
     }
 
     body{
@@ -84,69 +82,19 @@ export const GlobalStyle = createGlobalStyle`
         color: var(--text-strong);
     }
 
-    /* troca de tema (theme.context.tsx): o tema novo é revelado por uma máscara circular de
-       borda esfumada que cresce a partir do botão, com uma onda de luz na borda e a tela
-       antiga se afastando por baixo. O raio é animado via JS; origem (--tema-x/--tema-y) e
-       largura da borda (--tema-pena) são definidas na raiz durante a troca */
-    @property --tema-raio{
-        syntax: "<length>";
-        inherits: false;
-        initial-value: 0px;
-    }
-
-    /* o fade padrão da view transition sai de cena, porque as animações são feitas via JS */
+    /* troca de tema (theme.context.tsx): a página e o header (camada própria, nome em
+       header.style.ts) deslizam em direções opostas, a antiga saindo e a nova entrando. Os
+       deslizes são animados via JS, então o fade padrão da view transition sai de cena */
     html.troca-tema::view-transition-old(root),
-    html.troca-tema::view-transition-new(root){
+    html.troca-tema::view-transition-new(root),
+    html.troca-tema::view-transition-old(header-tema),
+    html.troca-tema::view-transition-new(header-tema){
         animation: none;
         mix-blend-mode: normal;
-    }
-
-    html.troca-tema::view-transition-old(root){
-        transform-origin: var(--tema-x) var(--tema-y);
-    }
-
-    /* sem a animação do raio, a máscara fecha em 0 e a tela nova fica escondida */
-    html.troca-tema::view-transition-new(root){
-        mask-image: radial-gradient(
-            circle at var(--tema-x) var(--tema-y),
-            #000 calc(var(--tema-raio) - var(--tema-pena)),
-            transparent var(--tema-raio)
-        );
-    }
-
-    /* a onda é um elemento próprio (para ficar por cima das duas telas) e só existe na troca */
-    .onda-tema{
-        display: none;
-    }
-
-    html.troca-tema .onda-tema{
-        display: block;
-        position: fixed;
-        inset: 0;
-        z-index: 2147483647;
-        pointer-events: none;
-        view-transition-name: onda-tema;
-        background: radial-gradient(
-            circle at var(--tema-x) var(--tema-y),
-            transparent calc(var(--tema-raio) - var(--tema-pena) * 0.85),
-            color-mix(in srgb, var(--brilho-troca) 55%, transparent) calc(var(--tema-raio) - var(--tema-pena) * 0.5),
-            transparent calc(var(--tema-raio) - var(--tema-pena) * 0.1)
-        );
-    }
-
-    html.troca-tema::view-transition-group(onda-tema),
-    html.troca-tema::view-transition-new(onda-tema){
-        animation: none;
-        mix-blend-mode: normal;
-    }
-
-    /* a versão antiga da onda (raio 0) é invisível; escondê-la evita o fade entre as duas */
-    html.troca-tema::view-transition-old(onda-tema){
-        display: none;
     }
 
     /* a tela nova é renderizada ao vivo; sem isto, as transições de cor dos componentes
-       fariam o tema novo aparecer "atrasado" dentro do círculo */
+       fariam o tema novo aparecer "atrasado" enquanto ela desliza */
     html.troca-tema *,
     html.troca-tema *::before,
     html.troca-tema *::after{

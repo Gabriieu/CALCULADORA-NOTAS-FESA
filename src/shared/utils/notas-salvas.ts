@@ -29,7 +29,7 @@ export interface INotasSemestre {
 
 // null = nota não informada. Ao adicionar uma DP o app grava o nome da disciplina no lugar da
 // N1 do 1º bimestre (é o que marca que a DP existe), então qualquer valor não numérico é ignorado
-function lerNota(chave: string): number | null {
+export function lerNota(chave: string): number | null {
   try {
     const valor = localStorage.getItem(chave);
     if (valor === null || valor.trim() === "") return null;
